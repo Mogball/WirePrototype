@@ -44,7 +44,9 @@ export default class LoginScreen extends Component {
     this.components.loginButton = (
       <TouchableNativeFeedback
         disabled={false}
-        onPress={() => {this.props.onLogin()}}>
+        onPress={() => {
+          this.props.navigator.push({title: 'Dashboard', index: 4})
+        }}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>LOGIN</Text>
         </View>

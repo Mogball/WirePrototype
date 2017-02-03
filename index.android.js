@@ -8,13 +8,15 @@ import {
 import LoadingScreen from './app/LoadingScreen';
 import LaunchScreen from './app/LaunchScreen';
 import LoginScreen from './app/LoginScreen';
-import RegisterScreen from './app/RegisterScreen'
+import RegisterScreen from './app/RegisterScreen';
+import Dashboard from './app/Dashboard';
 
 const routes = [
   {title: 'LoadingScreen', index: 0},
   {title: 'LaunchScreen', index: 1},
   {title: 'LoginScreen', index: 2},
-  {title: 'RegisterScreen', index: 3}
+  {title: 'RegisterScreen', index: 3},
+  {title: 'Dashboard', index: 4}
 ];
 
 class WirePrototype extends Component {
@@ -57,9 +59,16 @@ class WirePrototype extends Component {
             );
           } else if (route.title == 'RegisterScreen') {
             return (
-              <RegisterScreen navigator={navigator}
-                onBack={() => {navigator.pop()}}
+              <RegisterScreen navigator={navigator} route={route}
+                onBack={() => {
+                  navigator.replacePrevious(routes[2]);
+                  navigator.pop();
+                }}
               />
+            );
+          } else if (route.title == 'Dashboard') {
+            return (
+              <Dashboard navigator={navigator} route={route}/>
             );
           }
         }}
