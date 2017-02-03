@@ -1,7 +1,10 @@
+/**
+  * This component will display an image of a galaxy when pressing a button.
+  */
+
 import React, { Component } from 'react';
 
 import {
-  AppRegistry,
   View,
   Image,
   Button
