@@ -104,7 +104,9 @@ export default class RegisterScreen extends Component {
     );
     this.components.registerButton = (
       <TouchableNativeFeedback
-        onPress={() => {}}>
+        onPress={() => {
+          this.props.navigator.push({title: 'Dashboard', index: 4});
+        }}>
         <View style={[styles.button, {alignSelf: 'center'}]}>
           <Text style={styles.buttonText}>REGISTER</Text>
         </View>
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     height: 40,
-    elevation: 4,
+    elevation: 11,
     borderTopWidth: 1,
     borderTopColor: '#D53046',
     borderLeftWidth: 1,
