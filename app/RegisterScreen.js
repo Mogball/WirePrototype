@@ -36,7 +36,7 @@ export default class RegisterScreen extends Component {
     this.components.usernameField = (
       <TextInput ref='UsernameField' style={{height: 40, width: 150}} placeholder='Username'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
         returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.PasswordField.focus();
@@ -46,8 +46,8 @@ export default class RegisterScreen extends Component {
     this.components.passwordField = (
       <TextInput ref='PasswordField' style={{height: 40, width: 150}} placeholder='Password'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false} secureTextEntry={true}
-        returnKeyType={'next'}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
+        secureTextEntry={true} returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.ConfirmPasswordField.focus();
         }}
@@ -56,8 +56,8 @@ export default class RegisterScreen extends Component {
     this.components.confirmPasswordField = (
       <TextInput ref='ConfirmPasswordField' style={{height: 40, width: 150}} placeholder='Confirm Password'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false} secureTextEntry={true}
-        returnKeyType={'next'}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
+        secureTextEntry={true} returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.FirstNameField.focus();
         }}
@@ -66,7 +66,7 @@ export default class RegisterScreen extends Component {
     this.components.firstNameField = (
       <TextInput ref='FirstNameField' style={{height: 40, width: 150}} placeholder='First Name'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
         returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.LastNameField.focus();
@@ -76,7 +76,7 @@ export default class RegisterScreen extends Component {
     this.components.lastNameField = (
       <TextInput ref='LastNameField' style={{height: 40, width: 150}} placeholder='Last Name'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
         returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.EmailField.focus();
@@ -86,7 +86,7 @@ export default class RegisterScreen extends Component {
     this.components.emailField = (
       <TextInput ref='EmailField' style={{height: 40, width: 150}} placeholder='Email'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='email-address'
         returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.PhoneNumberField.focus();
@@ -96,22 +96,28 @@ export default class RegisterScreen extends Component {
     this.components.phoneNumberField = (
       <TextInput ref='PhoneNumberField' style={{height: 40, width: 150}} placeholder='Phone Number'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
-        returnKeyType={'next'}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='phone-pad'
+        returnKeyType={'done'}
         onSubmitEditing={(event) => {
+          this._register();
         }}
       />
     );
     this.components.registerButton = (
       <TouchableNativeFeedback
         onPress={() => {
-          this.props.navigator.push({title: 'Dashboard', index: 4});
+          this._register();
         }}>
         <View style={[styles.button, {alignSelf: 'center'}]}>
           <Text style={styles.buttonText}>REGISTER</Text>
         </View>
       </TouchableNativeFeedback>
     );
+  }
+
+  _register() {
+    this.props.navigator.push({title: 'Dashboard', index: 4});
+    DISMISS_KEYBOARD();
   }
 
   render() {

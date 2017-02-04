@@ -6,34 +6,24 @@ import {
   Image,
   TouchableWithoutFeedback,
   TouchableNativeFeedback,
-  Text
+  Text,
+  ListView,
+  Switch
 } from 'react-native';
 
 const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
-
-Number.prototype.formatMoney = function(c, d, t){
-var n = this,
-    c = isNaN(c = Math.abs(c)) ? 2 : c,
-    d = d == undefined ? "." : d,
-    t = t == undefined ? "," : t,
-    s = n < 0 ? "-" : "",
-    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
-    j = (j = i.length) > 3 ? j % 3 : 0;
-   return s + (j ? i.substr(0, j) + t : "")
-   + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t)
-   + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
- };
 
 export default class DashboardMainScreen extends Component {
 
 
   constructor(props) {
     super(props);
+
     this.state = {
       payPressed: false,
       switchPressed: false,
       switchedToSell: false,
-      accountBalance: 5523456 // BigDecimal, count in cents
+      QR_NFC: false // false --> QR, true --> NFC
     };
   }
 
@@ -48,35 +38,17 @@ export default class DashboardMainScreen extends Component {
           <Image source={WIRE_LOGO_LARGE} style={styles.logoSmall}/>
         </View>
         <View style={{flex: 1, alignSelf: 'stretch'}}>
-          <View style={{flex: 3}}>
-            <View style={{flex: 1}}>
-
+          <View style={{flex: 2}}>
+            <View style={{flex: 5}}></View>
+            <View style={{flex: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={[this.state.QR_NFC ? styles.commsDisabled : styles.commsEnabled, {right: 15}]}>QR</Text>
+              <Switch // switch value should save the user's option
+                      // should also get an API that allows for a larger switch
+                onValueChange={(value) => this.setState({QR_NFC: value})}
+                value={this.state.QR_NFC}/>
+              <Text style={[this.state.QR_NFC ? styles.commsEnabled : styles.commsDisabled, {left: 15}]}>Tap</Text>
             </View>
-            <View style={{flex: 3, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <View>
-                <TouchableNativeFeedback>
-                  <View style={styles.buttonDepositWithdraw}>
-                    <Text style={styles.buttonDepositWithdrawText}>Withdraw</Text>
-                  </View>
-                </TouchableNativeFeedback>
-              </View>
-              <View style={{width: 175, alignItems: 'center'}}>
-                <View style={styles.balanceContainer}>
-                  <Text style={styles.balance}>
-                    {'$'+(this.state.accountBalance/100.0).formatMoney(2)}
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <TouchableNativeFeedback>
-                  <View style={styles.buttonDepositWithdraw}>
-                    <Text style={styles.buttonDepositWithdrawText}>Deposit</Text>
-                  </View>
-                </TouchableNativeFeedback>
-              </View>
-            </View>
-            <View style={{flex: 3}}>
-            </View>
+            <View style={{flex: 3}}></View>
           </View>
           <View style={{flex: 1, alignItems: 'center'}}>
             <TouchableWithoutFeedback
@@ -91,14 +63,11 @@ export default class DashboardMainScreen extends Component {
             <TouchableWithoutFeedback
               onPressIn={() => {this.setState({switchPressed: true})}}
               onPressOut={() => {this.setState({switchPressed: false, switchedToSell: !this.state.switchedToSell})}}>
-              <View style={[switchButtonStyle, {left: 100, top: 12}]}>
+              <View style={[switchButtonStyle, {right: 110 * (this.state.switchedToSell ? -1 : 1), bottom: 20}]}>
                 <Text style={switchTextStyle}>{this.state.switchedToSell ? 'Pay' : 'Sell'}</Text>
               </View>
             </TouchableWithoutFeedback>
-
           </View>
-        </View>
-        <View style={styles.footerToolbar}>
         </View>
       </View>
     );
@@ -222,40 +191,18 @@ const styles = StyleSheet.create({
     fontWeight: '300'
   },
 
-  balance: {
+  commsEnabled: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 24,
     color: '#33AA88',
-    fontWeight: '400'
+    fontWeight: '700'
   },
 
-  balanceContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EEEEEE',
-    borderWidth: 1,
-    borderColor: '#DDDDDD',
-    borderRadius: 5,
-    elevation: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 15
-  },
-
-  buttonDepositWithdraw: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#D02035',
-    padding: 5,
-    borderRadius: 3,
-    elevation: 2,
-    width: 80
-  },
-
-  buttonDepositWithdrawText: {
+  commsDisabled: {
     textAlign: 'center',
-    fontSize: 16,
-    color: 'white',
-    fontWeight: '500'
+    fontSize: 24,
+    color: '#334433',
+    fontWeight: '300'
   }
 
 });

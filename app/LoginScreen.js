@@ -28,7 +28,7 @@ export default class LoginScreen extends Component {
     this.components.usernameField = (
       <TextInput ref='UsernameField' style={{height: 40, width: 150}} placeholder='Username'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
         returnKeyType={'next'}
         onSubmitEditing={(event) => {
           this.refs.PasswordField.focus();
@@ -37,15 +37,18 @@ export default class LoginScreen extends Component {
     this.components.passwordField = (
       <TextInput ref='PasswordField' style={{height: 40, width: 150}} placeholder='Password'
         onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false}
+        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
         secureTextEntry={true} returnKeyType={'done'}
+        onSubmitEditing={(event) => {
+          this._login();
+        }}
       />
     );
     this.components.loginButton = (
       <TouchableNativeFeedback
         disabled={false}
         onPress={() => {
-          this.props.navigator.push({title: 'Dashboard', index: 4})
+          this._login();
         }}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>LOGIN</Text>
@@ -73,6 +76,11 @@ export default class LoginScreen extends Component {
     this.components.wireLogoLarge = (
       <Image source={WIRE_LOGO_LARGE} style={styles.largeLogo}/>
     );
+  }
+
+  _login() {
+    this.props.navigator.push({title: 'Dashboard', index: 4})
+    DISMISS_KEYBOARD();
   }
 
   render() {
