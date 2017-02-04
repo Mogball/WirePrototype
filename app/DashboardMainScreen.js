@@ -13,8 +13,8 @@ import {
 
 const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
 
+// This screen does not work properly in landscape mode
 export default class DashboardMainScreen extends Component {
-
 
   constructor(props) {
     super(props);
@@ -45,6 +45,7 @@ export default class DashboardMainScreen extends Component {
               <Switch // switch value should save the user's option
                       // should also get an API that allows for a larger switch
                 onValueChange={(value) => this.setState({QR_NFC: value})}
+                style={{paddingHorizontal: 5}}
                 value={this.state.QR_NFC}/>
               <Text style={[this.state.QR_NFC ? styles.commsEnabled : styles.commsDisabled, {left: 15}]}>Tap</Text>
             </View>
@@ -55,7 +56,7 @@ export default class DashboardMainScreen extends Component {
               onPressIn={() => {this.setState({payPressed: true})}}
               onPressOut={() => {this.setState({payPressed: false})}}>
               <View style={buttonStyle}>
-                <Text style={buttonTextStyle}>{this.state.switchedToSell ? 'Sell' : 'Pay'}</Text>
+                <Text style={buttonTextStyle}>{this.state.switchedToSell ? 'Receive' : 'Send'}</Text>
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -64,7 +65,7 @@ export default class DashboardMainScreen extends Component {
               onPressIn={() => {this.setState({switchPressed: true})}}
               onPressOut={() => {this.setState({switchPressed: false, switchedToSell: !this.state.switchedToSell})}}>
               <View style={[switchButtonStyle, {right: 110 * (this.state.switchedToSell ? -1 : 1), bottom: 20}]}>
-                <Text style={switchTextStyle}>{this.state.switchedToSell ? 'Pay' : 'Sell'}</Text>
+                <Text style={switchTextStyle}>{this.state.switchedToSell ? 'Send' : 'Receive'}</Text>
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   screen: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#EDEDED',
     flex: 1,
   },
 
@@ -144,9 +145,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#D00035',
     elevation: 10,
-    width: 50,
-    height: 50,
-    borderRadius: 25
+    width: 64,
+    height: 64,
+    borderRadius: 32
   },
 
   switchButtonPressed: {
@@ -154,9 +155,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#B53040',
     elevation: 4,
-    width: 50,
-    height: 50,
-    borderRadius: 25
+    width: 64,
+    height: 64,
+    borderRadius: 32
   },
 
   buttonText: {
