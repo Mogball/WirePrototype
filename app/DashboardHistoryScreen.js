@@ -10,7 +10,7 @@ import {
   TouchableNativeFeedback
 } from 'react-native';
 
-const DISMISS_KEYBOARD = require('dismissKeyboard');
+import AntiKeyboard from './AntiKeyboard';
 
 export default class DashboardHistoryScreen extends Component {
 
@@ -94,9 +94,9 @@ export default class DashboardHistoryScreen extends Component {
             <Text style={styles.title}>History</Text>
           </View>
         </AntiKeyboard>
-        <AntiView style={{height: 20, alignSelf: 'stretch'}}></AntiView>
+        <AntiKeyboard><View style={{height: 20, alignSelf: 'stretch'}}></View></AntiKeyboard>
         <View style={{flexDirection: 'row', flex: 1}}>
-          <AntiView style={{width: 20}}></AntiView>
+          <AntiKeyboard><View style={{width: 20}}></View></AntiKeyboard>
           <View style={{flex: 1}}>
             <View style={{height: 40, backgroundColor: '#F2F2F2',
               elevation: 3  , flexDirection: 'row', justifyContent: 'space-between',
@@ -117,10 +117,10 @@ export default class DashboardHistoryScreen extends Component {
                 </TouchableNativeFeedback>
               </View>
             </View>
-            <AntiView style={{height: 20}}></AntiView>
+            <AntiKeyboard><View style={{height: 20}}></View></AntiKeyboard>
             {this.components.transactionHistory}
           </View>
-          <AntiView style={{width: 20}}></AntiView>
+          <AntiKeyboard><View style={{width: 20}}></View></AntiKeyboard>
         </View>
         <View style={{height: 20}}></View>
       </View>
@@ -129,38 +129,6 @@ export default class DashboardHistoryScreen extends Component {
 
 }
 
-// Some silly classes to get rid of the keyboard
-class AntiKeyboard extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <TouchableWithoutFeedback onPress={() => {DISMISS_KEYBOARD()}}>
-        {this.props.children}
-      </TouchableWithoutFeedback>
-    );
-  }
-
-}
-
-class AntiView extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <AntiKeyboard>
-        <View style={this.props.style}></View>
-      </AntiKeyboard>
-    );
-  }
-
-}
 
 const styles = StyleSheet.create({
 
@@ -222,10 +190,12 @@ formatComma = function(n, showPlus, c) {
     + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + ',');
 }
 
-formatMoney = function(n, showPlus) {
+formatMoney = function(n, showPlus, hideDollar) {
+  hideDollar = hideDollar ? true : false;
   showPlus = showPlus ? true : false;
   n /= 100;
-  var s = n < 0 ? '—$' : (showPlus ? '+' : '') + '$';
+  var s = n < 0 ? '—' : (showPlus ? '+' : '') + '';
+  s += hideDollar ? '' : '$';
   var i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(2)));
   var j = (j = i.length) > 3 ? j % 3 : 0;
   return s + (j ? i.substr(0, j) + ',' : '')

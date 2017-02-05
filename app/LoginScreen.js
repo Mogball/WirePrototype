@@ -4,16 +4,16 @@ import {
   StyleSheet,
   TextInput,
   View,
-  TouchableNativeFeedback,
   TouchableWithoutFeedback,
   Image,
   Text,
-  Dimensions,
-  ScrollView
+  StatusBar
 } from 'react-native';
 
-const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
-const DISMISS_KEYBOARD = require('dismissKeyboard');
+import StateButton from './StateButton';
+import BarebonesTextInput from './BarebonesTextInput';
+
+DISMISS_KEYBOARD = require('dismissKeyboard');
 
 export default class LoginScreen extends Component {
 
@@ -23,56 +23,13 @@ export default class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
+    this._login = this._login.bind(this);
+    this._register = this._register.bind(this);
+    this._recover = this._recover.bind(this);
+    this._submitEmailPhone = this._submitEmailPhone.bind(this);
+    this._submitPassword = this._submitPassword.bind(this);
 
     this.components = {};
-    this.components.usernameField = (
-      <TextInput ref='UsernameField' style={{height: 40, width: 150}} placeholder='Username'
-        onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
-        returnKeyType={'next'}
-        onSubmitEditing={(event) => {
-          this.refs.PasswordField.focus();
-        }}/>
-    );
-    this.components.passwordField = (
-      <TextInput ref='PasswordField' style={{height: 40, width: 150}} placeholder='Password'
-        onChangeText={(text) => {}} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid='#D02035' autoComplete={false} keyboardType='default'
-        secureTextEntry={true} returnKeyType={'done'}
-        onSubmitEditing={(event) => {
-          this._login();
-        }}
-      />
-    );
-    this.components.loginButton = (
-      <TouchableNativeFeedback
-        disabled={false}
-        onPress={() => {
-          this._login();
-        }}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
-    this.components.registerButton = (
-      <TouchableNativeFeedback
-        disabled={false}
-        onPress={() => {this.props.onRegister()}}>
-        <View style={styles.smallButton}>
-          <Text style={styles.smallButtonText}>REGISTER</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
-    this.components.recoverButton = (
-      <TouchableNativeFeedback
-        disabled={false}
-        onPress={() => {this.props.onRecover()}}>
-        <View style={styles.smallButton}>
-          <Text style={styles.smallButtonText}>RECOVER</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
     this.components.wireLogoLarge = (
       <Image source={WIRE_LOGO_LARGE} style={styles.largeLogo}/>
     );
@@ -82,33 +39,60 @@ export default class LoginScreen extends Component {
     this.props.navigator.push({title: 'Dashboard', index: 4})
     DISMISS_KEYBOARD();
   }
+  _register() {
+    this.props.onRegister();
+  }
+  _recover() {
+    this.props.onRecover();
+  }
+  _submitEmailPhone() {
+    this.refs.PasswordField.focus();
+  }
+  _submitPassword() {
+    this._login();
+  }
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => DISMISS_KEYBOARD()}
         style={{color: 'transparent', backgroundColor: 'transperent'}}>
         <View style={styles.screen}>
+          <StatusBar backgroundColor={palette.blue}/>
           <View style={[styles.pad, {flex: 0.5}]}></View>
           <View style={[styles.container, {flex: 3}]}>
             {this.components.wireLogoLarge}
           </View>
           <View style={[styles.pad, {flex: 0.1}]}></View>
-          <View style={[styles.container, {flex: 2, width: Dimensions.get('window').width}]}>
-              {this.components.usernameField}
-              {this.components.passwordField}
-            </View>
-          <View style={[styles.container, {flex: 2}]}>
-            <View style={[styles.container, {flex: 5}]}>
-              {this.components.loginButton}
-            </View>
-            <View style={[styles.pad, {flex: 1}]}></View>
+          <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
+            <BarebonesTextInput ref='EmailPhoneField' placeholder='Email or phone number'
+              onSubmitEditing={this._submitEmailPhone}
+              style={{fontSize: 16, height: 40, width: 270, textAlign: 'center',
+              marginBottom: 4}}/>
+            <BarebonesTextInput ref='PasswordField' placeholder='Password'
+              secureTextEntry={true} returnKeyType={'done'}
+              style={{fontSize: 16, height: 40, width: 150, textAlign: 'center'}}
+              onSubmitEditing={this._submitPassword}/>
           </View>
-          <View style={[styles.pad, {flex: 1.5, flexDirection: 'row'}]}>
-            <View style={{margin: 5}}>
-              {this.components.registerButton}
+          <View style={[styles.container, {flex: 2}]}>
+            <View style={[styles.container, {flex: 5, alignSelf: 'stretch'}]}>
+              <StateButton onPress={this._login} style={styles.button}
+                pressedStyle={styles.buttonPressed} textStyle={styles.buttonText}
+                textPressedStyle={styles.buttonTextPressed} text='Login'/>
             </View>
-            <View style={{margin: 5}}>
-              {this.components.recoverButton}
+            <View style={{flex: 1}}></View>
+          </View>
+          <View style={[styles.container, {flex: 1.5, flexDirection: 'row'}]}>
+            <View style={stylesLocal.smallButtonContainer}>
+              <StateButton onPress={this._register} style={stylesLocal.smallButton}
+                pressedStyle={stylesLocal.smallButtonPressed}
+                textStyle={stylesLocal.smallButtonText}
+                textPressedStyle={stylesLocal.smallButtonTextPressed} text='Register'/>
+            </View>
+            <View style={stylesLocal.smallButtonContainer}>
+              <StateButton onPress={this._recover} style={stylesLocal.smallButton}
+                pressedStyle={stylesLocal.smallButtonPressed}
+                textStyle={stylesLocal.smallButtonText}
+                textPressedStyle={stylesLocal.smallButtonTextPressed} text='Recover'/>
             </View>
           </View>
         </View>
@@ -118,61 +102,45 @@ export default class LoginScreen extends Component {
 
 }
 
-const styles = StyleSheet.create({
+const stylesLocal = StyleSheet.create({
 
-  screen: {
+  smallButtonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
-    flex: 1
-  },
-
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0)'
+    width: 120,
+    marginBottom: 40
   },
 
   smallButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D02035',
-    elevation: 2,
-    borderRadius: 3
+    backgroundColor: palette.lightBlue,
+    elevation: 4,
+    width: 100,
+    height: 35
   },
 
-  button: {
+  smallButtonPressed: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D02035',
-    elevation: 4,
-    borderRadius: 2
+    backgroundColor: palette.lightBlueDark,
+    elevation: 2,
+    width: 98,
+    height: 33
   },
 
   smallButtonText: {
     textAlign: 'center',
-    fontSize: 12,
-    color: 'white',
-    padding: 5,
+    fontSize: 16,
+    color: palette.white,
     fontWeight: '500'
   },
 
-  buttonText: {
+  smallButtonTextPressed: {
     textAlign: 'center',
-    fontSize: 18,
-    color: 'white',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    fontWeight: '500'
-  },
-
-  largeLogo: {
-    width: 260,
-    height: 107
-  },
-
-  pad: {
-    backgroundColor: 'rgba(0, 0, 0, 0)'
+    fontSize: 16,
+    color: palette.whiteDark,
+    fontWeight: '100'
   }
 
 });

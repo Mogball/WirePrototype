@@ -4,13 +4,19 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
   Image,
-  Dimensions,
-  TextInput
+  TextInput,
+  StatusBar
 } from 'react-native';
 
-const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
+import {
+  Button
+} from 'react-native-elements';
+
+import StateButton from './StateButton';
+
+WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
 
 export default class LaunchScreen extends Component {
 
@@ -22,103 +28,122 @@ export default class LaunchScreen extends Component {
     super(props);
     this._register = this._register.bind(this);
     this._login = this._login.bind(this);
-
     this.components = {};
     this.components.wireLogoLarge = (
       <Image source={WIRE_LOGO_LARGE} style={styles.largeLogo}/>
     );
-    this.components.loginButton = (
-      <TouchableNativeFeedback
-        disabled={false}
-        onPress={this._login}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>LOGIN</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
-    this.components.registerButton = (
-      <TouchableNativeFeedback
-        disabled={false}
-        onPress={this._register}>
-        <View style={styles.button}>
-          <Text style={[styles.buttonText, {fontSize: 20}]}>REGISTER</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
-
   }
-
   _register() {
     this.props.navigator.push({title: 'RegisterScreen', index: 3});
   }
-
   _login() {
     this.props.navigator.push({title: 'LoginScreen', index: 2});
   }
-
   render() {
     return (
       <View style={styles.screen}>
-        <View style={[styles.pad, {flex: 0.5}]}></View>
+        <StatusBar backgroundColor={palette.blue}/>
+        <View style={{flex: 0.5}}></View>
         <View style={[styles.container, {flex: 3}]}>
           {this.components.wireLogoLarge}
         </View>
-        <View style={[styles.pad, {flex: 0.1}]}></View>
-        <View style={[styles.container, {flex: 2, width: Dimensions.get('window').width}]}>
-          {this.components.registerButton}
+        <View style={{flex: 0.1}}></View>
+        <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
+          <StateButton onPress={this._register} pressedStyle={[styles.buttonPressed,
+            {backgroundColor: palette.lightTealDark}]}
+            style={[styles.button, {backgroundColor: palette.lightTeal}]}
+            textStyle={styles.buttonText}
+            textPressedStyle={styles.buttonTextPressed}
+            text='Register'/>
         </View>
         <View style={[styles.container, {flex: 2}]}>
           <View style={[styles.container, {flex: 5}]}>
-            {this.components.loginButton}
+            <StateButton onPress={this._login} pressedStyle={styles.buttonPressed}
+              style={styles.button} textStyle={styles.buttonText}
+              textPressedStyle={styles.buttonTextPressed}
+              text='Login'/>
           </View>
-          <View style={[styles.pad, {flex: 1}]}></View>
+          <View style={{flex: 1}}></View>
         </View>
-        <View style={[styles.pad, {flex: 1.5}]}></View>
+        <View style={{flex: 1.5}}></View>
       </View>
     );
   }
 
 }
 
-const styles = StyleSheet.create({
+palette = {
+  ripple: '#DAECF3',
+  rippleDark: '#D2E4EF',
+  crush: '#FE424D',
+  seafloor: '#1AA6B7',
+  seafloorDark: '#17A3B4',
+  cyprus: '#022D41',
+  cyprusLight: '#224D61',
+  white: '#F5F5F5',
+  whiteDark: '#E0ECF3',
+  lightTeal: '#15A0C5',
+  lightTealDark: '#1095C0',
+  lightBlue: '#29B6F6',
+  lightBlueDark: '#22B0F2',
+  blue: '#0094D3',
+  teal: '#1493A4',
+  tealDark: '#108DA0',
+  aqua: '#72CEDD',
+  turquoise: '#63C8C4',
+  pureWhite: 'white'
+};
+
+styles = StyleSheet.create({
 
   screen: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: palette.white,
     flex: 1
   },
 
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0)'
+    flex: 1
   },
 
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D02035',
-    elevation: 4,
-    borderRadius: 4
+    backgroundColor: palette.seafloor,
+    elevation: 4
+  },
+
+  buttonPressed: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: palette.seafloorDark,
+    elevation: 2
   },
 
   buttonText: {
     textAlign: 'center',
-    fontSize: 18,
-    color: 'white',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    fontSize: 24,
+    color: palette.white,
+    paddingHorizontal: 60,
+    paddingVertical: 10,
     fontWeight: '500'
   },
 
-  largeLogo: {
-    width: 260,
-    height: 107
+  buttonTextPressed: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: palette.whiteDark,
+    paddingHorizontal: 59,
+    paddingVertical: 9,
+    fontWeight: '100'
   },
 
-  pad: {
-    backgroundColor: 'rgba(0, 0, 0, 0)'
+  largeLogo: {
+    width: 273,
+    height: 112
   }
 
 });

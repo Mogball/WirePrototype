@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
 
   name: {fontSize: 28, textAlign: 'center',
-    fontWeight: '500', borderBottomWidth: 2,
+    fontWeight: '100', borderBottomWidth: 2,
     borderBottomColor: '#D02035', paddingBottom: 3},
 
   title: {

@@ -3,8 +3,13 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
-  Text
+  Text,
+  Navigator
 } from 'react-native';
+
+const routes = [
+  {title: 'SettingsRoot', index: 0}
+];
 
 import SettingsList from './SettingsList';
 
@@ -18,6 +23,30 @@ export default class DashboardSettingsScreen extends Component {
     super(props);
   }
 
+  render() {
+    return (
+      <Navigator initialRoute={routes[0]}
+        configureScene={(route, routeStack) => {
+          return Navigator.SceneConfigs.PushFromRight;
+        }}
+        renderScene={(route, navigator) => {
+          if (route.title == 'SettingsRoot') {
+            return (
+              <SettingsRoot navigator={navigator} route={route}/>
+            );
+          }
+        }}/>
+    );
+  }
+}
+
+class SettingsRoot extends Component {
+  static get defaultProps() {
+    return {title: 'SettingsRoot'};
+  }
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <View style={styles.screen}>
@@ -37,9 +66,7 @@ export default class DashboardSettingsScreen extends Component {
               titleStyle={{color: '#444444', fontSize: 16}} arrowOffset={8}/>
             <SettingsList.Item title='AccountOption3' itemWidth={50}
               titleStyle={{color: '#444444', fontSize: 16}} arrowOffset={8}/>
-
-            <SettingsList.Header headerStyle={{marginTop:10}} hideBorder></SettingsList.Header>
-
+            <SettingsList.Header headerStyle={{marginTop:10}} hideBorder/>
             <SettingsList.Header headerText='Wire Settings'
               headerStyle={styles.settingsHeader}/>
             <SettingsList.Item title='WireOption1' itemWidth={50}
@@ -48,13 +75,11 @@ export default class DashboardSettingsScreen extends Component {
               titleStyle={{color: '#444444', fontSize: 16}} arrowOffset={8}/>
             <SettingsList.Item title='WireOption3' itemWidth={50}
               titleStyle={{color: '#444444', fontSize: 16}} arrowOffset={8}/>
-
           </SettingsList>
         </View>
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
