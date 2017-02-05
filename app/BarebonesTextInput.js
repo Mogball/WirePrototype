@@ -15,6 +15,7 @@ export default class BarebonesTextInput extends Component {
       returnKeyType: 'next',
       secureTextEntry: false,
       onSubmitEditing: _onSubmitEditing,
+      underlineColor: palette.seafloor,
       defaultStyle: {height: 40, width: 150, color: palette.cyprus},
       style: {}
     };
@@ -30,7 +31,7 @@ export default class BarebonesTextInput extends Component {
     return (
       <TextInput ref='Field' style={[this.props.defaultStyle, this.props.style]} placeholder={this.props.placeholder}
         onChangeText={this.props.onChangeText} autoCorrect={false} autoCapitalize='none' maxLength={32}
-        underlineColorAndroid={palette.seafloor} autoComplete={false} keyboardType={this.props.keyboardType}
+        underlineColorAndroid={this.props.underlineColor} autoComplete={false} keyboardType={this.props.keyboardType}
         secureTextEntry={this.props.secureTextEntry} returnKeyType={this.props.returnKeyType}
         onSubmitEditing={this.props.onSubmitEditing} placeholderTextColor={palette.cyprusLight}/>
     );

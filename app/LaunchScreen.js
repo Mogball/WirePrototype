@@ -76,14 +76,15 @@ palette = {
   ripple: '#DAECF3',
   rippleDark: '#D2E4EF',
   crush: '#FE424D',
+  crushDark: '#FB3D48',
   seafloor: '#1AA6B7',
   seafloorDark: '#17A3B4',
   cyprus: '#022D41',
-  cyprusLight: '#224D61',
+  cyprusLight: '#426D81',
   white: '#F5F5F5',
   whiteDark: '#E0ECF3',
-  lightTeal: '#15A0C5',
-  lightTealDark: '#1095C0',
+  lightTeal: '#00A0D5',
+  lightTealDark: '#0095D0',
   lightBlue: '#29B6F6',
   lightBlueDark: '#22B0F2',
   blue: '#0094D3',
@@ -144,6 +145,33 @@ styles = StyleSheet.create({
   largeLogo: {
     width: 273,
     height: 112
+  },
+
+  headerToolbar: {
+    backgroundColor: palette.lightBlue,
+    alignSelf: 'stretch',
+    height: 65,
+    elevation: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
+
+  headerTitle: {
+    fontFamily: 'sans-serif-medium',
+    fontWeight: '100',
+    fontSize: 30,
+    color: palette.pureWhite,
+    paddingLeft: 30
+  },
+
+  footerToolbar: {
+    backgroundColor: palette.ripple,
+    alignSelf: 'stretch',
+    height: 55,
+    elevation: 2,
+    justifyContent: 'center',
+    borderTopWidth: 1,
+    borderColor: palette.rippleDark
   }
 
 });

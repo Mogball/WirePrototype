@@ -55,13 +55,12 @@ export default class RegisterScreen extends Component {
       <AntiKeyboard>
         <View style={[styles.screen, {justifyContent: 'flex-start'}]}>
           <StatusBar backgroundColor={palette.blue}/>
-          <View style={{backgroundColor: palette.lightBlue, alignSelf: 'stretch', height: 65,
-            elevation: 2, alignItems: 'flex-start', justifyContent: 'center'}}>
+          <View style={styles.headerToolbar}>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{fontFamily: 'sans-serif-medium', fontWeight: '100',
-                fontSize: 30, color: palette.pureWhite, paddingLeft: 30}}>Register</Text>
+              <Text style={styles.headerTitle}>Register</Text>
             </View>
           </View>
+          <View style={{flex: 1}}/>
           <View style={[{flex: 1}, styles.container]}>
             <BarebonesTextInput ref='EmailField' placeholder='Email or phone number'
               onSubmitEditing={this._submitEmailPhone}
@@ -76,8 +75,17 @@ export default class RegisterScreen extends Component {
               onSubmitEditing={this._submitConfirmPassword}
               style={{fontSize: 16, height: 40, width: 150, textAlign: 'center'}}/>
           </View>
-          <View style={{backgroundColor: palette.ripple, alignSelf: 'stretch', height: 55,
-            elevation: 2, justifyContent: 'center', borderTopWidth: 1, borderColor: palette.rippleDark}}>
+          <View style={[styles.container, {flex: 1.5}]}>
+            <View style={[styles.container, {marginBottom: 40}]}>
+              <StateButton onPress={this._register}
+                style={stylesLocal.registerButton}
+                pressedStyle={stylesLocal.registerButtonPressed}
+                textStyle={stylesLocal.registerButtonText}
+                textPressedStyle={stylesLocal.registerButtonTextPressed}
+                text='Register'/>
+            </View>
+          </View>
+          <View style={styles.footerToolbar}>
             <View style={{justifyContent: 'center', alignItems: 'center', width: 100}}>
               <StateButton onPress={this._back}
                 style={stylesLocal.backButton}
@@ -122,12 +130,30 @@ const stylesLocal = {
     }
   ],
 
-  registerButton: {
+  registerButton: [
+    styles.button, {
+      height: 50, width: 150, elevation: 4, backgroundColor: palette.crush
+    }
+  ],
 
-  },
+  registerButtonPressed: [
+    styles.button, {
+      height: 48, width: 148, elevation: 2, backgroundColor: palette.crushDark
+    }
+  ],
 
-  registerButtonPressed: {
+  registerButtonText: [
+    styles.buttonText, {
+      fontSize: 22,
+      paddingHorizontal: 20
+    }
+  ],
 
-  }
+  registerButtonTextPressed: [
+    styles.buttonTextPressed, {
+      fontSize: 22,
+      paddingHorizontal: 19
+    }
+  ]
 
 };
