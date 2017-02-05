@@ -5,7 +5,8 @@ import {
   View,
   Text,
   TouchableNativeFeedback,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ListView
 } from 'react-native';
 
 export default class DashboardServiceScreen extends Component {
@@ -16,6 +17,59 @@ export default class DashboardServiceScreen extends Component {
 
   constructor(props) {
     super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+    var buttonAssembly1 = (
+      <View style={{height: 80, alignSelf: 'stretch', flex: 1,
+        flexDirection: 'row', marginTop: 23}}>
+        <View style={[styles.buttonAssembly, {flex: 2}]}>
+          <RoundButton style={{width: 60, height: 60, backgroundColor: '#00BAF0',
+            borderRadius: 30, borderWidth: 1, borderColor: '#00B4EE'}}
+            pressed={{elevation: 2}} unpressed={{elevation: 8}}
+            overlayColor='rgba(100, 100, 100, 0.1)'>
+          </RoundButton>
+          <Text style={[styles.buttonAssemblyText, {top: 5}]}>Refer a friend</Text>
+        </View>
+        <View style={[styles.buttonAssembly, {flex: 1.5}]}>
+          <RoundButton style={{width: 60, height: 60, backgroundColor: '#ED5B38',
+            borderRadius: 30, borderWidth: 1, borderColor: '#EC512A'}}
+            pressed={{elevation: 2}} unpressed={{elevation: 8}}
+            overlayColor='rgba(100, 100, 100, 0.1)'>
+          </RoundButton>
+          <Text style={[styles.buttonAssemblyText, {top: 5}]}>Remote transfer</Text>
+        </View>
+        <View style={[styles.buttonAssembly, {flex: 2}]}>
+          <RoundButton style={{width: 60, height: 60, backgroundColor: '#00C28B',
+            borderRadius: 30, borderWidth: 1, borderColor: '#00BF86'}}
+            pressed={{elevation: 2}} unpressed={{elevation: 8}}
+            overlayColor='rgba(100, 100, 100, 0.1)'>
+          </RoundButton>
+          <Text style={[styles.buttonAssemblyText, {top: 5}]}>Wire loans</Text>
+        </View>
+      </View>
+    );
+
+    var paymentsItem = (
+      <View style={{backgroundColor: '#F2F2F2', elevation: 3,
+        height: 200, margin: 20}}>
+        <View >
+          <Text style={styles.materialTitleText}>Payments</Text>
+        </View>
+      </View>
+    );
+
+    var shopsItem = (
+      <View style={{backgroundColor: '#F2F2F2', elevation: 3,
+        height: 200, marginLeft: 20, marginRight: 20, marginBottom: 20}}>
+        <View>
+          <Text style={styles.materialTitleText}>Shop with Wire</Text>
+        </View>
+      </View>
+    );
+
+    this.itemList = ds.cloneWithRows([
+      buttonAssembly1, paymentsItem, shopsItem
+    ]);
   }
 
   render() {
@@ -26,77 +80,9 @@ export default class DashboardServiceScreen extends Component {
           <View style={{width: 30}}></View>
           <Text style={styles.title}>Services</Text>
         </View>
-        <View style={{alignItems: 'flex-start', justifyContent: 'flex-start'}}>
-          <View style={{flexDirection: 'row', top: 23, marginBottom: 23}}>
-            <View style={[styles.buttonAssembly, {flex: 2}]}>
-              <RoundButton style={{width: 60, height: 60, backgroundColor: '#00BAF0',
-                borderRadius: 30, borderWidth: 1, borderColor: '#00B4EE'}}
-                pressed={{elevation: 2}} unpressed={{elevation: 8}}
-                overlayColor='rgba(100, 100, 100, 0.1)'>
-              </RoundButton>
-              <Text style={[styles.buttonAssemblyText, {top: 5}]}>Refer a friend</Text>
-            </View>
-            <View style={[styles.buttonAssembly, {flex: 1.5}]}>
-              <RoundButton style={{width: 60, height: 60, backgroundColor: '#ED5B38',
-                borderRadius: 30, borderWidth: 1, borderColor: '#EC512A'}}
-                pressed={{elevation: 2}} unpressed={{elevation: 8}}
-                overlayColor='rgba(100, 100, 100, 0.1)'>
-              </RoundButton>
-              <Text style={[styles.buttonAssemblyText, {top: 5}]}>Remote transfer</Text>
-            </View>
-            <View style={[styles.buttonAssembly, {flex: 2}]}>
-              <RoundButton style={{width: 60, height: 60, backgroundColor: '#00C28B',
-                borderRadius: 30, borderWidth: 1, borderColor: '#00BF86'}}
-                pressed={{elevation: 2}} unpressed={{elevation: 8}}
-                overlayColor='rgba(100, 100, 100, 0.1)'>
-              </RoundButton>
-              <Text style={[styles.buttonAssemblyText, {top: 5}]}>Wire loans</Text>
-            </View>
-          </View>
-        </View>
-        <View style={{flex: 2, alignItems: 'center', alignSelf: 'stretch',
-          justifyContent: 'center'}}>
-          <Material margin={[20, 20, 20, 10]}
-            style={{flex: 1, backgroundColor: '#F2F2F2', elevation: 3}}>
-            <View >
-              <Text style={styles.materialTitleText}>Payments</Text>
-            </View>
-          </Material>
-          <Material margin={[20, 20, 10, 20]}
-            style={{flex: 1, backgroundColor: '#F2F2F2', elevation: 3}}>
-            <View>
-              <Text style={styles.materialTitleText}>Shop with Wire</Text>
-            </View>
-          </Material>
-        </View>
-      </View>
-    );
-  }
-
-}
-
-class Material extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    var children = null;
-    if (this.props.children) {
-      children = this.props.children;
-    }
-    return (
-      <View style={{flex: this.props.style.flex, alignSelf: 'stretch'}}>
-        <View style={{height: this.props.margin[2]}}></View>
-        <View style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}}>
-          <View style={{width: this.props.margin[0]}}></View>
-          <View style={[{flex: 1, alignSelf: 'stretch'}, this.props.style]}>
-            {children}
-          </View>
-          <View style={{width: this.props.margin[1]}}></View>
-        </View>
-        <View style={{height: this.props.margin[3]}}></View>
+        <ListView
+          dataSource={this.itemList}
+          renderRow={(rowItem) => {return rowItem;}}/>
       </View>
     );
   }
@@ -151,31 +137,23 @@ class RoundButton extends Component {
 const styles = StyleSheet.create({
 
   screen: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EDEDED',
     flex: 1,
+    backgroundColor: '#EDEDED'
   },
 
   title: {
     fontSize: 30,
     fontWeight: '500',
-    color: '#D02035',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowColor: 'rgba(100, 20, 20, 0.2)'
+    color: '#EEEEEE',
   },
 
   headerToolbar: {
     height: 60,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: "#D02035",
     alignSelf: 'stretch',
     elevation: 4,
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-    borderLeftWidth: 1,
-    borderLeftColor: '#DDDDDD',
-    borderRightWidth: 1,
-    borderRightColor: '#DDDDDD'
+    borderWidth: 1,
+    borderColor: '#CE1E33'
   },
 
   buttonAssembly: {

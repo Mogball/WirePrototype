@@ -31,7 +31,7 @@ export default class Dashboard extends Component {
 
   render() {
     return (
-      <Navigator initialRoute={routes[1]}
+      <Navigator initialRoute={routes[3]}
         configureScene={(route, routeStack) => {
           return Navigator.SceneConfigs.PushFromRight;
         }}

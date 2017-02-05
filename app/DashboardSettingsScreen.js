@@ -68,23 +68,17 @@ const styles = StyleSheet.create({
 
   headerToolbar: {
     height: 60,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: "#D02035",
     alignSelf: 'stretch',
     elevation: 4,
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-    borderLeftWidth: 1,
-    borderLeftColor: '#DDDDDD',
-    borderRightWidth: 1,
-    borderRightColor: '#DDDDDD'
+    borderWidth: 1,
+    borderColor: '#CE1E33'
   },
 
   title: {
     fontSize: 30,
     fontWeight: '500',
-    color: '#D02035',
-    textShadowOffset: {width: 1, height: 1},
-    textShadowColor: 'rgba(100, 20, 20, 0.2)'
+    color: '#EEEEEE',
   },
 
   settingHeader: {
