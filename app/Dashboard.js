@@ -21,13 +21,17 @@ const routes = [
 
 export default class Dashboard extends Component {
 
+  static get defaultProps() {
+    return {title: 'Dashboard'};
+  }
+
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <Navigator initialRoute={routes[3]}
+      <Navigator initialRoute={routes[1]}
         configureScene={(route, routeStack) => {
           return Navigator.SceneConfigs.PushFromRight;
         }}

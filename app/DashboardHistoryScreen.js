@@ -14,6 +14,10 @@ const DISMISS_KEYBOARD = require('dismissKeyboard');
 
 export default class DashboardHistoryScreen extends Component {
 
+  static get defaultProps() {
+    return {title: 'DashboardHistoryScreen'};
+  }
+
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -55,7 +59,7 @@ export default class DashboardHistoryScreen extends Component {
                   </View>
                   <View style={{flexDirection: 'row'}}>
                     <View style={{flexDirection: 'row', flex: 1}}>
-                      <View style={{width: 20}}>
+                      <View style={{width: 15}}>
                         <Text style={[styles.balance,
                           {fontSize: 16, textAlign: 'center'}]}>
                             {sign}

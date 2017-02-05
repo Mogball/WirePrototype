@@ -16,6 +16,10 @@ const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
 // This screen does not work properly in landscape mode
 export default class DashboardMainScreen extends Component {
 
+  static get defaultProps() {
+    return {title: 'DashboardMainScreen'};
+  }
+
   constructor(props) {
     super(props);
 

@@ -13,13 +13,17 @@ const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
 // This screen does not work properly in landscape mode
 export default class DashboardHomeScreen extends Component {
 
+  static get defaultProps() {
+    return {title: 'DashboardHomeScreen'};
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       // STUB data
       accountBalance: 4622123,
       pointBalance: 54232,
-      firstLastName: 'Swagbob Blazepants'
+      firstLastName: 'Emeritus Pachementyke'
     };
   }
 
@@ -31,41 +35,33 @@ export default class DashboardHomeScreen extends Component {
           <View style={{width: 30}}></View>
           <Text style={styles.title}>Home</Text>
         </View>
-        <View style={{height: 20}}></View>
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <View style={{width: 20}}></View>
+        <View style={{flexDirection: 'row', flex: 1, marginTop: 20, marginLeft: 20, marginRight: 20}}>
           <View style={{flex: 1}}>
-            <View style={{flex: 2.1, backgroundColor: '#F2F2F2',
-              alignSelf: 'stretch', elevation: 3}}>
-              <View>
-                <Text style={styles.name}>{this.state.firstLastName}</Text>
-              </View>
-              <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View style={{width: 15}}></View>
-                  <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <View style={{flex: 1, alignSelf: 'stretch', justifyContent: 'center'}}>
-                      <Text style={styles.label}>Balance</Text>
-                      <Text style={styles.balance}>
-                        {formatMoney(this.state.accountBalance)}
-                      </Text>
-                    </View>
-                    <View style={{flex: 1, alignSelf: 'stretch', justifyContent: 'center'}}>
-                      <Text style={styles.label}>Points</Text>
-                      <Text style={styles.balance}>
-                        {formatComma(this.state.pointBalance)}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <View style={{flex: 0.3, alignSelf: 'stretch'}}>
 
-                </View>
-                <View style={{flex: 1}}>
+            <View style={{marginBottom: 20}}>
+              <Text style={styles.name}>{this.state.firstLastName}</Text>
+            </View>
 
-                </View>
+            <View style={{backgroundColor: '#F2F2F2', height: 130,
+              alignSelf: 'stretch', elevation: 3, marginBottom: 20}}>
+              <View style={{flex: 1, alignSelf: 'stretch', justifyContent: 'center'}}>
+                <Text style={styles.label}>Balance</Text>
+                <Text style={styles.balance}>
+                  {formatMoney(this.state.accountBalance)}
+                </Text>
               </View>
             </View>
+
+            <View style={{backgroundColor: '#F2F2F2', height: 130,
+              alignSelf: 'stretch', elevation: 3}}>
+              <View style={{flex: 1, alignSelf: 'stretch', justifyContent: 'center'}}>
+                <Text style={styles.label}>Points</Text>
+                <Text style={styles.balance}>
+                  {formatComma(this.state.pointBalance)}
+                </Text>
+              </View>
+            </View>
+
             <View style={{height: 20}}></View>
             <View style={{flex: 1.7, backgroundColor: '#F2F2F2', elevation: 3}}>
 
@@ -90,7 +86,6 @@ export default class DashboardHomeScreen extends Component {
             </View>
             <View style={{height: 20}}></View>
           </View>
-          <View style={{width: 20}}></View>
         </View>
       </View>
     );
@@ -107,8 +102,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  name: {fontSize: 24, textAlign: 'center',
-    fontWeight: '500', alignSelf: 'stretch', borderBottomWidth: 2,
+  name: {fontSize: 20, textAlign: 'center',
+    fontWeight: '500', borderBottomWidth: 2,
     borderBottomColor: '#D02035', paddingBottom: 3},
 
   title: {
