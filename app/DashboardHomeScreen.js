@@ -9,9 +9,13 @@ import {
   ListView
 } from 'react-native';
 
-const WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
+import {
+  Card,
+  Icon
+} from 'react-native-elements';
 
-// This screen does not work properly in landscape mode
+import StateButton from './StateButton';
+
 export default class DashboardHomeScreen extends Component {
 
   static get defaultProps() {
@@ -29,52 +33,44 @@ export default class DashboardHomeScreen extends Component {
 
     var personName = (
       <View style={{margin: 20}}>
-        <Text style={styles.name}>{this.state.firstLastName}</Text>
+        <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
       </View>
     );
     var balanceItem = (
-      <View style={{backgroundColor: '#F2F2F2', height: 100,
-        elevation: 3, marginLeft: 20, marginRight: 20}}>
-        <Text style={styles.label}>Balance</Text>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.balance}>
-            {formatMoney(this.state.accountBalance)}
-          </Text>
-        </View>
-      </View>
+      <Card title='Balance' titleStyle={styles.blockTitle}
+        containerStyle={{paddingTop: 5, marginTop: 0, height: 100, elevation: 2}}>
+        <Text style={stylesLocal.balance}>
+          {formatMoney(this.state.accountBalance)}
+        </Text>
+      </Card>
     );
     var pointsItem = (
-      <View style={{backgroundColor: '#F2F2F2', height: 100,
-        elevation: 3, margin: 20}}>
-        <Text style={styles.label}><Text style={{color: '#D02035'}}>Wire</Text> Points</Text>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.balance}>
-            {formatComma(this.state.pointBalance)}
-          </Text>
-        </View>
-      </View>
+      <Card title='Points' titleStyle={styles.blockTitle}
+        containerStyle={{paddingTop: 5, height: 100, elevation: 2}}>
+        <Text style={stylesLocal.balance}>
+          {formatComma(this.state.pointBalance)}
+        </Text>
+      </Card>
     );
     var withdrawDepositItem = (
-      <View style={{flexDirection: 'row', alignItems: 'center',
-        justifyContent: 'center', height: 100, marginLeft: 30, marginRight: 30,
-        marginBottom: 20}}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableNativeFeedback>
-            <View style={[styles.buttonDepositWithdraw,
-              {backgroundColor: '#FE8B01'}]}>
-              <Text style={styles.buttonDepositWithdrawText}>WITHDRAW</Text>
-            </View>
-          </TouchableNativeFeedback>
+      <Card wrapperStyle={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}
+        containerStyle={{marginBottom: 20, elevation: 2}}>
+        <View style={styles.container}>
+          <View style={[styles.container, {width: 50, height: 50}]}>
+            <StateButton onPress={() => {}}
+              style={stylesLocal.button} pressedStyle={stylesLocal.buttonPressed}/>
+          </View>
+            <Text style={stylesLocal.buttonText}>Withdraw</Text>
         </View>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableNativeFeedback>
-            <View style={[styles.buttonDepositWithdraw,
-              {backgroundColor: '#45AD00'}]}>
-              <Text style={styles.buttonDepositWithdrawText}>DEPOSIT</Text>
-            </View>
-          </TouchableNativeFeedback>
+        <View style={styles.container}>
+          <View style={[styles.container, {width: 50, height: 50}]}>
+            <StateButton onPress={() => {}}
+              style={[stylesLocal.button, {backgroundColor: palette.teal}]}
+              pressedStyle={[stylesLocal.buttonPressed, {backgroundColor: palette.tealDark}]}/>
+          </View>
+            <Text style={stylesLocal.buttonText}>Deposit</Text>
         </View>
-      </View>
+      </Card>
     );
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -89,10 +85,12 @@ export default class DashboardHomeScreen extends Component {
   render() {
     return(
       <View style={styles.screen}>
-        <View style={[styles.headerToolbar,
-          {flexDirection: 'row', alignItems: 'center'}]}>
-          <View style={{width: 30}}></View>
-          <Text style={styles.title}>Home</Text>
+        <View style={styles.headerToolbar}>
+          <Text style={styles.headerTitle}>Home</Text>
+          <Icon name='person' color={palette.pureWhite} size={35}
+            containerStyle={{marginRight: 25}}
+            onPress={this.props.dashboard.toggleSideMenu}
+            underlayColor='transparent'/>
         </View>
         <ListView
           dataSource={this.screenItems}
@@ -103,72 +101,42 @@ export default class DashboardHomeScreen extends Component {
 
 }
 
-const styles = StyleSheet.create({
+const stylesLocal = {
 
-  screen: {
-    flex: 1,
-    backgroundColor: '#EDEDED'
-  },
-
-  name: {fontSize: 28, textAlign: 'center',
-    fontWeight: '100', borderBottomWidth: 2,
-    borderBottomColor: '#D02035', paddingBottom: 3},
-
-  title: {
-    fontSize: 30,
-    fontWeight: '500',
-    color: '#EEEEEE',
-  },
-
-  label: {fontSize: 24, borderBottomWidth: 2, backgroundColor: '#FAFAFA',
-    borderBottomColor: '#667066', marginBottom: 3, fontWeight: '500',
-    paddingLeft: 7},
-
-  headerToolbar: {
-    height: 60,
-    backgroundColor: "#D02035",
-    alignSelf: 'stretch',
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: '#CE1E33'
-  },
-
-  balance: {
-    fontSize: 36,
+  name: {
+    fontSize: 28,
     textAlign: 'center',
-    color: '#33AA88',
     fontWeight: '100',
-    bottom: 4
+     borderBottomWidth: 2,
+     color: palette.cyprusLight,
+    borderBottomColor: palette.crush,
+    paddingBottom: 3,
+    fontWeight: '500'
   },
 
-  balanceContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EEEEEE',
-    borderWidth: 1,
-    borderColor: '#DDDDDD',
-    borderRadius: 5,
-    elevation: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 15
-  },
-
-    buttonDepositWithdraw: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#D02035',
-      paddingHorizontal: 5,
-      paddingVertical: 20,
-      borderRadius: 10,
-      elevation: 4,
-      width: 100
-    },
-
-    buttonDepositWithdrawText: {
+  balance: [
+    styles.balance, {
+      fontSize: 30,
       textAlign: 'center',
-      fontSize: 16,
-      color: 'white',
-      fontWeight: '500'
+      paddingVertical: 0,
+      bottom: 10
     }
+  ],
 
-});
+  button: [
+    styles.button, {
+      width: 50, height: 50, borderRadius: 25, backgroundColor: palette.turquoise,
+      elevation: 6
+    }
+  ],
+  buttonPressed: [
+    styles.buttonPressed, {
+      width: 48, height: 48, borderRadius: 24, backgroundColor: palette.turquoiseDark,
+      elevation: 4
+    }
+  ],
+  buttonText: {
+    fontSize: 16, textAlign: 'center', color: palette.cyprus
+  }
+
+};

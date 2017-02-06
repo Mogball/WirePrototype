@@ -56,7 +56,7 @@ export default class RegisterScreen extends Component {
         <View style={[styles.screen, {justifyContent: 'flex-start'}]}>
           <StatusBar backgroundColor={palette.blue}/>
           <View style={styles.headerToolbar}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View style={styles.container}>
               <Text style={styles.headerTitle}>Register</Text>
             </View>
           </View>

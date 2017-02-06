@@ -9,8 +9,16 @@ import {
   Text,
   ListView,
   Switch,
-  TextInput
+  TextInput,
+  StatusBar
 } from 'react-native';
+
+import {
+  Icon
+} from 'react-native-elements';
+
+import AntiKeyboard from './AntiKeyboard';
+import StateButton from './StateButton';
 
 export default class DashboardMainScreen extends Component {
 
@@ -22,12 +30,17 @@ export default class DashboardMainScreen extends Component {
   }
   constructor(props) {
     super(props);
+    this._handleChange = this._handleChange.bind(this);
+    this._handleSwitch = this._handleSwitch.bind(this);
+    this._handleButton = this._handleButton.bind(this);
+    this._focusMoney = this._focusMoney.bind(this);
+    this._mainButtonIn = this._mainButtonIn.bind(this);
+    this._mainButtonOut = this._mainButtonOut.bind(this);
     this.state = {
       moneyInputValue: '0.00',
       actualMoneyValue: 0,
-      payPressed: false,
-      switchPressed: false,
       switchedToSell: false,
+      mainButtonPressed: false,
       QR_NFC: false // false --> QR, true --> NFC
     };
   }
@@ -43,216 +56,166 @@ export default class DashboardMainScreen extends Component {
       moneyInputValue: formatMoney(intValue, false, true)
     });
   }
+  _handleSwitch(value) {
+    this.setState({QR_NFC: value});
+    DISMISS_KEYBOARD();
+  }
+  _handleButton() {
+    this.setState({switchedToSell: !this.state.switchedToSell});
+  }
+  _focusMoney() {
+    this.refs.money.focus();
+  }
+  _mainButtonIn() {
+    this.setState({mainButtonPressed: true});
+  }
+  _mainButtonOut() {
+    this.setState({mainButtonPressed: false});
+  }
 
   render() {
-    const buttonStyle = this.state.payPressed ? styles.holdButtonPressed : styles.holdButton;
-    const buttonTextStyle = this.state.payPressed ? styles.buttonTextPressed : styles.buttonText;
-    const switchButtonStyle = this.state.switchPressed ? styles.switchButtonPressed : styles.switchButton;
-    const switchTextStyle = this.state.switchPressed ? styles.switchTextPressed : styles.switchText;
     return (
-      <TouchableWithoutFeedback onPress={DISMISS_KEYBOARD}>
+      <AntiKeyboard>
         <View style={styles.screen}>
+          <StatusBar backgroundColor={palette.blue}/>
           <View style={styles.headerToolbar}>
-            <Image source={WIRE_LOGO_LARGE} style={styles.logoSmall}/>
+            <Text style={styles.headerTitle}>Wire</Text>
+            <Icon name='person' color={palette.pureWhite} size={35}
+              containerStyle={{marginRight: 25}}
+              onPress={this.props.dashboard.toggleSideMenu}
+              underlayColor='transparent'/>
           </View>
-          <View style={{flex: 1, alignSelf: 'stretch'}}>
-
             <View style={{flex: 2}}>
-              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={[this.state.QR_NFC ? styles.commsDisabled : styles.commsEnabled, {right: 15}]}>QR</Text>
-                <Switch // switch value should save the user's option
-                        // should also get an API that allows for a larger switch
-                  onValueChange={(value) => {this.setState({QR_NFC: value}); DISMISS_KEYBOARD()}}
+              <View style={[styles.container, {flexDirection: 'row'}]}>
+                <Text style={[this.state.QR_NFC ?
+                  stylesLocal.commsDisabled : stylesLocal.commsEnabled,
+                  {right: 15}]}>QR</Text>
+                <Switch
+                  onValueChange={this._handleSwitch}
                   style={{paddingHorizontal: 5}}
                   value={this.state.QR_NFC}/>
-                <Text style={[this.state.QR_NFC ? styles.commsEnabled : styles.commsDisabled, {left: 15}]}>Tap</Text>
+                <Text style={[this.state.QR_NFC ?
+                  stylesLocal.commsEnabled : stylesLocal.commsDisabled,
+                  {left: 15}]}>Tap</Text>
               </View>
-              <View style={{flex: 1, alignItems: 'center'}}>
-                <TouchableWithoutFeedback onPress={() => {this.refs.money.focus()}}>
-                  <View style={{height: 50, width: 200,
-                    backgroundColor: '#F5F5F5', elevation: 3,
-                    flexDirection: 'row', alignItems: 'center'}}>
-                    <Text style={[styles.balance, {paddingLeft: 4, right: -2}]}>$</Text>
-                    <View style={{flex: 1, top: 1, marginRight: 20}}>
-                      <TextInput ref='money' autoCapitalize='none' autoCorrect={false}
-                        keyboardType='numeric' maxLength={10} returnKeyType='done'
-                        value={this.state.moneyInputValue}
-                        onChangeText={(text) => {
-                          this._handleChange(text);
-                        }} selectTextOnFocus
-                        style={styles.balance}>
-                      </TextInput>
-                    </View>
-                  </View>
-                </TouchableWithoutFeedback>
-              </View>
-            </View>
-
-            <View style={{flex: 1, alignItems: 'center'}}>
-              <TouchableWithoutFeedback
-                onPressIn={() => {this.setState({payPressed: true})}}
-                onPressOut={() => {this.setState({payPressed: false})}}
-                onPress={() => {DISMISS_KEYBOARD()}}>
-                <View style={buttonStyle}>
-                  <Text style={buttonTextStyle}>{this.state.switchedToSell ? 'Receive' : 'Send'}</Text>
+              <TouchableWithoutFeedback onPress={this._focusMoney}>
+                <View style={stylesLocal.transferAmountBox}>
+                  <Text style={stylesLocal.dollarSign}>$</Text>
+                  <TextInput ref='money' autoCapitalize='none' autoCorrect={false}
+                    keyboardType='numeric' maxLength={10} returnKeyType='done'
+                    value={this.state.moneyInputValue} onChangeText={this._handleChange}
+                    underlineColorAndroid={palette.teal}
+                    style={[styles.balance, {fontSize: 30, width: 162,
+                      paddingBottom: 5, height: 50}]}
+                    selectTextOnFocus>
+                  </TextInput>
                 </View>
               </TouchableWithoutFeedback>
             </View>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <TouchableWithoutFeedback
-                onPressIn={() => {this.setState({switchPressed: true})}}
-                onPressOut={() => {this.setState({switchPressed: false, switchedToSell: !this.state.switchedToSell})}}
-                onPress={() => {DISMISS_KEYBOARD()}}>
-                <View style={[switchButtonStyle, {right: 110 * (this.state.switchedToSell ? -1 : 1), bottom: 20}]}>
-                  <Text style={switchTextStyle}>{this.state.switchedToSell ? 'Send' : 'Receive'}</Text>
+            <View style={{flex: 2, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={styles.container}>
+                  <StateButton
+                    onPress={this._handleButton}
+                    style={stylesLocal.switchButton}
+                    pressedStyle={stylesLocal.switchButtonPressed}
+                    textStyle={stylesLocal.switchButtonText}
+                    textPressedStyle={stylesLocal.switchButtonTextPressed}
+                    text={this.state.switchedToSell ? 'Send' : 'Receive'}/>
                 </View>
-              </TouchableWithoutFeedback>
+                <View style={styles.container}>
+                  <StateButton onPressIn={this._mainButtonIn} onPressOut={this._mainButtonOut}
+                    onPress={() => {}} style={stylesLocal.mainButton}
+                    pressedStyle={stylesLocal.mainButtonPressed}
+                    textStyle={stylesLocal.mainButtonText}
+                    textPressedStyle={stylesLocal.mainButtonTextPressed}
+                    text={this.state.switchedToSell ? 'Receive' : 'Send'}/>
+                </View>
+                <View style={styles.container}>
+                </View>
+              </View>
             </View>
-
-          </View>
         </View>
-      </TouchableWithoutFeedback>
+      </AntiKeyboard>
     );
   }
 
 }
 
-const styles = StyleSheet.create({
-
-  screen: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#EDEDED',
-    flex: 1,
-  },
-
-  balance: {
-    textAlign: 'left',
-    fontSize: 30,
-    color: '#33AA88',
-    fontWeight: '400',
-    lineHeight: 30
-  },
-
-  logoSmall: {
-    width: 130,
-    height: 54
-  },
-
-  footerToolbar: {
-    backgroundColor: '#E02935',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    height: 40,
-    elevation: 11,
-    borderTopWidth: 1,
-    borderTopColor: '#D53046',
-    borderLeftWidth: 1,
-    borderLeftColor: '#D53046',
-    borderRightWidth: 1,
-    borderRightColor: '#D53046',
-    alignSelf: 'stretch'
-  },
-
-  headerToolbar: {
-    height: 60,
-    backgroundColor: "#EEEEEE",
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 4,
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-    borderLeftWidth: 1,
-    borderLeftColor: '#DDDDDD',
-    borderRightWidth: 1,
-    borderRightColor: '#DDDDDD'
-  },
-
-  holdButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#D00035',
-    elevation: 10,
-    width: 150,
-    height: 150,
-    borderRadius: 75
-  },
-
-  holdButtonPressed: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#B53040',
-    elevation: 4,
-    width: 150,
-    height: 150,
-    borderRadius: 75
-  },
-
-  switchButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#D00035',
-    elevation: 10,
-    width: 64,
-    height: 64,
-    borderRadius: 32
-  },
-
-  switchButtonPressed: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#B53040',
-    elevation: 4,
-    width: 64,
-    height: 64,
-    borderRadius: 32
-  },
-
-  buttonText: {
-    textAlign: 'center',
-    fontSize: 26,
-    color: '#FFFFFF',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    fontWeight: '500'
-  },
-
-  buttonTextPressed: {
-    textAlign: 'center',
-    fontSize: 26,
-    color: '#EEEEEE',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    fontWeight: '300'
-  },
-
-  switchText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#FFFFFF',
-    fontWeight: '500'
-  },
-
-  switchTextPressed: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#EEEEEE',
-    fontWeight: '300'
-  },
+const stylesLocal = {
 
   commsEnabled: {
     textAlign: 'center',
     fontSize: 24,
-    color: '#33AA88',
+    color: palette.moneyGreen,
     fontWeight: '700'
   },
-
   commsDisabled: {
     textAlign: 'center',
     fontSize: 24,
-    color: '#334433',
+    color: palette.cyprus,
     fontWeight: '300'
-  }
+  },
 
-});
+  transferAmountBox: {
+    height: 60,
+    width: 195,
+    backgroundColor: palette.pureWhite,
+    elevation: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  dollarSign: [
+    styles.balance, {
+      paddingLeft: 4,
+      right: -2,
+      fontSize: 30
+    }
+  ],
+
+  mainButton: [
+    styles.button, {
+      width: 150, height: 150, borderRadius: 75,
+      backgroundColor: palette.crush
+    }
+  ],
+  mainButtonPressed: [
+    styles.buttonPressed, {
+      width: 148, height: 148, borderRadius: 74,
+      backgroundColor: palette.crushDark
+    }
+  ],
+  mainButtonText: [
+    styles.buttonText, {
+      paddingHorizontal: 0, paddingVertical: 0, color: palette.pureWhite
+    }
+  ],
+  mainButtonTextPressed: [
+    styles.buttonTextPressed, {
+      paddingHorizontal: 0, paddingVertical: 0
+    }
+  ],
+
+  switchButton: [
+    styles.button, {
+      width: 70, height: 70, borderRadius: 35
+    }
+  ],
+  switchButtonPressed: [
+    styles.buttonPressed, {
+      width: 68, height: 68, borderRadius: 34
+    }
+  ],
+  switchButtonText: [
+    styles.buttonText, {
+      paddingHorizontal: 0, paddingVertical: 0, fontSize: 15, color: palette.pureWhite
+    }
+  ],
+  switchButtonTextPressed: [
+    styles.buttonTextPressed, {
+      paddingHorizontal: 0, paddingVertical: 0, fontSize: 15
+    }
+  ]
+
+};

@@ -9,6 +9,11 @@ import {
   ListView
 } from 'react-native';
 
+import {
+  Card,
+  Icon
+} from 'react-native-elements';
+
 export default class DashboardServiceScreen extends Component {
 
   static get defaultProps() {
@@ -22,67 +27,77 @@ export default class DashboardServiceScreen extends Component {
     var buttonAssembly1 = (
       <View style={{height: 80, alignSelf: 'stretch', flex: 1,
         flexDirection: 'row', marginTop: 23}}>
-        <View style={[styles.buttonAssembly, {flex: 2}]}>
-          <RoundButton style={{width: 60, height: 60, backgroundColor: '#00BAF0',
-            borderRadius: 30, borderWidth: 1, borderColor: '#00B4EE'}}
-            pressed={{elevation: 2}} unpressed={{elevation: 8}}
-            overlayColor='rgba(100, 100, 100, 0.1)'>
-          </RoundButton>
-          <Text style={[styles.buttonAssemblyText, {top: 5}]}>Refer a friend</Text>
+        <View style={[stylesLocal.buttonAssembly, {flex: 2}]}>
+          <View style={stylesLocal.buttonHolder}>
+            <RoundButton style={[stylesLocal.button,
+              {backgroundColor: '#00BAF0', borderColor: '#00B4EE'}]}
+              pressed={stylesLocal.buttonPressed} unpressed={{elevation: 4}}/>
+          </View>
+          <Text style={stylesLocal.buttonAssemblyText}>Refer a friend</Text>
         </View>
-        <View style={[styles.buttonAssembly, {flex: 1.5}]}>
-          <RoundButton style={{width: 60, height: 60, backgroundColor: '#ED5B38',
-            borderRadius: 30, borderWidth: 1, borderColor: '#EC512A'}}
-            pressed={{elevation: 2}} unpressed={{elevation: 8}}
-            overlayColor='rgba(100, 100, 100, 0.1)'>
-          </RoundButton>
-          <Text style={[styles.buttonAssemblyText, {top: 5}]}>Remote transfer</Text>
+        <View style={[stylesLocal.buttonAssembly, {flex: 1.5}]}>
+          <View style={stylesLocal.buttonHolder}>
+            <RoundButton style={[stylesLocal.button,
+              {backgroundColor: '#ED5B38', borderColor: '#EC512A'}]}
+              pressed={stylesLocal.buttonPressed} unpressed={{elevation: 8}}/>
+          </View>
+          <Text style={stylesLocal.buttonAssemblyText}>Transfer</Text>
         </View>
-        <View style={[styles.buttonAssembly, {flex: 2}]}>
-          <RoundButton style={{width: 60, height: 60, backgroundColor: '#00C28B',
-            borderRadius: 30, borderWidth: 1, borderColor: '#00BF86'}}
-            pressed={{elevation: 2}} unpressed={{elevation: 8}}
-            overlayColor='rgba(100, 100, 100, 0.1)'>
-          </RoundButton>
-          <Text style={[styles.buttonAssemblyText, {top: 5}]}>Wire loans</Text>
+        <View style={[stylesLocal.buttonAssembly, {flex: 2}]}>
+          <View style={stylesLocal.buttonHolder}>
+            <RoundButton style={[stylesLocal.button,
+              {backgroundColor: '#00C28B', borderColor: '#00BF86'}]}
+              pressed={stylesLocal.buttonPressed} unpressed={{elevation: 8}}/>
+          </View>
+          <Text style={stylesLocal.buttonAssemblyText}>Wire loans</Text>
         </View>
       </View>
     );
-
     var paymentsItem = (
-      <View style={{backgroundColor: '#F2F2F2', elevation: 3,
-        height: 200, margin: 20}}>
-        <View >
-          <Text style={styles.materialTitleText}>Payments</Text>
-        </View>
-      </View>
+      <Card title='Payments' titleStyle={stylesLocal.materialTitleText}
+        containerStyle={stylesLocal.materialBlock}>
+        <Text>List upcoming payments for the user and a button to pay</Text>
+      </Card>
     );
-
     var shopsItem = (
-      <View style={{backgroundColor: '#F2F2F2', elevation: 3,
-        height: 200, marginLeft: 20, marginRight: 20, marginBottom: 20}}>
-        <View>
-          <Text style={styles.materialTitleText}>Shop with Wire</Text>
-        </View>
-      </View>
+      <Card title='Shop with Wire' titleStyle={stylesLocal.materialTitleText}
+        containerStyle={stylesLocal.materialBlock}>
+        <Text>Show nearby stores or online stores that accept Wire</Text>
+      </Card>
+    );
+    var graphsItem = (
+      <Card title='Finances' titleStyle={stylesLocal.materialTitleText}
+        containerStyle={stylesLocal.materialBlock}>
+        <Text>Show some graphs about the user's finances</Text>
+      </Card>
+    );
+    var insuranceItem = (
+      <Card title='Wire Insurance' titleStyle={stylesLocal.materialTitleText}
+        containerStyle={stylesLocal.materialBlock}>
+        <Text>Why not offer insurance through wire xd</Text>
+      </Card>
     );
 
     this.itemList = ds.cloneWithRows([
-      buttonAssembly1, paymentsItem, shopsItem
+      buttonAssembly1, paymentsItem, shopsItem, graphsItem, insuranceItem
     ]);
   }
 
   render() {
     return (
       <View style={styles.screen}>
-        <View style={[styles.headerToolbar,
-          {flexDirection: 'row', alignItems: 'center'}]}>
-          <View style={{width: 30}}></View>
-          <Text style={styles.title}>Services</Text>
+        <View style={styles.headerToolbar}>
+          <Text style={styles.headerTitle}>Services</Text>
+          <Icon name='person' color={palette.pureWhite} size={35}
+            containerStyle={{marginRight: 25}}
+            onPress={this.props.dashboard.toggleSideMenu}
+            underlayColor='transparent'/>
         </View>
-        <ListView
-          dataSource={this.itemList}
-          renderRow={(rowItem) => {return rowItem;}}/>
+        <View style={{flex: 1, alignSelf: 'stretch'}}>
+          <ListView
+            dataSource={this.itemList}
+            renderRow={(rowItem) => {return rowItem;}}/>
+        </View>
       </View>
     );
   }
@@ -91,11 +106,15 @@ export default class DashboardServiceScreen extends Component {
 
 class RoundButton extends Component {
 
+  static get defaultProps() {
+    return {
+      overlayColor: 'rgba(100, 100, 100, 0.1)'
+    };
+  }
   constructor(props) {
     super(props);
     this.state = {pressed: false};
   }
-
   render() {
     var children = null;
     if (this.props.children) {
@@ -104,6 +123,12 @@ class RoundButton extends Component {
     var overlay = null;
     if (this.state.pressed) {
       var style = this.props.style;
+      if (!style.height) {
+        var i = 0;
+        while (!style.height && i < this.props.style.length) {
+          style = this.props.style[i];
+        }
+      }
       overlay = (
         <View style={{backgroundColor: this.props.overlayColor,
           height: style.height, width: style.width,
@@ -134,45 +159,32 @@ class RoundButton extends Component {
 
 }
 
-const styles = StyleSheet.create({
-
-  screen: {
-    flex: 1,
-    backgroundColor: '#EDEDED'
-  },
-
-  title: {
-    fontSize: 30,
-    fontWeight: '500',
-    color: '#EEEEEE',
-  },
-
-  headerToolbar: {
-    height: 60,
-    backgroundColor: "#D02035",
-    alignSelf: 'stretch',
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: '#CE1E33'
-  },
+const stylesLocal = {
 
   buttonAssembly: {
-    alignItems: 'center'
+    alignItems: 'center', justifyContent: 'center'
   },
 
   buttonAssemblyText: {
-    fontSize: 13,
-    color: '#555555',
-    fontWeight: '400'
+    fontSize: 13.5,
+    color: palette.cyprusLight,
+    fontWeight: '400', top: 5
   },
 
-  materialTitleBlock: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#555555'
+  button: {width: 60, height: 60,
+    borderRadius: 30, borderWidth: 1},
+
+  buttonPressed: {
+    width: 58, height: 58, borderRadius: 29, elevation: 2
   },
 
-  materialTitleText: {fontSize: 20, textAlign: 'center',
-    fontWeight: '500', alignSelf: 'stretch', borderBottomWidth: 2,
-    borderBottomColor: '#D02035', paddingBottom: 3}
+  buttonHolder: [styles.container, {width: 60, height: 60}],
 
-});
+  materialTitleText: {color: palette.cyprus, fontSize: 20,
+    padding: 0, margin: 0, marginBottom: 2, fontWeight: '500'},
+
+  materialBlock: {paddingTop: 5, elevation: 2, margin: 20}
+
+
+
+};

@@ -28,6 +28,7 @@ export default class LaunchScreen extends Component {
     super(props);
     this._register = this._register.bind(this);
     this._login = this._login.bind(this);
+
     this.components = {};
     this.components.wireLogoLarge = (
       <Image source={WIRE_LOGO_LARGE} style={styles.largeLogo}/>
@@ -49,9 +50,9 @@ export default class LaunchScreen extends Component {
         </View>
         <View style={{flex: 0.1}}></View>
         <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
-          <StateButton onPress={this._register} pressedStyle={[styles.buttonPressed,
-            {backgroundColor: palette.lightTealDark}]}
+          <StateButton onPress={this._register}
             style={[styles.button, {backgroundColor: palette.lightTeal}]}
+            pressedStyle={[styles.buttonPressed, {backgroundColor: palette.lightTealDark}]}
             textStyle={styles.buttonText}
             textPressedStyle={styles.buttonTextPressed}
             text='Register'/>
@@ -74,7 +75,7 @@ export default class LaunchScreen extends Component {
 
 palette = {
   ripple: '#DAECF3',
-  rippleDark: '#D2E4EF',
+  rippleDark: '#D9EBF2',
   crush: '#FE424D',
   crushDark: '#FB3D48',
   seafloor: '#1AA6B7',
@@ -92,7 +93,9 @@ palette = {
   tealDark: '#108DA0',
   aqua: '#72CEDD',
   turquoise: '#63C8C4',
-  pureWhite: 'white'
+  turquoiseDark: '#60C4C0',
+  pureWhite: 'white',
+  moneyGreen: '#33AA88'
 };
 
 styles = StyleSheet.create({
@@ -152,13 +155,14 @@ styles = StyleSheet.create({
     alignSelf: 'stretch',
     height: 65,
     elevation: 2,
-    alignItems: 'flex-start',
-    justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row'
   },
 
   headerTitle: {
     fontFamily: 'sans-serif-medium',
-    fontWeight: '100',
+    fontWeight: '500',
     fontSize: 30,
     color: palette.pureWhite,
     paddingLeft: 30
@@ -172,6 +176,15 @@ styles = StyleSheet.create({
     justifyContent: 'center',
     borderTopWidth: 1,
     borderColor: palette.rippleDark
-  }
+  },
+
+  balance: {
+    fontSize: 24,
+    color: '#33AA88',
+    fontWeight: '400',
+  },
+
+  blockTitle: {color: palette.cyprus, fontSize: 20,
+    padding: 0, margin: 0, marginBottom: 2, fontWeight: '500'}
 
 });

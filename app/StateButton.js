@@ -19,9 +19,15 @@ export default class StateButton extends Component {
   }
   _onPressIn() {
     this.setState({pressed: true});
+    if (this.props.onPressIn) {
+      this.props.onPressIn();
+    }
   }
   _onPressOut() {
     this.setState({pressed: false});
+    if (this.props.onPressOut) {
+      this.props.onPressOut();
+    }
   }
   render() {
     return (

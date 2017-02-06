@@ -7,10 +7,17 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  StatusBar
 } from 'react-native';
 
+import {
+  Card, ListItem, Icon
+} from 'react-native-elements';
+
 import AntiKeyboard from './AntiKeyboard';
+import StateButton from './StateButton';
+import BarebonesTextInput from './BarebonesTextInput';
 
 export default class DashboardHistoryScreen extends Component {
 
@@ -20,10 +27,11 @@ export default class DashboardHistoryScreen extends Component {
 
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this._handleSearch = this._handleSearch.bind(this);
+    this._renderRow = this._renderRow.bind(this);
 
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      // STUB data
       previousTransactions: ds.cloneWithRows([
         [-122, 333745456754, 4622123],
         [-766, 333659324523, 4622245],
@@ -38,148 +46,110 @@ export default class DashboardHistoryScreen extends Component {
         [-1244, 331234567891, 4351138]
       ])
     };
+  }
 
-    this.components = {};
-    this.components.transactionHistory = (
-      <View style={{flex: 1, backgroundColor: '#F2F2F2', elevation: 3}}>
-        <ListView
-          keyboardDismissMode='on-drag' keyboardShouldPersistTaps='never'
-          dataSource={this.state.previousTransactions}
-          renderRow={(rowData) => {
-              var date = formatDate(new Date(rowData[1]));
-              var delta = formatMoney(rowData[0], true);
-              var balance = formatMoney(rowData[2]);
-              var sign = delta.substr(0, 1);
-              delta = delta.substring(1);
-              return (
-                <View style={{flex: 1, margin: 10}}>
-                  <View style={{borderBottomWidth: 1, marginBottom: 2,
-                    borderBottomColor: '#555555'}}>
-                    <Text>{date}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{flexDirection: 'row', flex: 1}}>
-                      <View style={{width: 15}}>
-                        <Text style={[styles.balance,
-                          {fontSize: 16, textAlign: 'center'}]}>
-                            {sign}
-                          </Text>
-                      </View>
-                      <Text style={[styles.balance,
-                        {fontSize: 16, textAlign: 'left'}]}>
-                        {delta}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={[styles.balance,
-                        {fontSize: 16, textAlign: 'right'}]}>
-                          {balance}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              );
-          }}/>
+  _handleSearch() {
+    DISMISS_KEYBOARD();
+  }
+  _renderRow(rowData) {
+    var date = formatDate(new Date(rowData[1]));
+    var delta = formatMoney(rowData[0], true);
+    var balance = formatMoney(rowData[2]);
+    var sign = delta.substr(0, 1);
+    delta = delta.substring(1);
+    return (
+      <View style={{flex: 1, margin: 10,
+        marginBottom: 0}}>
+        <Text style={{borderBottomWidth: 1, marginBottom: 2,
+          borderBottomColor: palette.cyprus}}>{date}</Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', flex: 1,
+            justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[styles.balance, {fontSize: 16, textAlign: 'center', width: 15}]}>
+                {sign}</Text>
+              <Text style={[styles.balance, {fontSize: 16, textAlign: 'left'}]}>
+                {delta}</Text>
+            </View>
+            <Text style={[styles.balance, {fontSize: 16, textAlign: 'right'}]}>
+              {balance}</Text>
+          </View>
+        </View>
       </View>
     );
   }
 
   render() {
-    return(
+    return (
       <View style={styles.screen}>
+        <StatusBar backgroundColor={palette.blue}/>
         <AntiKeyboard>
-          <View style={[styles.headerToolbar,
-            {flexDirection: 'row', alignItems: 'center'}]}>
-            <View style={{width: 30}}></View>
-            <Text style={styles.title}>History</Text>
+          <View style={styles.headerToolbar}>
+            <Text style={styles.headerTitle}>History</Text>
+            <Icon name='person' color={palette.pureWhite} size={35}
+              containerStyle={{marginRight: 25}}
+              onPress={this.props.dashboard.toggleSideMenu}
+              underlayColor='transparent'/>
           </View>
         </AntiKeyboard>
-        <AntiKeyboard><View style={{height: 20, alignSelf: 'stretch'}}></View></AntiKeyboard>
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <AntiKeyboard><View style={{width: 20}}></View></AntiKeyboard>
-          <View style={{flex: 1}}>
-            <View style={{height: 40, backgroundColor: '#F2F2F2',
-              elevation: 3  , flexDirection: 'row', justifyContent: 'space-between',
-              alignItems: 'center'}}>
-              <View style={{flex: 1}}>
-                <TextInput autoCapitalize='none' autoCorrect={false}
-                  keyboardType='default' maxLength={64}
-                  placeholder='Search history' returnKeyType='done'>
-                </TextInput>
-              </View>
-              <View style={{marginLeft: 2}}>
-                <TouchableNativeFeedback onPress={() => {
-                  DISMISS_KEYBOARD();
-                }}>
-                  <View style={styles.searchButton}>
-                    <Text style={styles.searchButtonText}>Search</Text>
-                  </View>
-                </TouchableNativeFeedback>
-              </View>
+        <View style={{flex: 1, alignSelf: 'stretch', alignItems: 'center'}}>
+          <Card flexDirection='row' containerStyle={{elevation: 2, padding: 5}}>
+            <BarebonesTextInput ref='search' placeholder='Search history'
+              underlineColor={palette.blue} style={{fontSize: 16}}/>
+            <View style={[styles.container, {width: 70, flex: 0}]}>
+              <StateButton style={stylesLocal.searchButton}
+                pressedStyle={stylesLocal.searchButtonP}
+                textStyle={stylesLocal.searchButtonT}
+                textPressedStyle={stylesLocal.searchButtonTP}
+                onPress={this._handleSearch} text='Search'/>
             </View>
-            <AntiKeyboard><View style={{height: 20}}></View></AntiKeyboard>
-            {this.components.transactionHistory}
-          </View>
-          <AntiKeyboard><View style={{width: 20}}></View></AntiKeyboard>
+          </Card>
+          <Card containerStyle={{padding: 1, elevation: 2,
+            margin: 10, paddingBottom: 10, width: 310, marginBottom: 90}}>
+            <ListView keyboardDismissMode='on-drag' keyboardShouldPersistTaps='never'
+              dataSource={this.state.previousTransactions}
+              renderRow={this._renderRow}/>
+          </Card>
         </View>
-        <View style={{height: 20}}></View>
       </View>
     );
   }
 
 }
 
+const stylesLocal = {
 
-const styles = StyleSheet.create({
+  searchButton: [
+    styles.button, {
+      width: 70,
+      height: 40,
+      elevation: 6,
+      backgroundColor: palette.turquoise
+    }
+  ],
 
-  title: {
-    fontSize: 30,
-    fontWeight: '500',
-    color: '#EEEEEE',
-  },
+  searchButtonP: [
+    styles.buttonPressed, {
+      width: 68,
+      height: 38,
+      elevation: 4,
+      backgroundColor: palette.turquoiseDark
+    }
+  ],
 
-  screen: {
-    backgroundColor: '#EDEDED',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1
-  },
+  searchButtonT: [
+    styles.buttonText, {
+      fontSize: 16, paddingHorizontal: 0, paddingVertical: 0, color: palette.pureWhite
+    }
+  ],
 
-  balance: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: '#33AA88',
-    fontWeight: '400'
-  },
+  searchButtonTP: [
+    styles.buttonTextPressed, {
+      fontSize: 16, paddingHorizontal: 0, paddingVertical: 0, color: palette.white
+    }
+  ]
 
-  headerToolbar: {
-    height: 60,
-    backgroundColor: "#D02035",
-    alignSelf: 'stretch',
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: '#CE1E33'
-  },
-
-  searchButton: {
-    elevation: 8,
-    backgroundColor: '#25A278',
-    borderRadius: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    right: 3
-  },
-
-  searchButtonText: {
-    color: '#F2F2F2',
-    fontSize: 16,
-    fontWeight: '500',
-    textAlign: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 6
-  }
-
-});
+};
 
 formatComma = function(n, showPlus, c) {
   showPlus = showPlus ? true : false;
