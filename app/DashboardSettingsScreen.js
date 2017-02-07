@@ -93,11 +93,11 @@ const stylesLocal = StyleSheet.create({
   settingsHeader: {
     fontSize: 20,
     fontWeight: '500',
-    color: palette.cyprus
+    color: palette.cyprusLight
   },
 
   settingsName: {
-    color: palette.cyprusLight, fontSize: 16
+    color: palette.cyprus, fontSize: 16
   }
 
 });

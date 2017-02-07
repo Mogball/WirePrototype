@@ -65,8 +65,8 @@ export default class DashboardHomeScreen extends Component {
         <View style={styles.container}>
           <View style={[styles.container, {width: 50, height: 50}]}>
             <StateButton onPress={() => {}}
-              style={[stylesLocal.button, {backgroundColor: palette.teal}]}
-              pressedStyle={[stylesLocal.buttonPressed, {backgroundColor: palette.tealDark}]}/>
+              style={[stylesLocal.button, {backgroundColor: palette.lightTeal}]}
+              pressedStyle={[stylesLocal.buttonPressed, {backgroundColor: palette.lightTealDark}]}/>
           </View>
             <Text style={stylesLocal.buttonText}>Deposit</Text>
         </View>
@@ -125,13 +125,13 @@ const stylesLocal = {
 
   button: [
     styles.button, {
-      width: 50, height: 50, borderRadius: 25, backgroundColor: palette.turquoise,
+      width: 50, height: 50, borderRadius: 25, backgroundColor: '#ff9800',
       elevation: 6
     }
   ],
   buttonPressed: [
     styles.buttonPressed, {
-      width: 48, height: 48, borderRadius: 24, backgroundColor: palette.turquoiseDark,
+      width: 48, height: 48, borderRadius: 24, backgroundColor: '#fc9500',
       elevation: 4
     }
   ],

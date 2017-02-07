@@ -30,7 +30,7 @@ export default class DashboardServiceScreen extends Component {
         <View style={[stylesLocal.buttonAssembly, {flex: 2}]}>
           <View style={stylesLocal.buttonHolder}>
             <RoundButton style={[stylesLocal.button,
-              {backgroundColor: '#00BAF0', borderColor: '#00B4EE'}]}
+              {backgroundColor: '#4fc3f7', borderColor: '#4dc0f4'}]}
               pressed={stylesLocal.buttonPressed} unpressed={{elevation: 4}}/>
           </View>
           <Text style={stylesLocal.buttonAssemblyText}>Refer a friend</Text>
@@ -38,7 +38,7 @@ export default class DashboardServiceScreen extends Component {
         <View style={[stylesLocal.buttonAssembly, {flex: 1.5}]}>
           <View style={stylesLocal.buttonHolder}>
             <RoundButton style={[stylesLocal.button,
-              {backgroundColor: '#ED5B38', borderColor: '#EC512A'}]}
+              {backgroundColor: '#ff9800', borderColor: '#fc9500'}]}
               pressed={stylesLocal.buttonPressed} unpressed={{elevation: 8}}/>
           </View>
           <Text style={stylesLocal.buttonAssemblyText}>Transfer</Text>
