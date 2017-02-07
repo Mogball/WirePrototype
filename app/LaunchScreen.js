@@ -74,28 +74,28 @@ export default class LaunchScreen extends Component {
 }
 
 palette = {
-  ripple: '#DAECF3',
-  rippleDark: '#D9EBF2',
+  ripple: '#E1F5FE',
+  rippleDark: '#E0F3FD',
   crush: '#FE424D',
   crushDark: '#FB3D48',
   seafloor: '#1AA6B7',
   seafloorDark: '#17A3B4',
   cyprus: '#022D41',
   cyprusLight: '#426D81',
-  white: '#F5F5F5',
+  white: '#FAFAFA',
   whiteDark: '#E0ECF3',
-  lightTeal: '#00A0D5',
-  lightTealDark: '#0095D0',
-  lightBlue: '#29B6F6',
-  lightBlueDark: '#22B0F2',
-  blue: '#0094D3',
-  teal: '#1493A4',
-  tealDark: '#108DA0',
+  lightTeal: '#1976D2',
+  lightTealDark: '#1674CE',
+  lightBlue: '#03A9F4',
+  lightBlueDark: '#00A5F2',
+  blue: '#039BE5',
+  teal: '#0097A7',
+  tealDark: '#0094A4',
   aqua: '#72CEDD',
   turquoise: '#63C8C4',
   turquoiseDark: '#60C4C0',
-  pureWhite: 'white',
-  moneyGreen: '#33AA88'
+  pureWhite: '#FFFFFF',
+  moneyGreen: '#33AA88',
 };
 
 styles = StyleSheet.create({
