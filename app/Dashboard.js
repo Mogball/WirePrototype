@@ -4,7 +4,8 @@ import {
   Navigator,
   Text,
   View,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import {
@@ -22,12 +23,13 @@ import DashboardHistoryScreen from './DashboardHistoryScreen';
 import DashboardServiceScreen from './DashboardServiceScreen';
 import DashboardSettingsScreen from './DashboardSettingsScreen';
 
+import StateButton from "./StateButton";
+import IconButton from "./IconButton";
+
 const routes = [
   {title: 'DashboardMainScreen', index: 0},
   {title: 'DashboardHomeScreen', index: 1},
-  {title: 'DashboardHistoryScreen', index: 2},
-  {title: 'DashboardServiceScreen', index: 3},
-  {title: 'DashboardSettingsScreen', index: 4}
+  {title: 'DashboardServiceScreen', index: 2},
 ];
 
 export default class Dashboard extends Component {
@@ -38,15 +40,17 @@ export default class Dashboard extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {screen: routes[0].title,
+    this.state = {screen: routes[0].title, index: routes[1].index,
       isOpen: false};
     this.toggleSideMenu = this.toggleSideMenu.bind(this);
     this.sideMenuOnChange = this.sideMenuOnChange.bind(this);
     this.logout = this.logout.bind(this);
+    this.isActive = this.isActive.bind(this);
   }
 
   changeTab(tab) {
-    this.setState({screen: tab});
+    this.setState({screen: tab.title, index: tab.index});
+    this.refs.nav.replace(tab);
   }
   toggleSideMenu() {
     this.setState({isOpen: !this.state.isOpen});
@@ -57,6 +61,9 @@ export default class Dashboard extends Component {
   logout() {
     this.props.navigator.replacePrevious({title: 'LoginScreen', index: 2});
     this.props.navigator.pop();
+  }
+  isActive(index) {
+    return this.state.index === index;
   }
 
   render() {
@@ -80,75 +87,63 @@ export default class Dashboard extends Component {
     return (
       <SideMenu isOpen={this.state.isOpen} menu={menuComponent}
         onChange={this.sideMenuOnChange} menuPosition={'right'}>
-        <Tabs
-          tabBarStyle={styles.footerToolbar}
-          tabBarShadowStyle={{backgroundColor: '#00000000'}}>
-          <Tab
-            titleStyle={{fontWeight: 'bold', fontSize: 10}}
-            selectedTitleStyle={{marginTop: -1, marginBottom: 6, color: palette.lightBlue}}
-            selected={selectedTab === 'DashboardHomeScreen'}
-            title={selectedTab === 'DashboardHomeScreen' ? 'HOME' : null}
-            renderIcon={() =>
-              <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}}
-                color={palette.cyprusLight} name='home' type='materialicons' size={33}/>}
-            renderSelectedIcon={() =>
-              <Icon color={palette.lightBlue} name='home' type='materialicons'/>}
-            onPress={() => this.changeTab('DashboardHomeScreen')}>
-            <DashboardHomeScreen dashboard={this}/>
-          </Tab>
-          <Tab
-            titleStyle={{fontWeight: 'bold', fontSize: 10}}
-            selectedTitleStyle={{marginTop: -1, marginBottom: 6, color: palette.lightBlue}}
-            selected={selectedTab === 'DashboardHistoryScreen'}
-            title={selectedTab === 'DashboardHistoryScreen' ? 'HISTORY' : null}
-            renderIcon={() =>
-              <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}}
-                color={palette.cyprusLight} name='history' type='materialcommunityicons' size={33}/>}
-            renderSelectedIcon={() =>
-              <Icon color={palette.lightBlue} name='history' type='materialcommunityicons' size={30}/>}
-            onPress={() => this.changeTab('DashboardHistoryScreen')}>
-            <DashboardHistoryScreen dashboard={this}/>
-          </Tab>
-          <Tab
-              titleStyle={{fontWeight: 'bold', fontSize: 10}}
-              selectedTitleStyle={{marginTop: -1, marginBottom: 6, color: palette.lightBlue}}
-              selected={selectedTab === 'DashboardMainScreen'}
-              title={selectedTab === 'DashboardMainScreen' ? 'WIRE' : null}
-              renderIcon={() =>
-                <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}}
-                  color={palette.cyprusLight} name='dollar' type='foundation' size={33} />}
-              renderSelectedIcon={() =>
-                <Icon color={palette.lightBlue} name='dollar' type='foundation' size={30}/>}
-              onPress={() => this.changeTab('DashboardMainScreen')}>
-              <DashboardMainScreen dashboard={this}/>
-            </Tab>
-            <Tab
-              titleStyle={{fontWeight: 'bold', fontSize: 10}}
-              selectedTitleStyle={{marginTop: -1, marginBottom: 6, color: palette.lightBlue}}
-              selected={selectedTab === 'DashboardServiceScreen'}
-              title={selectedTab === 'DashboardServiceScreen' ? 'SERVICES' : null}
-              renderIcon={() =>
-                <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}}
-                  color={palette.cyprusLight} name='wrench' type='foundation' size={33} />}
-              renderSelectedIcon={() =>
-                <Icon color={palette.lightBlue} name='wrench' type='foundation' size={30} />}
-              onPress={() => this.changeTab('DashboardServiceScreen')}>
-              <DashboardServiceScreen dashboard={this}/>
-            </Tab>
-            <Tab
-              titleStyle={{fontWeight: 'bold', fontSize: 10}}
-              selectedTitleStyle={{marginTop: -1, marginBottom: 6, color: palette.lightBlue}}
-              selected={selectedTab === 'DashboardSettingsScreen'}
-              title={selectedTab === 'DashboardSettingsScreen' ? 'SETTINGS' : null}
-              renderIcon={() =>
-                <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}}
-                  color={palette.cyprusLight} name='settings' type='materialcommunityicons' size={33} />}
-              renderSelectedIcon={() =>
-                <Icon color={palette.lightBlue} name='settings' type='materialcommunityicons' size={30} />}
-              onPress={() => this.changeTab('DashboardSettingsScreen')}>
-              <DashboardSettingsScreen dashboard={this}/>
-            </Tab>
-        </Tabs>
+        <Navigator
+          ref="nav"
+          initialRoute={routes[1]}
+          configureScene={(route, routeStack) => {
+            return Navigator.SceneConfigs.PushFromRight;
+          }}
+          renderScene={(route, navigator) => {
+            if (route.title == 'DashboardMainScreen') {
+              return (
+                <DashboardMainScreen dashboard={this}/>
+              );
+            } else if (route.title == 'DashboardHomeScreen') {
+              return (
+                <DashboardHomeScreen dashboard={this}/>
+              );
+            } else if (route.title == 'DashboardServiceScreen') {
+              return (
+                <DashboardServiceScreen dashboard={this}/>
+              );
+            }
+          }}
+        />
+        <View style={[styles.footerToolbar, {flexDirection: 'row'}]}>
+          <View style={{flex: 1}}>
+            <IconButton
+              renderIcon={() => {return (<Icon containerStyle={{justifyContent: 'center',
+                alignItems: 'center', marginTop: 10}}
+              color={palette.cyprusLight} name='home' size={33}/>);}}
+              renderIconPressed={() => {return (<Icon containerStyle={{justifyContent: 'center',
+                alignItems: 'center', marginTop: 10}}
+              color={palette.lightBlue} name='home' size={33}/>);}}
+              onPress={() => {this.changeTab(routes[1])}}
+              isActive={() => {return this.isActive(1);}}/>
+          </View>
+          <View style={{flex: 1}}>
+            <IconButton
+              renderIcon={() => {return (<Icon containerStyle={{justifyContent: 'center',
+                alignItems: 'center', marginTop: 7}}
+              color={palette.cyprusLight} name='dollar' type='foundation' size={38}/>);}}
+              renderIconPressed={() => {return (<Icon containerStyle={{justifyContent: 'center',
+                alignItems: 'center', marginTop: 7}}
+              color={palette.lightBlue} name='dollar' type='foundation' size={38}/>);}}
+              onPress={() => {this.changeTab(routes[0])}}
+              isActive={() => {return this.isActive(0);}}/>
+          </View>
+          <View style={{flex: 1}}>
+            <IconButton
+              renderIcon={() => {return (<Icon containerStyle={{justifyContent: 'center',
+                alignItems: 'center', marginTop: 10}}
+              color={palette.cyprusLight} name='shopping-cart' size={33}/>);}}
+              renderIconPressed={() => {return (<Icon containerStyle={{justifyContent: 'center',
+                alignItems: 'center', marginTop: 10}}
+              color={palette.lightBlue} name='shopping-cart' size={33}/>);}}
+              onPress={() => {this.changeTab(routes[2])}}
+              isActive={() => {return this.isActive(2);}}/>
+          </View>
+        </View>
       </SideMenu>
     );
   }

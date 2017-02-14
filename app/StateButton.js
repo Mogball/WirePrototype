@@ -29,6 +29,18 @@ export default class StateButton extends Component {
       this.props.onPressOut();
     }
   }
+  _renderIcon() {
+    if (this.state.pressed) {
+      if (this.props.renderIcon) {
+        return this.props.renderIcon();
+      }
+    } else {
+      if (this.props.renderIconPressed) {
+        return this.props.renderIconPressed();
+      }
+    }
+    return null;
+  }
   render() {
     return (
       <TouchableWithoutFeedback
@@ -36,6 +48,7 @@ export default class StateButton extends Component {
         onPressIn={this._onPressIn}
         onPressOut={this._onPressOut}>
         <View style={this.state.pressed ? this.props.pressedStyle : this.props.style}>
+          {this._renderIcon()}
           <Text style={this.state.pressed ? this.props.textPressedStyle : this.props.textStyle}>
             {this.props.text}
           </Text>

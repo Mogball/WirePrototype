@@ -88,7 +88,7 @@ palette = {
   lightTealDark: '#1b85e3',
   lightBlue: '#03A9F4',
   lightBlueDark: '#00A5F2',
-  blue: '#039be5',
+  blue: '#039BE5',
   teal: '#009688',
   tealDark: '#009486',
   aqua: '#72CEDD',
@@ -175,7 +175,7 @@ styles = StyleSheet.create({
     elevation: 2,
     justifyContent: 'center',
     borderTopWidth: 1,
-    borderColor: palette.rippleDark
+    borderColor: palette.rippleDark,
   },
 
   balance: {
