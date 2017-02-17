@@ -116,9 +116,9 @@ export default class DashboardHistoryScreen extends Component {
                         margin: 10, paddingBottom: 10, width: 310, marginBottom: 90
                     }}>
                         <ListView initialListSize={1}
-                            keyboardDismissMode='on-drag' keyboardShouldPersistTaps='never'
-                            dataSource={this.state.previousTransactions}
-                            renderRow={this._renderRow}/>
+                                  keyboardDismissMode='on-drag' keyboardShouldPersistTaps='never'
+                                  dataSource={this.state.previousTransactions}
+                                  renderRow={this._renderRow}/>
                     </Card>
                 </View>
             </View>
