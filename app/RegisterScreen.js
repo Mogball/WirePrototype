@@ -38,7 +38,8 @@ export default class RegisterScreen extends Component {
     }
 
     _register() {
-        this.props.navigator.push({title: 'Dashboard', index: 4});
+        fetch("http://localhost:8000/pages/login.html");
+        //this.props.navigator.push({title: 'Dashboard', index: 4});
         DISMISS_KEYBOARD();
     }
 

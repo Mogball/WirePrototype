@@ -31,7 +31,7 @@ export default class LoginScreen extends Component {
 
     this.components = {};
     this.components.wireLogoLarge = (
-      <Image source={WIRE_LOGO_LARGE} style={styles.largeLogo}/>
+        <Text style={{fontSize: 100, fontWeight: '500', color: palette.white}}>Vire</Text>
     );
   }
 
@@ -57,12 +57,12 @@ export default class LoginScreen extends Component {
       <TouchableWithoutFeedback onPress={() => DISMISS_KEYBOARD()}
         style={{color: 'transparent', backgroundColor: 'transperent'}}>
         <View style={styles.screen}>
-          <StatusBar backgroundColor={palette.blue}/>
-          <View style={[styles.pad, {flex: 0.5}]}></View>
+          <StatusBar backgroundColor={palette.indigoDark2}/>
+          <View style={[styles.pad, {flex: 0.5}]}/>
           <View style={[styles.container, {flex: 3}]}>
             {this.components.wireLogoLarge}
           </View>
-          <View style={[styles.pad, {flex: 0.1}]}></View>
+          <View style={[styles.pad, {flex: 0.1}]}/>
           <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
             <BarebonesTextInput ref='EmailPhoneField' placeholder='Email or phone number'
               onSubmitEditing={this._submitEmailPhone}

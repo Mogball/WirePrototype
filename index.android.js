@@ -29,7 +29,7 @@ class WirePrototype extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={routes[1]}
+                initialRoute={routes[2]}
                 configureScene={(route, routeStack) => {
                     if (route.title == 'LaunchScreen') {
                         return Navigator.SceneConfigs.FloatFromRight;
@@ -41,8 +41,7 @@ class WirePrototype extends Component {
                         return (
                             <LoadingScreen navigator={navigator}
                                            onLoad={() => {
-                                           }}
-                            />
+                                           }}/>
                         );
                     } else if (route.title == 'LaunchScreen') {
                         return (
@@ -50,8 +49,7 @@ class WirePrototype extends Component {
                                           onLogin={() => {
                                           }}
                                           onRegister={() => {
-                                          }}
-                            />
+                                          }}/>
                         );
                     } else if (route.title == 'LoginScreen') {
                         return (
@@ -62,8 +60,7 @@ class WirePrototype extends Component {
                                              navigator.push(routes[3])
                                          }}
                                          onRecover={() => {
-                                         }}
-                            />
+                                         }}/>
                         );
                     } else if (route.title == 'RegisterScreen') {
                         return (
@@ -71,8 +68,7 @@ class WirePrototype extends Component {
                                             onBack={() => {
                                                 navigator.replacePrevious(routes[2]);
                                                 navigator.pop();
-                                            }}
-                            />
+                                            }}/>
                         );
                     } else if (route.title == 'Dashboard') {
                         return (

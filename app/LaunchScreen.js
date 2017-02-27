@@ -31,7 +31,7 @@ export default class LaunchScreen extends Component {
 
         this.components = {};
         this.components.wireLogoLarge = (
-            <Image source={WIRE_LOGO_LARGE} style={styles.largeLogo}/>
+            <Text style={{fontSize: 100, fontWeight: '500', color: palette.white}}>Vire</Text>
         );
     }
 
@@ -46,30 +46,30 @@ export default class LaunchScreen extends Component {
     render() {
         return (
             <View style={styles.screen}>
-                <StatusBar backgroundColor={palette.blue}/>
-                <View style={{flex: 0.5}}></View>
+                <StatusBar backgroundColor={palette.indigoDark2}/>
+                <View style={{flex: 0.5}}/>
                 <View style={[styles.container, {flex: 3}]}>
                     {this.components.wireLogoLarge}
                 </View>
-                <View style={{flex: 0.1}}></View>
-                <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
+                <View style={{flex: 0.1}}/>
+                <View style={[styles.container, {flex: 1.2, alignSelf: 'stretch'}]}>
                     <StateButton onPress={this._register}
-                                 style={[styles.button, {backgroundColor: palette.lightTeal}]}
-                                 pressedStyle={[styles.buttonPressed, {backgroundColor: palette.lightTealDark}]}
+                                 style={[stylesLocal.btn1, {backgroundColor: palette.p1pA}]}
+                                 pressedStyle={[stylesLocal.btn1p, {backgroundColor: palette.p1pA}]}
                                  textStyle={styles.buttonText}
                                  textPressedStyle={styles.buttonTextPressed}
                                  text='Register'/>
                 </View>
-                <View style={[styles.container, {flex: 2}]}>
+                <View style={[styles.container, {flex: 1.2}]}>
                     <View style={[styles.container, {flex: 5}]}>
-                        <StateButton onPress={this._login} pressedStyle={styles.buttonPressed}
-                                     style={styles.button} textStyle={styles.buttonText}
+                        <StateButton onPress={this._login} pressedStyle={stylesLocal.btn1p}
+                                     style={stylesLocal.btn1} textStyle={styles.buttonText}
                                      textPressedStyle={styles.buttonTextPressed}
                                      text='Login'/>
                     </View>
-                    <View style={{flex: 1}}></View>
+                    <View style={{flex: 1}}/>
                 </View>
-                <View style={{flex: 1.5}}></View>
+                <View style={{flex: 1.5}}/>
             </View>
         );
     }
@@ -92,13 +92,58 @@ palette = {
     lightBlue: '#03A9F4',
     lightBlueDark: '#00A5F2',
     blue: '#039BE5',
-    teal: '#009688',
     tealDark: '#009486',
     aqua: '#72CEDD',
     turquoise: '#00bcd4',
     turquoiseDark: '#00bad1',
     pureWhite: '#FFFFFF',
     moneyGreen: '#33AA88',
+
+    orangeLight: '#ffab40',
+    orange: '#fb8c00',
+
+    indigoLight1: '#5c6bc0',
+    indigo: '#3f51b5',
+    indigoDark1: '#3949ab',
+    indigoDark2: '#303f9f',
+    indigoDark3: '#283593',
+    indigoDark4: '#1a237e',
+
+    tealLight1: '#26a69a',
+    teal: '#009688',
+    tealDark1: '#00897b',
+    tealDark2: '#00796b',
+
+    magentaLight2: '#e56082',
+    magentaLight1: '#e060a0',
+    magenta: '#e020a0',
+    magentaDark1: '#e52082',
+
+    cyanLight1: '#50e7f5',
+    cyan: '#3dd5e2',
+    cyanDark1: '#3bd2e0',
+
+    brightBlueLight2: '#00e5ff',
+    brightBlueLight1: '#4dd0e1',
+    brightBlue: '#20c0da',
+
+    customTeal: '#1de9b6',
+    customGreen: '#00A594',
+    customCyan: '#33aa88',
+    customBright: '#30ff90',
+    customPurple: '#1560BD',
+    customIndigo: '#324AB2',
+    customRed: '#e52082',
+
+    p1pA: '#9683ec',
+    p1pB: '#1560bd',
+    p1pC: '#324ab2',
+    p1pD: '#002395',
+    p1pE: '#191970',
+
+    p2pA: '#1c39bb',
+    p2pB: '#00a594',
+    p2pC: '#32117a'
 };
 
 styles = StyleSheet.create({
@@ -106,7 +151,7 @@ styles = StyleSheet.create({
     screen: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: palette.white,
+        backgroundColor: palette.indigo,
         flex: 1
     },
 
@@ -134,8 +179,6 @@ styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 24,
         color: palette.white,
-        paddingHorizontal: 60,
-        paddingVertical: 10,
         fontWeight: '500'
     },
 
@@ -143,8 +186,6 @@ styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 24,
         color: palette.whiteDark,
-        paddingHorizontal: 59,
-        paddingVertical: 9,
         fontWeight: '100'
     },
 
@@ -193,3 +234,23 @@ styles = StyleSheet.create({
     }
 
 });
+
+stylesLocal = {
+
+    btn1: [
+        styles.button, {
+            width: 210,
+            height: 50,
+            borderRadius: 25
+        }
+    ],
+
+    btn1p: [
+        styles.buttonPressed, {
+            width: 208,
+            height: 48,
+            borderRadius: 24
+        }
+    ]
+
+};
