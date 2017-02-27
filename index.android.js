@@ -38,7 +38,7 @@ class WirePrototype extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[4]}
                 configureScene={(route, routeStack) => {
                     if (route.title == 'LaunchScreen') {
                         return Navigator.SceneConfigs.FloatFromRight;

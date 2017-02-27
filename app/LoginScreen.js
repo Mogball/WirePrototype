@@ -12,7 +12,7 @@ import {
 
 import StateButton from './StateButton';
 import BarebonesTextInput from './BarebonesTextInput';
-import UserSession from "./Session/UserSession";
+import UserModel from "./Models/UserModel";
 
 DISMISS_KEYBOARD = require('dismissKeyboard');
 
@@ -62,7 +62,7 @@ export default class LoginScreen extends Component {
                     }
                 }
                 if (userDB['password'] === password) {
-                    user = new UserSession(uid, userDB['email_address'], userDB['phone_number'],
+                    user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
                     userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
                     navigator.push({title: 'Dashboard', index: 4});
                 } else {
