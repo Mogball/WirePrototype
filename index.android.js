@@ -20,6 +20,15 @@ const routes = [
     {title: 'Dashboard', index: 4}
 ];
 
+import * as firebase from 'firebase';
+
+firebase.initializeApp({
+    apiKey: "AIzaSyBr1cBlr5gRDua1nPQd600RFj0T-UcEbVE",
+    authDomain: "vire-e9eb3.firebaseapp.com",
+    databaseURL: "https://vire-e9eb3.firebaseio.com",
+    storageBucket: "vire-e9eb3.appspot.com"
+});
+
 class WirePrototype extends Component {
 
     constructor(props) {
@@ -29,7 +38,7 @@ class WirePrototype extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={routes[2]}
+                initialRoute={routes[0]}
                 configureScene={(route, routeStack) => {
                     if (route.title == 'LaunchScreen') {
                         return Navigator.SceneConfigs.FloatFromRight;
@@ -55,12 +64,14 @@ class WirePrototype extends Component {
                         return (
                             <LoginScreen navigator={navigator}
                                          onLogin={() => {
+                                             navigator.push(routes[4]);
                                          }}
                                          onRegister={() => {
                                              navigator.push(routes[3])
                                          }}
                                          onRecover={() => {
-                                         }}/>
+                                         }}
+                                         firebase={firebase}/>
                         );
                     } else if (route.title == 'RegisterScreen') {
                         return (
@@ -85,5 +96,12 @@ class WirePrototype extends Component {
     }
 
 }
+
+/**
+ * USER SESSION OBJECT.
+ * TODO Store the user session model on the phone so that he does not need to login
+ * TODO Get rid of the global status
+ */
+user = null;
 
 AppRegistry.registerComponent('WirePrototype', () => WirePrototype);

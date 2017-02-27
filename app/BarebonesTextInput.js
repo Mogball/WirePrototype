@@ -33,7 +33,7 @@ export default class BarebonesTextInput extends Component {
         onChangeText={this.props.onChangeText} autoCorrect={false} autoCapitalize='none' maxLength={32}
         underlineColorAndroid={this.props.underlineColor} autoComplete={false} keyboardType={this.props.keyboardType}
         secureTextEntry={this.props.secureTextEntry} returnKeyType={this.props.returnKeyType}
-        onSubmitEditing={this.props.onSubmitEditing} placeholderTextColor={palette.cyprusLight}/>
+        onSubmitEditing={this.props.onSubmitEditing} placeholderTextColor={this.props.placeholderTextColor}/>
     );
   }
 }

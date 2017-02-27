@@ -30,19 +30,19 @@ export default class DashboardHomeScreen extends Component {
         this.state = {
             accountBalance: 446541622123,
             pointBalance: 54232,
-            firstLastName: 'Emeritus Pachementyke'
+            firstLastName: user ? user.firstName + " " + user.lastName : "undefined"
         };
 
         // Bind functions
         this.toHistory = this.toHistory.bind(this);
 
         // Define list elements
-        var personName = (
+        let personName = (
             <View style={{margin: 20}}>
                 <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
             </View>
         );
-        var balanceItem = (
+        let balanceItem = (
             <View style={stylesLocal.card}>
                 <Text style={stylesLocal.blockTitle}>Balance</Text>
                 <Text style={stylesLocal.balance}>
@@ -55,7 +55,7 @@ export default class DashboardHomeScreen extends Component {
                 </Text>
             </View>
         );
-        var withdrawDepositItem = (
+        let withdrawDepositItem = (
             <View style={{flexDirection: 'row', margin: 50, marginBottom: 0, marginTop: 20, paddingBottom: 0}}>
                 <View style={styles.container}>
                     <View style={[styles.container, {width: 50, height: 50}]}>
@@ -76,9 +76,9 @@ export default class DashboardHomeScreen extends Component {
                 </View>
             </View>
         );
-        var toHistoryScreenItem = (
+        let toHistoryScreenItem = (
             <View style={{elevation: 2, marginLeft: 40, marginRight: 40}}>
-                <List containerStyle={{marginTop:12, marginBottom: 20, borderWidth: 1}}>
+                <List containerStyle={{marginTop: 12, marginBottom: 20, borderWidth: 1}}>
                     <ListItem title='History'
                               component={TouchableNativeFeedback}
                               onPress={this.toHistory}

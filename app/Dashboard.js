@@ -9,9 +9,6 @@ import {
 } from 'react-native';
 
 import {
-    Tabs,
-    Tab,
-    Icon,
     SideMenu,
     List,
     ListItem
@@ -21,11 +18,10 @@ import DashboardMainScreen from './DashboardMainScreen';
 import DashboardHomeScreen from './DashboardHomeScreen';
 import DashboardHistoryScreen from './DashboardHistoryScreen';
 import DashboardServiceScreen from './DashboardServiceScreen';
-import DashboardSettingsScreen from './DashboardSettingsScreen';
 
 import StateButton from "./StateButton";
-import IconButton from "./IconButton";
 import FooterToolbar from "./FooterToolbar";
+
 
 const routes = [
     {title: 'DashboardMainScreen', index: 0},
@@ -72,6 +68,7 @@ export default class Dashboard extends Component {
     }
 
     logout() {
+        user = null;
         this.props.navigator.replacePrevious({title: 'LoginScreen', index: 2});
         this.props.navigator.pop();
     }

@@ -16,7 +16,6 @@ import {
 
 import StateButton from './StateButton';
 
-WIRE_LOGO_LARGE = require('./img/wire_logo_large.png');
 
 export default class LaunchScreen extends Component {
 
@@ -45,7 +44,7 @@ export default class LaunchScreen extends Component {
 
     render() {
         return (
-            <View style={styles.screen}>
+            <View style={[styles.screen, {backgroundColor: palette.indigo}]}>
                 <StatusBar backgroundColor={palette.indigoDark2}/>
                 <View style={{flex: 0.5}}/>
                 <View style={[styles.container, {flex: 3}]}>
@@ -151,7 +150,7 @@ styles = StyleSheet.create({
     screen: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: palette.indigo,
+        backgroundColor: palette.white,
         flex: 1
     },
 
