@@ -42,6 +42,7 @@ export default class DashboardHomeScreen extends Component {
                 <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
             </View>
         );
+
         let balanceItem = (
             <View style={stylesLocal.card}>
                 <Text style={stylesLocal.blockTitle}>Balance</Text>
@@ -55,6 +56,7 @@ export default class DashboardHomeScreen extends Component {
                 </Text>
             </View>
         );
+
         let withdrawDepositItem = (
             <View style={{flexDirection: 'row', margin: 50, marginBottom: 0, marginTop: 20, paddingBottom: 0}}>
                 <View style={styles.container}>
@@ -76,6 +78,7 @@ export default class DashboardHomeScreen extends Component {
                 </View>
             </View>
         );
+
         let toHistoryScreenItem = (
             <View style={{elevation: 2, marginLeft: 40, marginRight: 40}}>
                 <List containerStyle={{marginTop: 12, marginBottom: 20, borderWidth: 1}}>
@@ -104,7 +107,7 @@ export default class DashboardHomeScreen extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.screen} >
+            <View style={styles.screen} >
                 <View style={styles.headerToolbar}>
                     <Text style={styles.headerTitle}>Home</Text>
                     <Icon name='person' color={palette.pureWhite} size={35}
@@ -119,7 +122,7 @@ export default class DashboardHomeScreen extends Component {
                             return item;
                         }}/>
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 

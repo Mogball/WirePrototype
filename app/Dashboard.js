@@ -14,6 +14,7 @@ import {
     ListItem
 } from 'react-native-elements';
 
+import HomeScreen from './Dashboard/HomeScreen'
 import PayScreen from './Dashboard/PayScreen';
 import DashboardMainScreen from './DashboardMainScreen';
 import DashboardHomeScreen from './DashboardHomeScreen';
@@ -23,6 +24,7 @@ import DashboardServiceScreen from './DashboardServiceScreen';
 import StateButton from "./StateButton";
 import FooterToolbar from "./FooterToolbar";
 
+const startRoute = 1;
 
 const routes = [
     {title: 'DashboardMainScreen', index: 0},
@@ -40,7 +42,7 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            screen: routes[0].title, index: routes[0].index,
+            screen: routes[startRoute].title, index: routes[startRoute].index,
             isOpen: false
         };
         this._back = this._back.bind(this);
@@ -79,26 +81,11 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        // const menuComponent = (
-        //     <View style={{flex: 1, backgroundColor: '#ededed', paddingTop: 45}}>
-        //         <List>
-        //             <ListItem title='MenuItem1' subtitle='Sample Text'/>
-        //             <ListItem title='MenuItem2' subtitle='Sample Text'/>
-        //             <ListItem title='MenuItem3' subtitle='Sample Text'/>
-        //             <ListItem title='Log out'
-        //                       component={TouchableNativeFeedback}
-        //                       hideChevron={true}
-        //                       onPress={this.logout}
-        //                       titleContainerStyle={{height: 50, justifyContent: 'center'}}
-        //                       titleStyle={{fontSize: 18, color: palette.cyprus, fontWeight: '500'}}/>
-        //         </List>
-        //     </View>
-        // );
         return (
-            
+
                 <Navigator
                     ref="nav"
-                    initialRoute={routes[0]}
+                    initialRoute={routes[startRoute]}
                     configureScene={(route, routeStack) => {
                         return Navigator.SceneConfigs.PushFromRight;
                     }}
@@ -113,7 +100,7 @@ export default class Dashboard extends Component {
                         } else if (route.title == 'DashboardHomeScreen') {
                             return (
                                 <View style={{flex: 1}}>
-                                    <DashboardHomeScreen dashboard={this} navigator={navigator}/>
+                                    <HomeScreen dashboard={this} />
                                     <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
                                 </View>
                             );
