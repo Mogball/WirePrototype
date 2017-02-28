@@ -19,6 +19,8 @@ import DashboardMainScreen from './DashboardMainScreen';
 import DashboardHomeScreen from './DashboardHomeScreen';
 import DashboardHistoryScreen from './DashboardHistoryScreen';
 import DashboardServiceScreen from './DashboardServiceScreen';
+import TimerMixin from 'react-timer-mixin';
+import ReactMixin from 'react-mixin';
 
 import StateButton from "./StateButton";
 import FooterToolbar from "./FooterToolbar";
@@ -56,16 +58,20 @@ export default class Dashboard extends Component {
     }
 
     changeTab(tab) {
-        this.setState({screen: tab.title, index: tab.index});
         this.refs.nav.replace(tab);
+        this.setState({screen: tab.title, index: tab.index});
     }
 
     toggleSideMenu() {
-        this.setState({isOpen: !this.state.isOpen});
+        this.requestAnimationFrame(() => {
+            this.setState({isOpen: !this.state.isOpen});
+        });
     }
 
     sideMenuOnChange(isOpen) {
-        this.setState({isOpen: isOpen});
+        this.requestAnimationFrame(() => {
+            this.setState({isOpen: isOpen});
+        });
     }
 
     logout() {
@@ -100,9 +106,6 @@ export default class Dashboard extends Component {
                 <Navigator
                     ref="nav"
                     initialRoute={routes[0]}
-                    configureScene={(route, routeStack) => {
-                        return Navigator.SceneConfigs.PushFromRight;
-                    }}
                     renderScene={(route, navigator) => {
                         if (route.title == 'DashboardMainScreen') {
                             return (
@@ -178,6 +181,8 @@ const stylesLocal = {
         }
     ],
 };
+
+ReactMixin(Dashboard.prototype, TimerMixin);
 
 /*<View style={{flex: 1}}>
  <IconButton

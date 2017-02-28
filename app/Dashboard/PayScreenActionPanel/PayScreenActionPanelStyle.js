@@ -14,6 +14,7 @@ export default StyleSheet.create({
         flex: 1,
         alignSelf: 'stretch',
         flexDirection: 'row',
+        justifyContent: 'center'
     }
 
 });
