@@ -20,6 +20,22 @@ import styles from './HomeScreenStyle';
 import GridView from 'react-native-grid-view';
 import image_google from '../img/g.png'
 
+const accList = [
+  {
+    icon: image_google,
+    title: 'cash',
+  },
+  {
+    icon: image_google,
+    title: 'cash',
+  },
+  {
+    icon: image_google,
+    title: 'cash',
+  }
+
+]
+
 const dataList = [
   {
     icon: image_google,
@@ -86,19 +102,33 @@ var columnCount = 3;
 
 
        return (
-           <View style={styles.toplevel}>
+
            <ScrollView style={{marginTop: 44 + 20, backgroundColor: '#fff', }}>
+
              <View style={{height: 30, paddingLeft: 10, backgroundColor: '#E1E5E8', justifyContent: 'center', }}>
-                 <Text>Services: </Text>
+                 <Text>Account: </Text>
              </View>
              <SudokuGrid
-                 containerStyle={{ backgroundColor: '#fff',}}
+                 containerStyle={{ backgroundColor: '#000'
+                 ,}}
+                 columnCount={columnCount}
+                 dataSource={accList}
+                 renderCell={this._renderGridCell}
+             />
+
+             <View style={{height: 30, paddingLeft: 10, backgroundColor: '#E1E5E8', justifyContent: 'center', }}>
+                 <Text>Service: </Text>
+             </View>
+             <SudokuGrid
+                 containerStyle={{ backgroundColor: '#000'
+                 ,}}
                  columnCount={columnCount}
                  dataSource={dataList}
                  renderCell={this._renderGridCell}
              />
+
          </ScrollView>
-           </View>
+
        );
      }
 
@@ -121,13 +151,13 @@ var columnCount = 3;
                            borderRightWidth: (index + 1) % columnCount ? StyleSheet.hairlineWidth: 0, }}>
                      <Image source={data.icon} style={{width: 30, height: 30, marginHorizontal: 10, marginBottom: 10,}}/>
                      <Text>{data.title}</Text>
-                     { index == 6 ?
+                     { index == 11 ?
                          <CornerLabel
                              cornerRadius={54}
                              style={{backgroundColor: 'red', height: 24,}}
                              textStyle={{color: '#fff', }}>
                              30% off
-                         </CornerLabel> : index == 3 ?
+                         </CornerLabel> : index == 10 ?
                              <CornerLabel
                                  alignment={'right'}
                                  cornerRadius={54}
