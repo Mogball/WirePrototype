@@ -98,6 +98,8 @@ palette = {
     pureWhite: '#FFFFFF',
     moneyGreen: '#33AA88',
 
+    black: '#000000',
+
     orangeLight: '#ffab40',
     orange: '#fb8c00',
 

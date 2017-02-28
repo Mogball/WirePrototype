@@ -14,6 +14,7 @@ import {
     ListItem
 } from 'react-native-elements';
 
+import PayScreen from './Dashboard/PayScreen';
 import DashboardMainScreen from './DashboardMainScreen';
 import DashboardHomeScreen from './DashboardHomeScreen';
 import DashboardHistoryScreen from './DashboardHistoryScreen';
@@ -39,7 +40,7 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            screen: routes[0].title, index: routes[1].index,
+            screen: routes[0].title, index: routes[0].index,
             isOpen: false
         };
         this._back = this._back.bind(this);
@@ -97,7 +98,7 @@ export default class Dashboard extends Component {
             
                 <Navigator
                     ref="nav"
-                    initialRoute={routes[1]}
+                    initialRoute={routes[0]}
                     configureScene={(route, routeStack) => {
                         return Navigator.SceneConfigs.PushFromRight;
                     }}
@@ -105,7 +106,7 @@ export default class Dashboard extends Component {
                         if (route.title == 'DashboardMainScreen') {
                             return (
                                 <View style={{flex: 1}}>
-                                    <DashboardMainScreen dashboard={this}/>
+                                    <PayScreen dashboard={this}/>
                                     <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
                                 </View>
                             );
