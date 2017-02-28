@@ -78,24 +78,23 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const menuComponent = (
-            <View style={{flex: 1, backgroundColor: '#ededed', paddingTop: 45}}>
-                <List>
-                    <ListItem title='MenuItem1' subtitle='Sample Text'/>
-                    <ListItem title='MenuItem2' subtitle='Sample Text'/>
-                    <ListItem title='MenuItem3' subtitle='Sample Text'/>
-                    <ListItem title='Log out'
-                              component={TouchableNativeFeedback}
-                              hideChevron={true}
-                              onPress={this.logout}
-                              titleContainerStyle={{height: 50, justifyContent: 'center'}}
-                              titleStyle={{fontSize: 18, color: palette.cyprus, fontWeight: '500'}}/>
-                </List>
-            </View>
-        );
+        // const menuComponent = (
+        //     <View style={{flex: 1, backgroundColor: '#ededed', paddingTop: 45}}>
+        //         <List>
+        //             <ListItem title='MenuItem1' subtitle='Sample Text'/>
+        //             <ListItem title='MenuItem2' subtitle='Sample Text'/>
+        //             <ListItem title='MenuItem3' subtitle='Sample Text'/>
+        //             <ListItem title='Log out'
+        //                       component={TouchableNativeFeedback}
+        //                       hideChevron={true}
+        //                       onPress={this.logout}
+        //                       titleContainerStyle={{height: 50, justifyContent: 'center'}}
+        //                       titleStyle={{fontSize: 18, color: palette.cyprus, fontWeight: '500'}}/>
+        //         </List>
+        //     </View>
+        // );
         return (
-            <SideMenu isOpen={this.state.isOpen} menu={menuComponent}
-                      onChange={this.sideMenuOnChange} menuPosition={'right'}>
+            
                 <Navigator
                     ref="nav"
                     initialRoute={routes[1]}
@@ -144,7 +143,6 @@ export default class Dashboard extends Component {
                         }
                     }}
                 />
-            </SideMenu>
         );
     }
 

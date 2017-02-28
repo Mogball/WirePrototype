@@ -28,7 +28,7 @@ export default class DashboardHomeScreen extends Component {
         super(props);
         // Define STUB data
         this.state = {
-            accountBalance: 446541622123,
+            accountBalance: 1000000,
             pointBalance: 54232,
             firstLastName: user ? user.firstName + " " + user.lastName : "undefined"
         };
@@ -104,7 +104,7 @@ export default class DashboardHomeScreen extends Component {
 
     render() {
         return (
-            <View style={styles.screen}>
+            <ScrollView style={styles.screen} >
                 <View style={styles.headerToolbar}>
                     <Text style={styles.headerTitle}>Home</Text>
                     <Icon name='person' color={palette.pureWhite} size={35}
@@ -119,7 +119,7 @@ export default class DashboardHomeScreen extends Component {
                             return item;
                         }}/>
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 
