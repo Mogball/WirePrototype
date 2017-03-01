@@ -8,8 +8,8 @@ import {
 
 import styles from './PayScreenStyle';
 
-import PayScreenActionPanel from './PayScreenActionPanel/PayScreenActionPanel';
-import ScanSuccessModal from './PayScreenActionPanel/ScanSuccessModal';
+import PayScreenActionPanel from './PayScreenModules/PayScreenActionPanel';
+import ScanSuccessModal from './PayScreenModules/ScanSuccessModal';
 import TimerMixin from 'react-timer-mixin';
 import ReactMixin from 'react-mixin';
 import Camera from 'react-native-camera';

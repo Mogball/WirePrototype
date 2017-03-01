@@ -12,6 +12,7 @@ import TimerMixin from 'react-timer-mixin';
 import ReactMixin from 'react-mixin';
 import QRCode from 'react-native-qrcode-svg';
 import SendModal from './SendModal';
+const SessionModel = require('../../Models/SessionModel');
 
 export default class PayScreenActionPanel extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ export default class PayScreenActionPanel extends Component {
     }
 
     gotoSend(amount) {
-        const QR = (<QRCode size={300} value={'S=' + amount + '&A=' + user.getUID()}/>);
+        const QR = (<QRCode size={300} value={'S=' + amount + '&A=' + SessionModel.get().getUser().getUID()}/>);
         this.props.setDisplay('SEND', QR);
     }
 
