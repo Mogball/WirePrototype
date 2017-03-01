@@ -12,7 +12,7 @@ import TimerMixin from 'react-timer-mixin';
 import ReactMixin from 'react-mixin';
 import QRCode from 'react-native-qrcode-svg';
 import SendModal from './SendModal';
-const SessionModel = require('../../Models/SessionModel');
+const SessionModel = require('../../Models/SessionModel').default;
 
 export default class PayScreenActionPanel extends Component {
     constructor(props) {

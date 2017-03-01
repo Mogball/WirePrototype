@@ -16,6 +16,7 @@ import {
 import UserModel from "../Models/UserModel";
 import dismissKeyboard from "dismissKeyboard";
 import palette from '../Style/Palette';
+import SessionModel from '../Models/SessionModel';
 
 import StateButton from '../StateButton';
 import BarebonesTextInput from '../BarebonesTextInput';
@@ -71,8 +72,9 @@ export default class LoginScreen extends Component {
                         }
                     }
                     if (userDB['password'] === password) {
-                        user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
+                        const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
                             userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
+                        SessionModel.get().setUser(user);
                         navigator.push({title: 'Dashboard', index: 4});
                     } else {
                         // TODO Display login failed message "Incorrect email/phone number or password"
