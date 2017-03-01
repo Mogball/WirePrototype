@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 
 import {
+    StyleSheet,
     View,
     Image,
     Text,
@@ -27,10 +28,32 @@ export default class AccountHeader extends Component {
 
     render() {
         return (
-          <View>
-            <Image source={image_google} style={{width: 30, height: 30, marginHorizontal: 10, marginBottom: 10,}}/>
-            <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
+          <View style={styles.container}>
+            <Image source={image_google} style={styles.photo} />
+            <Text style={styles.text}>
+              {this.state.firstLastName}
+            </Text>
           </View>
+
+
         );
     }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  text: {
+    marginLeft: 12,
+    fontSize: 16,
+  },
+  photo: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+  },
+});
