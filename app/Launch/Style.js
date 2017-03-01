@@ -48,7 +48,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         flex: 1,
-        paddingTop: 75
+        paddingTop: 60
     },
 
     bt: {
