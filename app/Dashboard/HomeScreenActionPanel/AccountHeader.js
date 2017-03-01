@@ -21,7 +21,7 @@ export default class AccountHeader extends Component {
             loaded: true,
             accountBalance: 1000000,
             pointBalance: 54232,
-            firstLastName: user ? user.firstName + " " + user.lastName : "Zoe Brown"
+            firstLastName: "Zoe Brown"
         };
     }
 

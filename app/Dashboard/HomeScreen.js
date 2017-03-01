@@ -1,6 +1,5 @@
 //Vire org
 import React, {Component} from 'react';
-
 // https://www.npmjs.com/package/react-native-smart-sudoku-grid
 
 
@@ -37,12 +36,11 @@ let columnCount = 3;
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
-        let user = SessionModel.get().getUser();
         this.state = {
             loaded: true,
             accountBalance: 1000000,
             pointBalance: 54232,
-            firstLastName: user ? user.firstName + " " + user.lastName : "Zoe Brown"
+            firstLastName: "Zoe Brown"
         };
     }
 
