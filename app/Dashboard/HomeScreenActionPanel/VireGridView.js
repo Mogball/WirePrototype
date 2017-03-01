@@ -5,27 +5,18 @@ import React, {Component} from 'react';
 
 
 import {
-    ScrollView,
     StyleSheet,
     View,
     Image,
     Text,
     TouchableHighlight,
     TouchableNativeFeedback,
-    Alert,
-    ListView,
+    Alert
+
 } from 'react-native';
-
-import {
-    List,
-    ListItem
-} from 'react-native-elements';
-
-
 
 import SudokuGrid from 'react-native-smart-sudoku-grid'
 import CornerLabel from 'react-native-smart-corner-label'
-
 
 let dataList = null;
 let title = "YOLO_NO_TITLE";
@@ -38,7 +29,6 @@ export default class VireGridView extends Component {
         title = props.title;
 
     }
-
 
     render() {
         return (
@@ -58,7 +48,6 @@ export default class VireGridView extends Component {
                 </View>
         );
     }
-
 
 
     _renderGridCell = (data, index, list) => {
