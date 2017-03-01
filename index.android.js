@@ -58,24 +58,11 @@ class WirePrototype extends Component {
                         );
                     } else if (route.title == 'LaunchScreen') {
                         return (
-                            <LaunchScreen navigator={navigator}
-                                          onLogin={() => {
-                                          }}
-                                          onRegister={() => {
-                                          }}/>
+                            <LaunchScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'LoginScreen') {
                         return (
-                            <LoginScreen navigator={navigator}
-                                         onLogin={() => {
-                                             navigator.push(routes[4]);
-                                         }}
-                                         onRegister={() => {
-                                             navigator.push(routes[3])
-                                         }}
-                                         onRecover={() => {
-                                         }}
-                                         firebase={firebase}/>
+                            <LoginScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'RegisterScreen') {
                         return (

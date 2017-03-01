@@ -23,7 +23,7 @@ export default StyleSheet.create({
     send: {
         height: screenWidth,
         width: screenWidth,
-        backgroundColor: palette.customRed,
+        backgroundColor: palette.cyanLight1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     receive: {
         height: screenWidth,
         width: screenWidth,
-        backgroundColor: palette.indigoDark1,
+        backgroundColor: palette.customTeal,
         justifyContent: 'center',
         alignItems: 'center'
     },

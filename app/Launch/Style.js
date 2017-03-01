@@ -41,13 +41,14 @@ export default StyleSheet.create({
         justifyContent: 'center',
         width: screenWidth,
         height: 55,
-        marginBottom: 30
+        marginBottom: 25
     },
 
     buttonAssembly: {
         alignItems: 'center',
         justifyContent: 'flex-start',
-        flex: 1
+        flex: 1,
+        paddingTop: 75
     },
 
     bt: {

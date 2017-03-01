@@ -154,6 +154,7 @@ export default class PayScreen extends Component {
             </View>
         );
     }
+
 }
 
 ReactMixin(PayScreen.prototype, TimerMixin);
