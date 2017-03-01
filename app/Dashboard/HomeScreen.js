@@ -22,70 +22,17 @@ import {
 } from 'react-native-elements';
 
 import palette from '../Style/Palette';
+import { accList, dataList } from './HomeScreenActionPanel/testValue';
+import VireGridView from './HomeScreenActionPanel/VireGridView';
 
 import SudokuGrid from 'react-native-smart-sudoku-grid'
 import CornerLabel from 'react-native-smart-corner-label'
 import styles from './HomeScreenStyle';
 import StateButton from '../StateButton';
-import image_google from '../img/g.png'
 
-const accList = [
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    }
 
-];
-
-const dataList = [
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-    {
-        icon: image_google,
-        title: 'cash',
-    },
-];
 
 let columnCount = 3;
-
 
 export default class HomeScreen extends Component {
     constructor(props) {
@@ -94,12 +41,12 @@ export default class HomeScreen extends Component {
             loaded: true,
             accountBalance: 1000000,
             pointBalance: 54232,
-            firstLastName: user ? user.firstName + " " + user.lastName : "undefined"
+            firstLastName: user ? user.firstName + " " + user.lastName : "Zoe Brown"
         };
 
         let personName = (
-            <View style={{margin: 20}}>
-                <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
+            <View>
+              <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
             </View>
         );
 
@@ -159,7 +106,6 @@ export default class HomeScreen extends Component {
             withdrawDepositItem,
             toHistoryScreenItem
         ]);
-
     }
 
 
@@ -168,43 +114,18 @@ export default class HomeScreen extends Component {
             return this.renderLoadingView();
         }
 
-
         return (
-
             <ScrollView style={{marginTop: 44 + 20, backgroundColor: '#fff',}}>
-
+              <View>
                 <ListView
                     dataSource={this.screenItems}
                     renderRow={(item) => {
                         return item;
                     }}/>
-
-                <View style={{height: 30, paddingLeft: 10, backgroundColor: '#E1E5E8', justifyContent: 'center',}}>
-                    <Text>Account: </Text>
                 </View>
-                <SudokuGrid
-                    containerStyle={{
-                        backgroundColor: '#000'
-                        ,
-                    }}
-                    columnCount={columnCount}
-                    dataSource={accList}
-                    renderCell={this._renderGridCell}
-                />
 
-                <View style={{height: 30, paddingLeft: 10, backgroundColor: '#E1E5E8', justifyContent: 'center',}}>
-                    <Text>Service: </Text>
-                </View>
-                <SudokuGrid
-                    containerStyle={{
-                        backgroundColor: '#000'
-                        ,
-                    }}
-                    columnCount={columnCount}
-                    dataSource={dataList}
-                    renderCell={this._renderGridCell}
-                />
-
+                <VireGridView data = {accList} title = "Account"/>
+                <VireGridView data = {dataList} title = "Services"/>
             </ScrollView>
 
         );
@@ -214,46 +135,9 @@ export default class HomeScreen extends Component {
         return (
             <View>
                 <Text>
-                    Loading movies...
+                    Loading content...
                 </Text>
             </View>
         );
     }
-
-    _renderGridCell = (data, index, list) => {
-        return (
-            <TouchableHighlight underlayColor={'#eee'} onPress={ this._onPressCell.bind(this, data, index) }>
-                <View style={{
-                    overflow: 'hidden',
-                    justifyContent: 'center', alignItems: 'center', height: 100,
-                    borderBottomWidth: StyleSheet.hairlineWidth, borderColor: '#eee',
-                    borderRightWidth: (index + 1) % columnCount ? StyleSheet.hairlineWidth : 0,
-                }}>
-                    <Image source={data.icon} style={{width: 30, height: 30, marginHorizontal: 10, marginBottom: 10,}}/>
-                    <Text>{data.title}</Text>
-                    { index == 11 ?
-                        <CornerLabel
-                            cornerRadius={54}
-                            style={{backgroundColor: 'red', height: 24,}}
-                            textStyle={{color: '#fff',}}>
-                            30% off
-                        </CornerLabel> : index == 10 ?
-                        <CornerLabel
-                            alignment={'right'}
-                            cornerRadius={54}
-                            style={{backgroundColor: 'red', height: 24,}}
-                            textStyle={{color: '#fff', fontSize: 12,}}>
-                            Yolo
-                        </CornerLabel> : null
-                    }
-                </View>
-            </TouchableHighlight>
-        )
-    };
-
-    _onPressCell(data, index) {
-        Alert.alert('clicked ' + data.title)
-    }
-
-
 }
