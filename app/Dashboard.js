@@ -107,7 +107,7 @@ export default class Dashboard extends Component {
                         } else if (route.title == 'DashboardServiceScreen') {
                             return (
                                 <View style={{flex: 1}}>
-                                    <DashboardServiceScreen dashboard={this}/>
+                                    <DashboardHomeScreen dashboard={this}/>
                                     <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
                                 </View>
                             );
