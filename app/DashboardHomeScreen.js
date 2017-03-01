@@ -117,13 +117,13 @@ export default class DashboardHomeScreen extends Component {
                           onPress={this.props.dashboard.toggleSideMenu}
                           underlayColor='transparent'/>
                 </View>
-                <View style={{flex: 1, alignSelf: 'stretch'}}>
+
                     <ListView
                         dataSource={this.screenItems}
                         renderRow={(item) => {
                             return item;
                         }}/>
-                </View>
+            
             </View>
         );
     }
