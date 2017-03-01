@@ -5,7 +5,6 @@ import {
     TextInput,
     View,
     TouchableWithoutFeedback,
-    Image,
     Text,
     StatusBar,
     InteractionManager,
@@ -13,11 +12,14 @@ import {
     ActivityIndicator
 } from 'react-native';
 
-import UserModel from "../Models/UserModel";
 import dismissKeyboard from "dismissKeyboard";
-import palette from '../Style/Palette';
-import SessionModel from '../Models/SessionModel';
 
+import UserModel from "../Models/UserModel";
+import SessionModel from '../Models/SessionModel';
+import palette from '../Style/Palette';
+import style from './Style';
+
+import LoadingModal from './Components/LoadingModal';
 import StateButton from '../StateButton';
 import BarebonesTextInput from '../BarebonesTextInput';
 
@@ -29,13 +31,13 @@ export default class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
-        this._login = this._login.bind(this);
-        this._register = this._register.bind(this);
-        this._recover = this._recover.bind(this);
-        this._submitEmailPhone = this._submitEmailPhone.bind(this);
-        this._submitPassword = this._submitPassword.bind(this);
-        this._onChangeEmailPhone = this._onChangeEmailPhone.bind(this);
-        this._onChangePassword = this._onChangePassword.bind(this);
+        this.login = this.login.bind(this);
+        this.register = this.register.bind(this);
+        this.recover = this.recover.bind(this);
+        this.submitEmailPhone = this.submitEmailPhone.bind(this);
+        this.onChangeEmailPhone = this.onChangeEmailPhone.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
         this.state = {
             emailphone: "",
@@ -45,20 +47,20 @@ export default class LoginScreen extends Component {
 
         this.components = {};
         this.components.wireLogoLarge = (
-            <Text style={{fontSize: 100, fontWeight: '500', color: palette.white}}>Vire</Text>
+            <Text style={style.vireLogo}>Vire</Text>
         );
     }
 
-    _login() {
+    login() {
         // TODO Disable the email/phone and password fields and the login button during the request
         this.setState({modal: true});
         InteractionManager.runAfterInteractions(() => {
-            $this = this;
             let emailphone = this.state.emailphone;
             let password = this.state.password;
-            const ref = this.props.firebase.database().ref('/users');
+            const ref = SessionModel.get().getFirebase().database().ref('/users');
             const type = emailphone.indexOf('@') >= 0 ? 'email_address' : 'phone_number';
             let navigator = this.props.navigator;
+            $this = this;
             ref.orderByChild(type).equalTo(emailphone).once('value').then(function (snapshot) {
                 $this.setState({modal: false});
                 const value = snapshot.val();
@@ -89,48 +91,34 @@ export default class LoginScreen extends Component {
         });
     }
 
-    _register() {
-        this.props.onRegister();
+    register() {
+        this.props.navigator.push({title: 'RegisterScreen', index: 3})
     }
 
-    _recover() {
-        this.props.onRecover();
+    recover() {
     }
 
-    _submitEmailPhone() {
+    submitEmailPhone() {
         this.refs.PasswordField.focus();
     }
 
-    _submitPassword() {
-        this._login();
-    }
-
-    _onChangePassword(text) {
+    onChangePassword(text) {
         this.setState({password: text});
     }
 
-    _onChangeEmailPhone(text) {
+    onChangeEmailPhone(text) {
         this.setState({emailphone: text});
+    }
+
+    closeModal() {
+        this.setState({modal: false});
     }
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={() => dismissKeyboard()}
-                                      style={{color: 'transparent', backgroundColor: 'transperent'}}>
-                <View style={[styles.screen, {backgroundColor: palette.indigo}]}>
-                    <Modal visible={this.state.modal} transparent={true} onRequestClose={() => {
-                        this.setState({modal: false});
-                    }}>
-                        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.3)', justifyContent: 'center', alignItems: 'center'}}>
-                            <View style={{width: 300, height: 200, backgroundColor: 'white'}}>
-                                <ActivityIndicator
-                                    animating={this.state.animating}
-                                    style={{height: 80}}
-                                    size="large"
-                                />
-                            </View>
-                        </View>
-                    </Modal>
+            <TouchableWithoutFeedback onPress={() => dismissKeyboard()}>
+                <View style={style.launchScreenToplevel}>
+                    <LoadingModal visible={this.state.modal} close={this.closeModal}/>
                     <StatusBar backgroundColor={palette.indigoDark2}/>
                     <View style={[styles.pad, {flex: 0.5}]}/>
                     <View style={[styles.container, {flex: 3}]}>
@@ -139,9 +127,9 @@ export default class LoginScreen extends Component {
                     <View style={[styles.pad, {flex: 0.1}]}/>
                     <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
                         <BarebonesTextInput ref='EmailPhoneField' placeholder='Email or phone number'
-                                            onSubmitEditing={this._submitEmailPhone}
+                                            onSubmitEditing={this.submitEmailPhone}
                                             placeholderTextColor={palette.white}
-                                            onChangeText={this._onChangeEmailPhone}
+                                            onChangeText={this.onChangeEmailPhone}
                                             style={{
                                                 fontSize: 16,
                                                 height: 40,
@@ -153,7 +141,7 @@ export default class LoginScreen extends Component {
                         <BarebonesTextInput ref='PasswordField' placeholder='Password'
                                             secureTextEntry={true} returnKeyType={'done'}
                                             placeholderTextColor={palette.white}
-                                            onChangeText={this._onChangePassword}
+                                            onChangeText={this.onChangePassword}
                                             style={{
                                                 fontSize: 16,
                                                 height: 40,
@@ -161,11 +149,11 @@ export default class LoginScreen extends Component {
                                                 textAlign: 'center',
                                                 color: palette.white
                                             }}
-                                            onSubmitEditing={this._submitPassword}/>
+                                            onSubmitEditing={this.login}/>
                     </View>
                     <View style={[styles.container, {flex: 2}]}>
                         <View style={[styles.container, {flex: 5, alignSelf: 'stretch'}]}>
-                            <StateButton onPress={this._login} style={styles.button}
+                            <StateButton onPress={this.login} style={styles.button}
                                          pressedStyle={styles.buttonPressed} textStyle={styles.buttonText}
                                          textPressedStyle={styles.buttonTextPressed} text='Login'/>
                         </View>
@@ -173,13 +161,13 @@ export default class LoginScreen extends Component {
                     </View>
                     <View style={[styles.container, {flex: 1.5, flexDirection: 'row'}]}>
                         <View style={stylesLocal.smallButtonContainer}>
-                            <StateButton onPress={this._register} style={stylesLocal.smallButton}
+                            <StateButton onPress={this.register} style={stylesLocal.smallButton}
                                          pressedStyle={stylesLocal.smallButtonPressed}
                                          textStyle={stylesLocal.smallButtonText}
                                          textPressedStyle={stylesLocal.smallButtonTextPressed} text='Register'/>
                         </View>
                         <View style={stylesLocal.smallButtonContainer}>
-                            <StateButton onPress={this._recover} style={stylesLocal.smallButton}
+                            <StateButton onPress={this.recover} style={stylesLocal.smallButton}
                                          pressedStyle={stylesLocal.smallButtonPressed}
                                          textStyle={stylesLocal.smallButtonText}
                                          textPressedStyle={stylesLocal.smallButtonTextPressed} text='Recover'/>

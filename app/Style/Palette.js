@@ -22,6 +22,9 @@ const palette = {
     moneyGreen: '#33AA88',
 
     black: '#000000',
+    grey1: 'rgba(0, 0, 0, 0.3)',
+    grey2: 'rgba(0, 0, 0, 0.4)',
+    grey3: 'rgba(0, 0, 0, 0.5)',
 
     orangeLight: '#ffab40',
     orange: '#fb8c00',

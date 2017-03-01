@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    Modal
+    Modal,
+    InteractionManager
 } from 'react-native';
 
 import styles from './PayScreenActionPanelStyle';
@@ -34,11 +35,14 @@ export default class PayScreenActionPanel extends Component {
     }
 
     gotoReceive(amount) {
-        this.props.setDisplay('RECEIVE');
+        const QR = (<QRCode size={300} value={'R=' + amount + '&A=' + SessionModel.get().getUser().getUID()}/>);
+        this.props.setDisplay('RECEIVE', QR);
     }
 
     gotoScan() {
-        this.props.setDisplay('QR');
+        this.requestAnimationFrame(() => {
+            this.props.setDisplay('QR', null);
+        });
     }
 
     modalSend() {
@@ -50,15 +54,17 @@ export default class PayScreenActionPanel extends Component {
 
     modalReceive() {
         this.requestAnimationFrame(() => {
-            this.props.modalOpen();
             this.setState({modal: 'RECEIVE'});
+            this.props.modalOpen();
         });
     }
 
     modalClose() {
         this.requestAnimationFrame(() => {
-            this.props.modalClose();
             this.setState({modal: 'NONE'});
+            InteractionManager.runAfterInteractions(() => {
+                this.props.modalClose();
+            });
         });
     }
 

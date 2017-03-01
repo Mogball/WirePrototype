@@ -1,10 +1,5 @@
  import {
      StyleSheet,
-     View,
-     Text,
-     TouchableNativeFeedback,
-     Image,
-     ListView
  } from 'react-native';
 
 import palette from '../Style/Palette';

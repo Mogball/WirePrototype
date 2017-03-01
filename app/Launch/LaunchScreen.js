@@ -10,8 +10,11 @@ import {
     StatusBar
 } from 'react-native';
 
-import StateButton from '../StateButton';
+import ReactMixin from 'react-mixin';
+import TimerMixin from 'react-timer-mixin';
+import StateButton from './Components/StateButton';
 import palette from '../Style/Palette';
+import style from './Style';
 
 export default class LaunchScreen extends Component {
 
@@ -26,51 +29,54 @@ export default class LaunchScreen extends Component {
 
         this.components = {};
         this.components.wireLogoLarge = (
-            <Text style={{fontSize: 100, fontWeight: '500', color: palette.white}}>Vire</Text>
+            <Text style={style.vireLogo}>Vire</Text>
         );
     }
 
     _register() {
-        this.props.navigator.push({title: 'RegisterScreen', index: 3});
+        this.requestAnimationFrame(() => {
+            this.props.navigator.push({title: 'RegisterScreen', index: 3});
+        });
     }
 
     _login() {
-        this.props.navigator.push({title: 'LoginScreen', index: 2});
+        this.requestAnimationFrame(() => {
+            this.props.navigator.push({title: 'LoginScreen', index: 2});
+        });
     }
 
     render() {
         return (
-            <View style={[styles.screen, {backgroundColor: palette.indigo}]}>
+            <View style={style.launchScreenToplevel}>
                 <StatusBar backgroundColor={palette.indigoDark2}/>
-                <View style={{flex: 0.5}}/>
-                <View style={[styles.container, {flex: 3}]}>
+                <View style={style.vireLogoContainer}>
                     {this.components.wireLogoLarge}
                 </View>
-                <View style={{flex: 0.1}}/>
-                <View style={[styles.container, {flex: 1.2, alignSelf: 'stretch'}]}>
-                    <StateButton onPress={this._register}
-                                 style={[stylesLocal.btn1, {backgroundColor: palette.p1pA}]}
-                                 pressedStyle={[stylesLocal.btn1p, {backgroundColor: palette.p1pA}]}
-                                 textStyle={styles.buttonText}
-                                 textPressedStyle={styles.buttonTextPressed}
-                                 text='Register'/>
-                </View>
-                <View style={[styles.container, {flex: 1.2}]}>
-                    <View style={[styles.container, {flex: 5}]}>
-                        <StateButton onPress={this._login} pressedStyle={stylesLocal.btn1p}
-                                     style={stylesLocal.btn1} textStyle={styles.buttonText}
-                                     textPressedStyle={styles.buttonTextPressed}
+                <View style={style.buttonAssembly}>
+                    <View style={style.buttonContainer}>
+                        <StateButton onPress={this._register}
+                                     style={style.bigBtn} pressedStyle={style.bigBtnP}
+                                     textStyle={style.bt} pressedTextStyle={style.btp}
+                                     elevation={4} pressedElevation={1} color={palette.p1pA}
+                                     text='Register'/>
+                    </View>
+                    <View style={style.buttonContainer}>
+                        <StateButton onPress={this._login}
+                                     style={style.bigBtn} pressedStyle={style.bigBtnP}
+                                     textStyle={style.bt} pressedTextStyle={style.btp}
+                                     elevation={4} pressedElevation={1} color={palette.seafloor}
                                      text='Login'/>
                     </View>
-                    <View style={{flex: 1}}/>
                 </View>
-                <View style={{flex: 1.5}}/>
             </View>
         );
     }
 
 }
 
+ReactMixin(LaunchScreen.prototype, TimerMixin);
+
+// TODO get rid of this once dependency has been released
 styles = StyleSheet.create({
 
     screen: {
@@ -159,23 +165,3 @@ styles = StyleSheet.create({
     }
 
 });
-
-stylesLocal = {
-
-    btn1: [
-        styles.button, {
-            width: 210,
-            height: 50,
-            borderRadius: 25
-        }
-    ],
-
-    btn1p: [
-        styles.buttonPressed, {
-            width: 208,
-            height: 48,
-            borderRadius: 24
-        }
-    ]
-
-};

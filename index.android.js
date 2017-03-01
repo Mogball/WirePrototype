@@ -21,6 +21,7 @@ const routes = [
 ];
 
 import * as firebase from 'firebase';
+import SessionModel from './app/Models/SessionModel';
 
 firebase.initializeApp({
     apiKey: "AIzaSyBr1cBlr5gRDua1nPQd600RFj0T-UcEbVE",
@@ -29,49 +30,39 @@ firebase.initializeApp({
     storageBucket: "vire-e9eb3.appspot.com"
 });
 
-class WirePrototype extends Component {
+SessionModel.get().setFirebase(firebase);
 
-    constructor(props) {
-        super(props);
-    }
+class WirePrototype extends Component {
 
     render() {
         return (
             <Navigator
+
                 initialRoute={routes[0]}
-                configureScene={(route, routeStack) => {
-                    if (route.title == 'LaunchScreen') {
-                        return Navigator.SceneConfigs.FloatFromRight;
+                configureScene={(route) => {
+                    if (route.title === 'LoadingScreen' || route.title === 'LaunchScreen') {
+                        return {
+                            ...Navigator.SceneConfigs.FloatFromRight,
+                            gestures: {}
+                        }
                     }
-                    return Navigator.SceneConfigs.PushFromRight;
+                    return {
+                        ...Navigator.SceneConfigs.PushFromRight,
+                        gestures: {}
+                    };
                 }}
                 renderScene={(route, navigator) => {
                     if (route.title == 'LoadingScreen') {
                         return (
-                            <LoadingScreen navigator={navigator}
-                                           onLoad={() => {
-                                           }}/>
+                            <LoadingScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'LaunchScreen') {
                         return (
-                            <LaunchScreen navigator={navigator}
-                                          onLogin={() => {
-                                          }}
-                                          onRegister={() => {
-                                          }}/>
+                            <LaunchScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'LoginScreen') {
                         return (
-                            <LoginScreen navigator={navigator}
-                                         onLogin={() => {
-                                             navigator.push(routes[4]);
-                                         }}
-                                         onRegister={() => {
-                                             navigator.push(routes[3])
-                                         }}
-                                         onRecover={() => {
-                                         }}
-                                         firebase={firebase}/>
+                            <LoginScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'RegisterScreen') {
                         return (
@@ -96,12 +87,5 @@ class WirePrototype extends Component {
     }
 
 }
-
-/**
- * USER SESSION OBJECT.
- * TODO Store the user session model on the phone so that he does not need to login
- * TODO Get rid of the global status
- */
-user = null;
 
 AppRegistry.registerComponent('WirePrototype', () => WirePrototype);

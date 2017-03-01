@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
 
+import {
+    ActivityIndicator,
+    View,
+    StatusBar
+} from 'react-native';
+
 import SessionModel from '../Models/SessionModel';
+import styles from './Style';
+import palette from '../Style/Palette';
 
 /**
  * This component is the first to appear when the user launches a new instance of the app.
@@ -13,6 +21,7 @@ export default class LoadingScreen extends Component {
 
     constructor(props) {
         super(props);
+        // TODO preload all necessary content
     }
 
     componentDidMount() {
@@ -25,8 +34,13 @@ export default class LoadingScreen extends Component {
     }
 
     render() {
-        // TODO display activity indicator while loading
-        return null;
+        // TODO display activity indicator while preloading
+        return (
+            <View style={styles.loadScreenToplevel} animated={true}>
+                <StatusBar backgroundColor={palette.indigoDark2}/>
+                <ActivityIndicator size={40}/>
+            </View>
+        );
     }
 
 }
