@@ -5,18 +5,29 @@ import {
 export default StyleSheet.create({
 
     toplevel: {
-        flex: 1,
         alignSelf: 'stretch',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'flex-end'
     },
 
     btnContainer: {
         borderRadius: 20,
         height: 80,
         width: 80,
-        borderWidth: 1,
         borderColor: palette.black,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 40
+    },
+
+    textContainer: {
+        paddingTop: 0,
+        paddingBottom: 30
+    },
+
+    text: {
+        fontSize: 16,
+        color: palette.black
     }
 
 });

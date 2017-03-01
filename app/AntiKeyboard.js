@@ -11,7 +11,7 @@ export default class AntiKeyboard extends Component {
     super(props);
   }
   render() {
-    var children = this.props.children ? this.props.children : null;
+    let children = this.props.children ? this.props.children : null;
     return (
       <TouchableWithoutFeedback onPress={() => {DISMISS_KEYBOARD()}}>
         {children}

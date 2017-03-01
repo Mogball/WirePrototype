@@ -17,6 +17,51 @@ export default StyleSheet.create({
         height: 300,
         backgroundColor: 'white',
         alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 1,
+    },
+
+    cancelContainer: {
+
+    },
+
+    textContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    confirmContainer: {
+
+    },
+
+    confirmButtonToplevel: {
+        height: 60,
+        borderTopWidth: 1,
+        borderTopColor: '#ccc',
+        width: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    confirmButtonText: {
+        fontSize: 18,
+        fontWeight: '900',
+        color: palette.customCyan
+    },
+
+    cancelButtonToplevel: {
+        width: 300,
+        padding: 6,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start'
+    },
+
+    cancelButton: {
+        width: 38,
+        height: 38,
+        borderRadius: 19,
+        alignItems: 'center',
         justifyContent: 'center'
     }
 
