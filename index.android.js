@@ -21,6 +21,7 @@ const routes = [
 ];
 
 import * as firebase from 'firebase';
+import SessionModel from './app/Models/SessionModel';
 
 firebase.initializeApp({
     apiKey: "AIzaSyBr1cBlr5gRDua1nPQd600RFj0T-UcEbVE",
@@ -28,6 +29,8 @@ firebase.initializeApp({
     databaseURL: "https://vire-e9eb3.firebaseio.com",
     storageBucket: "vire-e9eb3.appspot.com"
 });
+
+SessionModel.get().setFirebase(firebase);
 
 class WirePrototype extends Component {
 
@@ -96,12 +99,5 @@ class WirePrototype extends Component {
     }
 
 }
-
-/**
- * USER SESSION OBJECT.
- * TODO Store the user session model on the phone so that he does not need to login
- * TODO Get rid of the global status
- */
-user = null;
 
 AppRegistry.registerComponent('WirePrototype', () => WirePrototype);

@@ -28,6 +28,7 @@ import CornerLabel from 'react-native-smart-corner-label'
 import styles from './HomeScreenStyle';
 import StateButton from '../StateButton';
 import image_google from '../img/g.png'
+import SessionModel from '../Models/SessionModel';
 
 const accList = [
     {
@@ -90,6 +91,7 @@ let columnCount = 3;
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
+        let user = SessionModel.get().getUser();
         this.state = {
             loaded: true,
             accountBalance: 1000000,

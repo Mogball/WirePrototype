@@ -29,7 +29,7 @@ export default class PayScreen extends Component {
         this.state = {
             modal: false,
             read: false,
-            data: "https://testdata.com/xd",
+            data: null,
             display: 'QR', // ['QR', 'SEND', 'RECEIVE']
             placeholder: true,
             QR: null
@@ -78,7 +78,9 @@ export default class PayScreen extends Component {
     closeModal() {
         this.requestAnimationFrame(() => {
             this.modalClose();
-            this.setState({read: false, data: null});
+            InteractionManager.runAfterInteractions(() => {
+                this.setState({read: false, data: null});
+            });
         });
     }
 
@@ -120,7 +122,7 @@ export default class PayScreen extends Component {
         } else if (this.state.display == 'RECEIVE') {
             displayItem = (
                 <View style={styles.receive}>
-
+                    {this.state.QR}
                 </View>
             );
         } else {

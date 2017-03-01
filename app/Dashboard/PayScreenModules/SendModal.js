@@ -15,6 +15,8 @@ import {
 
 import styles from './SendModalStyle';
 import f from './Helper';
+import TimerMixin from 'react-timer-mixin';
+import ReactMixin from 'react-mixin';
 
 export default class SendModal extends Component {
     constructor(props, context) {
@@ -53,7 +55,9 @@ export default class SendModal extends Component {
     }
 
     cancelSend() {
-        this.props.closeModal();
+        this.requestAnimationFrame(() => {
+            this.props.closeModal();
+        });
     }
 
     confirmSend() {
@@ -156,3 +160,5 @@ class CancelButton extends Component {
         )
     }
 }
+
+ReactMixin(SendModal.prototype, TimerMixin);

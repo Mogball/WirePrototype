@@ -2,7 +2,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-const palette = require('../../Style/Palette.js');
+const palette = require('../../Style/Palette.js').default;
 
 export default StyleSheet.create({
 
@@ -65,6 +65,12 @@ export default StyleSheet.create({
         borderRadius: 19,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+
+    amountDisplayText: {
+        color: palette.tealLight1,
+        fontSize: 35,
+        fontWeight: '200'
     }
 
 });

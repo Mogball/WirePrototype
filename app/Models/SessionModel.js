@@ -25,13 +25,16 @@ class Model {
         this.userModel = null;
         this.historyModel = null;
         this.profilePictureModel = null;
+        this.firebaseModel = null;
 
         this.getUser = this.getUser.bind(this);
         this.getHistory = this.getHistory.bind(this);
         this.getProfilePicture = this.getProfilePicture.bind(this);
+        this.getFirebase = this.getFirebase.bind(this);
         this.setUser = this.setUser.bind(this);
         this.setHistory = this.setHistory.bind(this);
         this.setProfilePicture = this.setProfilePicture.bind(this);
+        this.setFirebase = this.setFirebase.bind(this);
 
         this.reset = this.reset.bind(this);
     }
@@ -48,6 +51,10 @@ class Model {
         return this.profilePictureModel;
     }
 
+    getFirebase() {
+        return this.firebaseModel;
+    }
+
     setUser(user) {
         this.userModel = user;
     }
@@ -60,10 +67,15 @@ class Model {
         this.profilePictureModel = profilePicture;
     }
 
+    setFirebase(firebase) {
+        this.firebaseModel = firebase;
+    }
+
     reset() {
         this.userModel = null;
         this.historyModel = null;
         this.profilePictureModel = null;
+        this.firebaseModel = null;
     }
 
 }
