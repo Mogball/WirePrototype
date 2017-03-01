@@ -1,6 +1,3 @@
-/**
- * Created by ultim on 2017-02-27.
- */
  import {
      StyleSheet,
      View,
@@ -10,12 +7,7 @@
      ListView
  } from 'react-native';
 
- import {
-     Card,
-     Icon,
-     List,
-     ListItem
- } from 'react-native-elements';
+import palette from '../Style/Palette';
 
  export default StyleSheet.create({
      blockTitle: {

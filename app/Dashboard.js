@@ -8,12 +8,6 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 
-import {
-    SideMenu,
-    List,
-    ListItem
-} from 'react-native-elements';
-
 import HomeScreen from './Dashboard/HomeScreen'
 import PayScreen from './Dashboard/PayScreen';
 import DashboardMainScreen from './DashboardMainScreen';

@@ -22,7 +22,7 @@ const SessionModel = (function () {
 class Model {
 
     constructor() {
-        this.userModel = true;
+        this.userModel = null;
         this.historyModel = null;
         this.profilePictureModel = null;
 
