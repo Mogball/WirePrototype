@@ -42,7 +42,8 @@ export default class LoginScreen extends Component {
         this.state = {
             emailphone: "",
             password: "",
-            modal: false
+            modal: false,
+            loading: false
         };
 
         this.components = {};
@@ -53,7 +54,7 @@ export default class LoginScreen extends Component {
 
     login() {
         // TODO Disable the email/phone and password fields and the login button during the request
-        this.setState({modal: true});
+        this.setState({modal: true, loading: true});
         InteractionManager.runAfterInteractions(() => {
             let emailphone = this.state.emailphone;
             let password = this.state.password;
@@ -62,7 +63,6 @@ export default class LoginScreen extends Component {
             let navigator = this.props.navigator;
             $this = this;
             ref.orderByChild(type).equalTo(emailphone).once('value').then(function (snapshot) {
-                $this.setState({modal: false});
                 const value = snapshot.val();
                 if (value) {
                     let userDB;
@@ -77,14 +77,15 @@ export default class LoginScreen extends Component {
                         const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
                             userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
                         SessionModel.get().setUser(user);
+                        $this.setState({modal: false, loading: false});
                         navigator.push({title: 'Dashboard', index: 4});
                     } else {
                         // TODO Display login failed message "Incorrect email/phone number or password"
-                        alert("Incorrect email/phone number or password");
+                        $this.setState({loading: false});
                     }
                 } else {
                     // TODO Display login failed message "Incorrect email/phone number or password"
-                    alert("Incorrect email/phone number or password");
+                    $this.setState({loading: false});
                 }
             });
             dismissKeyboard();
@@ -118,7 +119,7 @@ export default class LoginScreen extends Component {
         return (
             <TouchableWithoutFeedback onPress={() => dismissKeyboard()}>
                 <View style={style.launchScreenToplevel}>
-                    <LoadingModal visible={this.state.modal} close={this.closeModal}/>
+                    <LoadingModal loading={this.state.loading} visible={this.state.modal} close={this.closeModal}/>
                     <StatusBar backgroundColor={palette.indigoDark2}/>
                     <View style={[styles.pad, {flex: 0.5}]}/>
                     <View style={[styles.container, {flex: 3}]}>

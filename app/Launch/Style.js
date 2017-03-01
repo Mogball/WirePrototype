@@ -79,6 +79,27 @@ export default StyleSheet.create({
         width: 210,
         height: 50,
         borderRadius: 25,
+    },
+
+    // LOGIN SCREEN -------------
+    loadingModalToplevel: {
+        flex: 1,
+        backgroundColor: palette.grey3,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    loadingModalDisplay: {
+        width: 305,
+        height: 160,
+        backgroundColor: 'white',
+        borderRadius: 2,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    loadingIndicator: {
+        height: 80
     }
 
 });

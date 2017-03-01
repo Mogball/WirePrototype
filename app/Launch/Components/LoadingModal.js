@@ -13,17 +13,9 @@ export default class LoadingModal extends Component {
     render() {
         return (
             <Modal visible={this.props.visible} transparent={true} onRequestClose={this.props.close}>
-                <View style={{
-                    flex: 1,
-                    backgroundColor: palette.grey3,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{width: 300, height: 200, backgroundColor: 'white'}}>
-                        <ActivityIndicator
-                            style={{height: 80}}
-                            size="large"
-                        />
+                <View style={style.loadingModalToplevel}>
+                    <View style={style.loadingModalDisplay}>
+                        <ActivityIndicator style={style.loadingIndicator} size="large"/>
                     </View>
                 </View>
             </Modal>
