@@ -8,6 +8,8 @@ import {
     Icon
 } from 'react-native-elements';
 
+import palette from './Style/Palette';
+
 import IconButton from './IconButton';
 
 export default class FooterToolbar extends Component {
@@ -37,11 +39,9 @@ export default class FooterToolbar extends Component {
                 <View style={{flex: 1}}>
                     <IconButton
                         renderIcon={() => {
-                            return (<Icon containerStyle={{
-                                justifyContent: 'center',
-                                alignItems: 'center', marginTop: 10
-                            }}
-                                          color={palette.cyprusLight} name='home' size={33}/>);
+                            return (
+                                <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 10}}
+                                      color={palette.cyprusLight} name='home' size={33}/>);
                         }}
                         renderIconPressed={() => {
                             return (<Icon containerStyle={{

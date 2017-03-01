@@ -88,52 +88,51 @@ export default class Dashboard extends Component {
 
     render() {
         return (
-
-                <Navigator
-                    ref="nav"
-                    initialRoute={routes[startRoute]}
-                    renderScene={(route, navigator) => {
-                        if (route.title == 'DashboardMainScreen') {
-                            return (
-                                <View style={{flex: 1}}>
-                                    <PayScreen dashboard={this}/>
-                                    <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
-                                </View>
-                            );
-                        } else if (route.title == 'DashboardHomeScreen') {
-                            return (
-                                <View style={{flex: 1}}>
-                                    <HomeScreen dashboard={this} />
-                                    <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
-                                </View>
-                            );
-                        } else if (route.title == 'DashboardServiceScreen') {
-                            return (
-                                <View style={{flex: 1}}>
-                                    <DashboardServiceScreen dashboard={this}/>
-                                    <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
-                                </View>
-                            );
-                        } else if (route.title == 'DashboardHistoryScreen') {
-                            return (
-                                <View style={{flex: 1}}>
-                                    <DashboardHistoryScreen dashboard={this}/>
-                                    <View style={styles.footerToolbar}>
-                                        <View style={{justifyContent: 'center', alignItems: 'center', width: 100}}>
-                                            <StateButton onPress={this._back}
-                                                         style={stylesLocal.backButton}
-                                                         pressedStyle={stylesLocal.backButtonPressed}
-                                                         textStyle={stylesLocal.backButtonText}
-                                                         textPressedStyle={stylesLocal.backButtonTextPressed}
-                                                         text='Back'/>
-                                        </View>
+            <Navigator
+                ref="nav"
+                initialRoute={routes[startRoute]}
+                renderScene={(route, navigator) => {
+                    if (route.title == 'DashboardMainScreen') {
+                        return (
+                            <View style={{flex: 1}}>
+                                <PayScreen dashboard={this}/>
+                                <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
+                            </View>
+                        );
+                    } else if (route.title == 'DashboardHomeScreen') {
+                        return (
+                            <View style={{flex: 1}}>
+                                <HomeScreen dashboard={this}/>
+                                <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
+                            </View>
+                        );
+                    } else if (route.title == 'DashboardServiceScreen') {
+                        return (
+                            <View style={{flex: 1}}>
+                                <DashboardServiceScreen dashboard={this}/>
+                                <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
+                            </View>
+                        );
+                    } else if (route.title == 'DashboardHistoryScreen') {
+                        return (
+                            <View style={{flex: 1}}>
+                                <DashboardHistoryScreen dashboard={this}/>
+                                <View style={styles.footerToolbar}>
+                                    <View style={{justifyContent: 'center', alignItems: 'center', width: 100}}>
+                                        <StateButton onPress={this._back}
+                                                     style={stylesLocal.backButton}
+                                                     pressedStyle={stylesLocal.backButtonPressed}
+                                                     textStyle={stylesLocal.backButtonText}
+                                                     textPressedStyle={stylesLocal.backButtonTextPressed}
+                                                     text='Back'/>
                                     </View>
                                 </View>
+                            </View>
 
-                            );
-                        }
-                    }}
-                />
+                        );
+                    }
+                }}
+            />
         );
     }
 
@@ -168,27 +167,3 @@ const stylesLocal = {
 };
 
 ReactMixin(Dashboard.prototype, TimerMixin);
-
-/*<View style={{flex: 1}}>
- <IconButton
- renderIcon={() => {
- return (<Icon containerStyle={{
- justifyContent: 'center',
- alignItems: 'center', marginTop: 10
- }}
- color={palette.cyprusLight} name='history' type="MaterialCommunityIcons" size={33}/>);
- }}
- renderIconPressed={() => {
- return (<Icon containerStyle={{
- justifyContent: 'center',
- alignItems: 'center', marginTop: 10
- }}
- color={palette.lightBlue} name='history' type="MaterialCommunityIcons" size={33}/>);
- }}
- onPress={() => {
- this.changeTab(routes[3])
- }}
- isActive={() => {
- return this.isActive(3);
- }}/>
- </View>*/

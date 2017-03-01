@@ -1,1 +1,5 @@
 *.pbxproj -text
+/.idea/
+.idea/workspace.xml
+android/app/build/outputs/apk/app-debug.apk
+android/app/build/outputs/apk/app-debug-unaligned.apk

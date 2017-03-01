@@ -5,10 +5,10 @@ import {
     Navigator
 } from 'react-native';
 
-import LoadingScreen from './app/LoadingScreen';
-import LaunchScreen from './app/LaunchScreen';
-import LoginScreen from './app/LoginScreen';
-import RegisterScreen from './app/RegisterScreen';
+import LoadingScreen from './app/Launch/LoadingScreen';
+import LaunchScreen from './app/Launch/LaunchScreen';
+import LoginScreen from './app/Launch/LoginScreen';
+import RegisterScreen from './app/Launch/RegisterScreen';
 import Dashboard from './app/Dashboard';
 import DashboardHistoryScreen from './app/DashboardHistoryScreen';
 

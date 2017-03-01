@@ -2,6 +2,8 @@ import {
     StyleSheet
 } from 'react-native';
 
+const palette = require('../../Style/Palette.js');
+
 export default StyleSheet.create({
 
     toplevel: {
