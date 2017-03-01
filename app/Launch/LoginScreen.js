@@ -16,6 +16,7 @@ import {
 import UserModel from "../Models/UserModel";
 import dismissKeyboard from "dismissKeyboard";
 import palette from '../Style/Palette';
+import style from './Style';
 import SessionModel from '../Models/SessionModel';
 
 import StateButton from '../StateButton';
@@ -45,7 +46,7 @@ export default class LoginScreen extends Component {
 
         this.components = {};
         this.components.wireLogoLarge = (
-            <Text style={{fontSize: 100, fontWeight: '500', color: palette.white}}>Vire</Text>
+            <Text style={style.vireLogo}>Vire</Text>
         );
     }
 
