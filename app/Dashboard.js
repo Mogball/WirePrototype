@@ -10,6 +10,8 @@ import {
 
 import HomeScreen from './Dashboard/HomeScreen'
 import PayScreen from './Dashboard/PayScreen';
+import StoreScreen from './Dashboard/StoreScreen';
+
 import DashboardMainScreen from './DashboardMainScreen';
 import DashboardHomeScreen from './DashboardHomeScreen';
 import DashboardHistoryScreen from './DashboardHistoryScreen';
@@ -103,7 +105,7 @@ export default class Dashboard extends Component {
                     } else if (route.title == 'DashboardServiceScreen') {
                         return (
                             <View style={{flex: 1}}>
-                                <DashboardHomeScreen dashboard={this}/>
+                                <StoreScreen dashboard={this}/>
                                 <FooterToolbar isActive={this.isActive} routes={routes} changeTab={this.changeTab}/>
                             </View>
                         );
