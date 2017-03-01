@@ -11,6 +11,8 @@ import {
     StatusBar
 } from 'react-native';
 
+import palette from './Style/Palette';
+
 import {
     Card, ListItem, Icon
 } from 'react-native-elements';

@@ -16,6 +16,8 @@ import {
     ListItem
 } from 'react-native-elements';
 
+import palette from './Style/Palette';
+
 import StateButton from './StateButton';
 
 export default class DashboardHomeScreen extends Component {

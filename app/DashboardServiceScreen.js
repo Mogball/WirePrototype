@@ -9,6 +9,8 @@ import {
     ListView
 } from 'react-native';
 
+import palette from './Style/Palette';
+
 import {
     Card,
     Icon
