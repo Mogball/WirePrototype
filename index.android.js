@@ -34,26 +34,27 @@ SessionModel.get().setFirebase(firebase);
 
 class WirePrototype extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Navigator
-                initialRoute={routes[4]}
-                configureScene={(route, routeStack) => {
-                    if (route.title == 'LaunchScreen') {
-                        return Navigator.SceneConfigs.FloatFromRight;
+
+                initialRoute={routes[0]}
+                configureScene={(route) => {
+                    if (route.title === 'LoadingScreen' || route.title === 'LaunchScreen') {
+                        return {
+                            ...Navigator.SceneConfigs.FloatFromRight,
+                            gestures: {}
+                        }
                     }
-                    return Navigator.SceneConfigs.PushFromRight;
+                    return {
+                        ...Navigator.SceneConfigs.PushFromRight,
+                        gestures: {}
+                    };
                 }}
                 renderScene={(route, navigator) => {
                     if (route.title == 'LoadingScreen') {
                         return (
-                            <LoadingScreen navigator={navigator}
-                                           onLoad={() => {
-                                           }}/>
+                            <LoadingScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'LaunchScreen') {
                         return (

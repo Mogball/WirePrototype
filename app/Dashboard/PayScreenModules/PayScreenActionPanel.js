@@ -40,7 +40,9 @@ export default class PayScreenActionPanel extends Component {
     }
 
     gotoScan() {
-        this.props.setDisplay('QR', null);
+        this.requestAnimationFrame(() => {
+            this.props.setDisplay('QR', null);
+        });
     }
 
     modalSend() {
