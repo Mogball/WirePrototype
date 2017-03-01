@@ -37,6 +37,7 @@ let columnCount = 3;
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
+        let user = SessionModel.get().getUser();
         this.state = {
             loaded: true,
             accountBalance: 1000000,

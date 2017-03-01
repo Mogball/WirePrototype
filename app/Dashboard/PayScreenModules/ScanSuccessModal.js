@@ -12,6 +12,32 @@ import {
 } from 'react-native-elements';
 
 import styles from './ScanSuccessModalStyle';
+import f from './Helper';
+import TimerMixin from 'react-timer-mixin';
+import ReactMixin from 'react-mixin';
+const SessionModel = require('../../Models/SessionModel').default;
+
+/**
+ * Extracts the paid or requested amount of funds scanned from a QR code.
+ * @param data the encoded data
+ *
+ * FORMAT:
+ * -- The QR code is sending money: "S=[amount]&A=[sendingUID]"
+ * -- The QR code is requesting money: "R=[amount]&B=[requestingUID]"
+ * -- User 'A' is always losing money
+ * -- User 'B' is always gaining money
+ * @return [Enum('SEND', 'RECEIVE'), amount, uid]
+ */
+const decodeData = function (data) {
+    let relA = data.split('&');
+    let relB = relA[0].split('=');
+    let relC = relA[1].split('=');
+    return {
+        type: relB[0] === 'S' ? 'SEND' : 'RECEIVE',
+        amount: parseInt(relB[1]),
+        uid: relC[1]
+    }
+};
 
 export default class ScanSuccessModal extends Component {
     constructor(props, context) {
@@ -22,39 +48,75 @@ export default class ScanSuccessModal extends Component {
 
     cancelPayment() {
         // Send cancel notification
-        this.props.closeModal();
+        this.requestAnimationFrame(() => {
+            this.props.closeModal();
+        });
     }
 
     confirmPayment() {
         // Send confirm notification
         // Send server request
-        this.props.closeModal();
+        // TODO replace with more secure method
+        let firebase = SessionModel.get().getFirebase();
+        const data = decodeData(this.props.getData());
+        const uidA = data.type === 'SEND' ? data.uid : SessionModel.get().getUser().getUID();
+        const uidB = data.type === 'RECEIVE' ? data.uid : SessionModel.get().getUser().getUID();
+        const refA = firebase.database().ref('users/' + uidA + '/funds');
+        const refB = firebase.database().ref('users/' + uidB + '/funds');
+        const reftA = refA.once('value');
+        const reftB = refB.once('value');
+        let fundsA, fundsB;
+        reftA.then(function (snapshotA) {
+            fundsA = snapshotA.val();
+            reftB.then(function (snapshotB) {
+                fundsB = snapshotB.val();
+                fundsA -= data.amount;
+                fundsB += data.amount;
+                firebase.database().ref('users/' + uidA).update({funds: fundsA});
+                firebase.database().ref('users/' + uidB).update({funds: fundsB});
+            });
+        });
+        this.requestAnimationFrame(() => {
+            this.props.closeModal();
+        });
     }
 
     render() {
-        return (
-            <Modal
-                transparent={true}
-                visible={this.props.display}
-                onRequestClose={this.cancelPayment}
-                animationType={'fade'}>
-                <View style={styles.toplevel}>
-                    <View style={styles.popup}>
-                        <View style={styles.cancelContainer}>
-                            <CancelButton
-                                onPress={this.cancelPayment}/>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text>{this.props.getData()}</Text>
-                        </View>
-                        <View style={styles.confirmContainer}>
-                            <ConfirmButton
-                                onPress={this.confirmPayment}/>
+        let data = this.props.getData();
+        if (data) {
+            data = decodeData(data);
+            let title = data.type === 'SEND' ? "Make payment" : "Receive funds";
+            let uid = data.uid;
+            let amount = f.formatMoney(data.amount);
+            return (
+                <Modal
+                    transparent={true}
+                    visible={this.props.display}
+                    onRequestClose={this.cancelPayment}
+                    animationType={'fade'}>
+                    <View style={styles.toplevel}>
+                        <View style={styles.popup}>
+                            <View style={styles.cancelContainer}>
+                                <CancelButton
+                                    onPress={this.cancelPayment}/>
+                            </View>
+                            <View style={styles.textContainer}>
+                                <Text>{title}</Text>
+                                <Text>{uid}</Text>
+                                <Text style={styles.amountDisplayText}>{amount}</Text>
+                            </View>
+                            <View style={styles.confirmContainer}>
+                                <ConfirmButton
+                                    onPress={this.confirmPayment}/>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Modal>
-        );
+                </Modal>
+            );
+        } else {
+            return null;
+        }
+
     }
 }
 
@@ -88,3 +150,5 @@ class CancelButton extends Component {
         )
     }
 }
+
+ReactMixin(ScanSuccessModal.prototype, TimerMixin);

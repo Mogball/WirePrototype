@@ -27,7 +27,9 @@ export default StyleSheet.create({
     receive: {
         height: screenWidth,
         width: screenWidth,
-        backgroundColor: palette.indigoDark1
+        backgroundColor: palette.indigoDark1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     placeholder: {
         height: screenWidth,
