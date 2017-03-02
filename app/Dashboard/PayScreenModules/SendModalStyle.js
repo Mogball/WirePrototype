@@ -48,7 +48,7 @@ export default StyleSheet.create({
 
     confirmButtonToplevel: {
         height: 60,
-        borderTopWidth: 1,
+        borderTopWidth: StyleSheet.hairlineWidth,
         borderTopColor: '#ccc',
         width: 300,
         alignItems: 'center',

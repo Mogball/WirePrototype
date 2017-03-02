@@ -42,7 +42,7 @@ class WirePrototype extends Component {
                 configureScene={(route) => {
                     if (route.title === 'LoadingScreen' || route.title === 'LaunchScreen') {
                         return {
-                            ...Navigator.SceneConfigs.FloatFromRight,
+                            ...Navigator.SceneConfigs.FadeAndroid,
                             gestures: {}
                         }
                     }

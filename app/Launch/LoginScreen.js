@@ -19,8 +19,10 @@ import SessionModel from '../Models/SessionModel';
 import palette from '../Style/Palette';
 import style from './Style';
 
+import ReactMixin from 'react-mixin';
+import TimerMixin from 'react-timer-mixin';
 import LoadingModal from './Components/LoadingModal';
-import StateButton from '../StateButton';
+import StateButton from './Components/StateButton';
 import BarebonesTextInput from '../BarebonesTextInput';
 
 export default class LoginScreen extends Component {
@@ -38,12 +40,15 @@ export default class LoginScreen extends Component {
         this.onChangeEmailPhone = this.onChangeEmailPhone.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.renderPlaceholder = this.renderPlaceholder.bind(this);
 
         this.state = {
             emailphone: "",
             password: "",
             modal: false,
-            loading: false
+            loading: false,
+
+            placeholder: true
         };
 
         this.components = {};
@@ -52,48 +57,62 @@ export default class LoginScreen extends Component {
         );
     }
 
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.setState({placeholder: false});
+        });
+    }
+
     login() {
         // TODO Disable the email/phone and password fields and the login button during the request
-        this.setState({modal: true, loading: true});
-        InteractionManager.runAfterInteractions(() => {
-            let emailphone = this.state.emailphone;
-            let password = this.state.password;
-            const ref = SessionModel.get().getFirebase().database().ref('/users');
-            const type = emailphone.indexOf('@') >= 0 ? 'email_address' : 'phone_number';
-            let navigator = this.props.navigator;
-            $this = this;
-            ref.orderByChild(type).equalTo(emailphone).once('value').then(function (snapshot) {
-                const value = snapshot.val();
-                if (value) {
-                    let userDB;
-                    let uid;
-                    for (let key in value) {
-                        if (value.hasOwnProperty(key)) {
-                            userDB = value[key];
-                            uid = key;
+        this.requestAnimationFrame(() => {
+            this.setState({modal: true, loading: true});
+            InteractionManager.runAfterInteractions(() => {
+                let emailphone = this.state.emailphone;
+                let password = this.state.password;
+                const ref = SessionModel.get().getFirebase().database().ref('/users');
+                const type = emailphone.indexOf('@') >= 0 ? 'email_address' : 'phone_number';
+                let navigator = this.props.navigator;
+                let $this = this;
+                ref.orderByChild(type).equalTo(emailphone).once('value').then(function (snapshot) {
+                    const value = snapshot.val();
+                    if (value) {
+                        let userDB;
+                        let uid;
+                        for (let key in value) {
+                            if (value.hasOwnProperty(key)) {
+                                userDB = value[key];
+                                uid = key;
+                            }
                         }
-                    }
-                    if (userDB['password'] === password) {
-                        const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
-                            userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
-                        SessionModel.get().setUser(user);
-                        $this.setState({modal: false, loading: false});
-                        navigator.push({title: 'Dashboard', index: 4});
+                        if (userDB['password'] === password) {
+                            const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
+                                userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
+                            SessionModel.get().setUser(user);
+                            $this.setState({modal: false, loading: false});
+                            navigator.push({title: 'Dashboard', index: 4});
+                        } else {
+                            // TODO display login failed message "Incorrect email/phone number or password"
+                            $this.setState({loading: false});
+                        }
                     } else {
-                        // TODO Display login failed message "Incorrect email/phone number or password"
+                        // TODO display login failed message "Incorrect email/phone number or password"
                         $this.setState({loading: false});
                     }
-                } else {
-                    // TODO Display login failed message "Incorrect email/phone number or password"
-                    $this.setState({loading: false});
-                }
+                }, function (error) {
+                    // TODO indicate error to the client
+                    alert(error);
+                    $this.setState({modal: false, loading: false});
+                });
+                dismissKeyboard();
             });
-            dismissKeyboard();
         });
     }
 
     register() {
-        this.props.navigator.push({title: 'RegisterScreen', index: 3})
+        this.requestAnimationFrame(() => {
+            this.props.navigator.push({title: 'RegisterScreen', index: 3});
+        });
     }
 
     recover() {
@@ -112,114 +131,84 @@ export default class LoginScreen extends Component {
     }
 
     closeModal() {
-        this.setState({modal: false});
+        this.requestAnimationFrame(() => {
+            this.setState({modal: false, loading: false});
+        });
     }
 
     render() {
+        if (this.state.placeholder) {
+            return this.renderPlaceholder();
+        }
+
         return (
-            <TouchableWithoutFeedback onPress={() => dismissKeyboard()}>
-                <View style={style.launchScreenToplevel}>
-                    <LoadingModal loading={this.state.loading} visible={this.state.modal} close={this.closeModal}/>
-                    <StatusBar backgroundColor={palette.indigoDark2}/>
-                    <View style={[styles.pad, {flex: 0.5}]}/>
-                    <View style={[styles.container, {flex: 3}]}>
-                        {this.components.wireLogoLarge}
-                    </View>
-                    <View style={[styles.pad, {flex: 0.1}]}/>
-                    <View style={[styles.container, {flex: 2, alignSelf: 'stretch'}]}>
+            <View style={style.launchScreenToplevel}>
+                <LoadingModal loading={this.state.loading} visible={this.state.modal} close={this.closeModal}/>
+                <StatusBar backgroundColor={palette.indigoDark2}/>
+                <View style={style.vireLogoContainer}>
+                    {this.components.wireLogoLarge}
+                </View>
+                <View style={style.loginAssembly}>
+
+                    <View style={[styles.container, {flex: 1, alignSelf: 'stretch'}]}>
                         <BarebonesTextInput ref='EmailPhoneField' placeholder='Email or phone number'
                                             onSubmitEditing={this.submitEmailPhone}
                                             placeholderTextColor={palette.white}
                                             onChangeText={this.onChangeEmailPhone}
-                                            style={{
-                                                fontSize: 16,
-                                                height: 40,
-                                                width: 270,
-                                                textAlign: 'center',
-                                                color: palette.white,
-                                                marginBottom: 4
-                                            }}/>
+                                            style={style.textInputStyle}/>
                         <BarebonesTextInput ref='PasswordField' placeholder='Password'
                                             secureTextEntry={true} returnKeyType={'done'}
                                             placeholderTextColor={palette.white}
                                             onChangeText={this.onChangePassword}
-                                            style={{
-                                                fontSize: 16,
-                                                height: 40,
-                                                width: 150,
-                                                textAlign: 'center',
-                                                color: palette.white
-                                            }}
+                                            style={style.textInputStyle}
                                             onSubmitEditing={this.login}/>
                     </View>
-                    <View style={[styles.container, {flex: 2}]}>
-                        <View style={[styles.container, {flex: 5, alignSelf: 'stretch'}]}>
-                            <StateButton onPress={this.login} style={styles.button}
-                                         pressedStyle={styles.buttonPressed} textStyle={styles.buttonText}
-                                         textPressedStyle={styles.buttonTextPressed} text='Login'/>
-                        </View>
-                        <View style={{flex: 1}}/>
-                    </View>
-                    <View style={[styles.container, {flex: 1.5, flexDirection: 'row'}]}>
-                        <View style={stylesLocal.smallButtonContainer}>
-                            <StateButton onPress={this.register} style={stylesLocal.smallButton}
-                                         pressedStyle={stylesLocal.smallButtonPressed}
-                                         textStyle={stylesLocal.smallButtonText}
-                                         textPressedStyle={stylesLocal.smallButtonTextPressed} text='Register'/>
-                        </View>
-                        <View style={stylesLocal.smallButtonContainer}>
-                            <StateButton onPress={this.recover} style={stylesLocal.smallButton}
-                                         pressedStyle={stylesLocal.smallButtonPressed}
-                                         textStyle={stylesLocal.smallButtonText}
-                                         textPressedStyle={stylesLocal.smallButtonTextPressed} text='Recover'/>
+                    <View style={style.itemContainer}>
+                        <View style={style.loginButtonContainer}>
+                            <StateButton onPress={this.login}
+                                         style={style.bigBtn}
+                                         textStyle={style.bt}
+                                         elevation={4}
+                                         color={palette.seafloor}
+                                         text='Login'/>
                         </View>
                     </View>
+                    <View style={style.smallButtonContainer}>
+                        <View style={style.smallButtonInnerContainer}>
+                            <StateButton onPress={this.register}
+                                         style={style.smallButton}
+                                         textStyle={style.smallButtonText}
+                                         elevation={3}
+                                         color={palette.tealLight1}
+                                         text='Register'/>
+                        </View>
+                        <View style={style.smallButtonInnerContainer}>
+                            <StateButton onPress={this.recover}
+                                         style={style.smallButton}
+                                         textStyle={style.smallButtonText}
+                                         elevation={3}
+                                         color={palette.tealLight1}
+                                         text='Recover'/>
+                        </View>
+                    </View>
+
                 </View>
-            </TouchableWithoutFeedback>
+            </View>
+        );
+    }
+
+    renderPlaceholder() {
+        return (
+            <View style={style.launchScreenToplevel}>
+                <StatusBar backgroundColor={palette.indigoDark2}/>
+                <View style={style.vireLogoContainer}>
+                    {this.components.wireLogoLarge}
+                </View>
+                <View style={style.loginAssembly}/>
+            </View>
         );
     }
 
 }
 
-const stylesLocal = StyleSheet.create({
-
-    smallButtonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 120,
-        marginBottom: 40
-    },
-
-    smallButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: palette.lightBlue,
-        elevation: 4,
-        width: 100,
-        height: 35
-    },
-
-    smallButtonPressed: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: palette.lightBlueDark,
-        elevation: 2,
-        width: 98,
-        height: 33
-    },
-
-    smallButtonText: {
-        textAlign: 'center',
-        fontSize: 16,
-        color: palette.white,
-        fontWeight: '500'
-    },
-
-    smallButtonTextPressed: {
-        textAlign: 'center',
-        fontSize: 16,
-        color: palette.whiteDark,
-        fontWeight: '100'
-    }
-
-});
+ReactMixin(LoginScreen.prototype, TimerMixin);

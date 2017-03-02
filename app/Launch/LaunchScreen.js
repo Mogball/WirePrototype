@@ -55,16 +55,16 @@ export default class LaunchScreen extends Component {
                 <View style={style.buttonAssembly}>
                     <View style={style.buttonContainer}>
                         <StateButton onPress={this._register}
-                                     style={style.bigBtn} pressedStyle={style.bigBtnP}
-                                     textStyle={style.bt} pressedTextStyle={style.btp}
-                                     elevation={4} pressedElevation={1} color={palette.p1pA}
+                                     style={style.bigBtn}
+                                     textStyle={style.bt}
+                                     elevation={4} color={palette.p1pA}
                                      text='Register'/>
                     </View>
                     <View style={style.buttonContainer}>
                         <StateButton onPress={this._login}
-                                     style={style.bigBtn} pressedStyle={style.bigBtnP}
-                                     textStyle={style.bt} pressedTextStyle={style.btp}
-                                     elevation={4} pressedElevation={1} color={palette.seafloor}
+                                     style={style.bigBtn}
+                                     textStyle={style.bt}
+                                     elevation={4} color={palette.seafloor}
                                      text='Login'/>
                     </View>
                 </View>
