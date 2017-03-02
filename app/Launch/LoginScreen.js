@@ -48,7 +48,7 @@ export default class LoginScreen extends Component {
             modal: false,
             loading: false,
 
-            placeholder: true
+            placeholder: false//true
         };
 
         this.components = {};
@@ -60,11 +60,13 @@ export default class LoginScreen extends Component {
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             this.setState({placeholder: false});
+            //this.refs.emailPhoneField.focus();
         });
     }
 
     login() {
         // TODO Disable the email/phone and password fields and the login button during the request
+        dismissKeyboard();
         this.requestAnimationFrame(() => {
             this.setState({modal: true, loading: true});
             InteractionManager.runAfterInteractions(() => {
@@ -119,7 +121,7 @@ export default class LoginScreen extends Component {
     }
 
     submitEmailPhone() {
-        this.refs.PasswordField.focus();
+        this.refs.passwordField.focus();
     }
 
     onChangePassword(text) {
@@ -142,58 +144,59 @@ export default class LoginScreen extends Component {
         }
 
         return (
-            <View style={style.launchScreenToplevel}>
-                <LoadingModal loading={this.state.loading} visible={this.state.modal} close={this.closeModal}/>
-                <StatusBar backgroundColor={palette.indigoDark2}/>
-                <View style={style.vireLogoContainer}>
-                    {this.components.wireLogoLarge}
-                </View>
-                <View style={style.loginAssembly}>
+            <TouchableWithoutFeedback onPress={dismissKeyboard}>
+                <View style={style.launchScreenToplevel}>
+                    <LoadingModal loading={this.state.loading} visible={this.state.modal} close={this.closeModal}/>
+                    <StatusBar backgroundColor={palette.indigoDark2}/>
+                    <View style={style.vireLogoContainer}>
+                        {this.components.wireLogoLarge}
+                    </View>
+                    <View style={style.loginAssembly}>
 
-                    <View style={[styles.container, {flex: 1, alignSelf: 'stretch'}]}>
-                        <BarebonesTextInput ref='EmailPhoneField' placeholder='Email or phone number'
-                                            onSubmitEditing={this.submitEmailPhone}
-                                            placeholderTextColor={palette.white}
-                                            onChangeText={this.onChangeEmailPhone}
-                                            style={style.textInputStyle}/>
-                        <BarebonesTextInput ref='PasswordField' placeholder='Password'
-                                            secureTextEntry={true} returnKeyType={'done'}
-                                            placeholderTextColor={palette.white}
-                                            onChangeText={this.onChangePassword}
-                                            style={style.textInputStyle}
-                                            onSubmitEditing={this.login}/>
-                    </View>
-                    <View style={style.itemContainer}>
-                        <View style={style.loginButtonContainer}>
-                            <StateButton onPress={this.login}
-                                         style={style.bigBtn}
-                                         textStyle={style.bt}
-                                         elevation={4}
-                                         color={palette.seafloor}
-                                         text='Login'/>
+                        <View style={[styles.container, {flex: 1, alignSelf: 'stretch'}]}>
+                            <BarebonesTextInput ref='emailPhoneField' placeholder='Email or phone number'
+                                                onSubmitEditing={this.submitEmailPhone}
+                                                placeholderTextColor={palette.white}
+                                                onChangeText={this.onChangeEmailPhone}
+                                                style={style.textInputStyle}/>
+                            <BarebonesTextInput ref='passwordField' placeholder='Password'
+                                                secureTextEntry={true} returnKeyType={'done'}
+                                                placeholderTextColor={palette.white}
+                                                onChangeText={this.onChangePassword}
+                                                style={style.textInputStyle}
+                                                onSubmitEditing={this.login}/>
+                        </View>
+                        <View style={style.itemContainer}>
+                            <View style={style.loginButtonContainer}>
+                                <StateButton onPress={this.login}
+                                             style={style.bigBtn}
+                                             textStyle={style.bt}
+                                             elevation={4}
+                                             color={palette.seafloor}
+                                             text='Login'/>
+                            </View>
+                        </View>
+                        <View style={style.smallButtonContainer}>
+                            <View style={style.smallButtonInnerContainer}>
+                                <StateButton onPress={this.register}
+                                             style={style.smallButton}
+                                             textStyle={style.smallButtonText}
+                                             elevation={3}
+                                             color={palette.tealLight1}
+                                             text='Register'/>
+                            </View>
+                            <View style={style.smallButtonInnerContainer}>
+                                <StateButton onPress={this.recover}
+                                             style={style.smallButton}
+                                             textStyle={style.smallButtonText}
+                                             elevation={3}
+                                             color={palette.tealLight1}
+                                             text='Recover'/>
+                            </View>
                         </View>
                     </View>
-                    <View style={style.smallButtonContainer}>
-                        <View style={style.smallButtonInnerContainer}>
-                            <StateButton onPress={this.register}
-                                         style={style.smallButton}
-                                         textStyle={style.smallButtonText}
-                                         elevation={3}
-                                         color={palette.tealLight1}
-                                         text='Register'/>
-                        </View>
-                        <View style={style.smallButtonInnerContainer}>
-                            <StateButton onPress={this.recover}
-                                         style={style.smallButton}
-                                         textStyle={style.smallButtonText}
-                                         elevation={3}
-                                         color={palette.tealLight1}
-                                         text='Recover'/>
-                        </View>
-                    </View>
-
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 

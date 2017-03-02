@@ -172,4 +172,52 @@ export default StyleSheet.create({
         fontWeight: '500'
     },
 
+    // REGISTER SCREEN ----------
+
+    headerTitle: {
+        fontFamily: 'sans-serif-medium',
+        fontWeight: '500',
+        fontSize: 25,
+        color: palette.pureWhite,
+    },
+
+    headerToolbar: {
+        backgroundColor: palette.p1pC,
+        alignSelf: 'stretch',
+        height: 55,
+        elevation: 2,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        flexDirection: 'row'
+    },
+
+    backArrowContainer: {
+        height: 30,
+        width: 30,
+        borderRadius: 15,
+        marginHorizontal: 16    ,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    backIconStyle: {
+        color: palette.white
+    },
+
+    registerButtonContainer: {
+        flex: 0.7,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    inputContainer: {
+        margin: 5
+    },
+
+    itemContainerInput: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-end'
+    }
+
 });

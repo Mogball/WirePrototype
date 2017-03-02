@@ -66,11 +66,7 @@ class WirePrototype extends Component {
                         );
                     } else if (route.title == 'RegisterScreen') {
                         return (
-                            <RegisterScreen navigator={navigator} route={route}
-                                            onBack={() => {
-                                                navigator.replacePrevious(routes[2]);
-                                                navigator.pop();
-                                            }}/>
+                            <RegisterScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'Dashboard') {
                         return (
