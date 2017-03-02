@@ -76,8 +76,8 @@ export default StyleSheet.create({
     },
 
     loadingModalDisplay: {
-        width: 300,
-        height: 190,
+        width: 310,
+        height: 150,
         backgroundColor: 'white',
         borderRadius: 2,
         alignItems: 'center',
@@ -96,8 +96,8 @@ export default StyleSheet.create({
 
     modalButtonToplevel: {
         borderTopWidth: StyleSheet.hairlineWidth,
-        height: 60,
-        width: 300,
+        height: 50,
+        width: 310,
         borderTopColor: '#ccc',
         alignItems: 'center',
         justifyContent: 'center'
@@ -105,7 +105,8 @@ export default StyleSheet.create({
 
     modalButtonText: {
         fontSize: 18,
-        fontWeight: '900'
+        fontWeight: '900',
+        color: palette.teal
     },
 
     loginAssembly: {
@@ -145,9 +146,11 @@ export default StyleSheet.create({
     },
 
     modalText: {
-        fontSize: 17,
+        fontSize: 16,
         fontWeight: '400',
-        textAlign: 'center'
+        textAlign: 'left',
+        padding: 30,
+        color: palette.black
     },
 
     smallButtonInnerContainer: {
@@ -195,7 +198,7 @@ export default StyleSheet.create({
         height: 30,
         width: 30,
         borderRadius: 15,
-        marginHorizontal: 16    ,
+        marginHorizontal: 18    ,
         alignItems: 'center',
         justifyContent: 'center'
     },

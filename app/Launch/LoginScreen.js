@@ -34,6 +34,8 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.login = this.login.bind(this);
+        this.loginRequest = this.loginRequest.bind(this);
+        this.displayLoginError = this.displayLoginError.bind(this);
         this.register = this.register.bind(this);
         this.recover = this.recover.bind(this);
         this.submitEmailPhone = this.submitEmailPhone.bind(this);
@@ -45,8 +47,8 @@ export default class LoginScreen extends Component {
         this.state = {
             emailphone: "",
             password: "",
-            modal: false,
-            loading: false,
+            modal: null,
+            modalLabel: null,
 
             placeholder: false//true
         };
@@ -68,47 +70,61 @@ export default class LoginScreen extends Component {
         // TODO Disable the email/phone and password fields and the login button during the request
         dismissKeyboard();
         this.requestAnimationFrame(() => {
-            this.setState({modal: true, loading: true});
-            InteractionManager.runAfterInteractions(() => {
-                let emailphone = this.state.emailphone;
-                let password = this.state.password;
-                const ref = SessionModel.get().getFirebase().database().ref('/users');
-                const type = emailphone.indexOf('@') >= 0 ? 'email_address' : 'phone_number';
-                let navigator = this.props.navigator;
-                let $this = this;
-                ref.orderByChild(type).equalTo(emailphone).once('value').then(function (snapshot) {
-                    const value = snapshot.val();
-                    if (value) {
-                        let userDB;
-                        let uid;
-                        for (let key in value) {
-                            if (value.hasOwnProperty(key)) {
-                                userDB = value[key];
-                                uid = key;
-                            }
-                        }
-                        if (userDB['password'] === password) {
-                            const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
-                                userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
-                            SessionModel.get().setUser(user);
-                            $this.setState({modal: false, loading: false});
-                            navigator.push({title: 'Dashboard', index: 4});
-                        } else {
-                            // TODO display login failed message "Incorrect email/phone number or password"
-                            $this.setState({loading: false});
-                        }
-                    } else {
-                        // TODO display login failed message "Incorrect email/phone number or password"
-                        $this.setState({loading: false});
-                    }
-                }, function (error) {
-                    // TODO indicate error to the client
-                    alert(error);
-                    $this.setState({modal: false, loading: false});
-                });
-                dismissKeyboard();
+            this.setState({
+                modal: (
+                    <ActivityIndicator style={style.loadingIndicator} size="large"/>
+                ), modalLabel: 'CANCEL'
             });
+            InteractionManager.runAfterInteractions(this.loginRequest);
         });
+    }
+
+    async loginRequest() {
+        let emailphone = this.state.emailphone;
+        let password = this.state.password;
+        const ref = SessionModel.get().getFirebase().database().ref('/users');
+        const type = emailphone.indexOf('@') >= 0 ? 'email_address' : 'phone_number';
+        let navigator = this.props.navigator;
+        let $this = this;
+        ref.orderByChild(type).equalTo(emailphone).once('value').then(function (snapshot) {
+            const value = snapshot.val();
+            if (value) {
+                let userDB;
+                let uid;
+                for (let key in value) {
+                    if (value.hasOwnProperty(key)) {
+                        userDB = value[key];
+                        uid = key;
+                    }
+                }
+                if (userDB['password'] === password) {
+                    const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
+                        userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
+                    SessionModel.get().setUser(user);
+                    $this.setState({modal: null, modalLabel: null});
+                    navigator.push({title: 'Dashboard', index: 4});
+                } else {
+                    $this.displayLoginError();
+                }
+            } else {
+                $this.displayLoginError();
+            }
+        }, function (error) {
+            $this.setState({
+                modal: (
+                    <Text style={style.modalText}>{error}</Text>
+                ), modalLabel: 'OK'
+            })
+        });
+        dismissKeyboard();
+    }
+
+    displayLoginError() {
+        this.setState({
+            modal: (
+                <Text style={style.modalText}>Incorrect email/phone or password</Text>
+            ), modalLabel: 'OK'
+        })
     }
 
     register() {
@@ -134,7 +150,7 @@ export default class LoginScreen extends Component {
 
     closeModal() {
         this.requestAnimationFrame(() => {
-            this.setState({modal: false, loading: false});
+            this.setState({modal: null, modalLabel: null});
         });
     }
 
@@ -146,7 +162,8 @@ export default class LoginScreen extends Component {
         return (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
                 <View style={style.launchScreenToplevel}>
-                    <LoadingModal loading={this.state.loading} visible={this.state.modal} close={this.closeModal}/>
+                    <LoadingModal close={this.closeModal}
+                                  buttonLabel={this.state.modalLabel}>{this.state.modal}</LoadingModal>
                     <StatusBar backgroundColor={palette.indigoDark2}/>
                     <View style={style.vireLogoContainer}>
                         {this.components.wireLogoLarge}

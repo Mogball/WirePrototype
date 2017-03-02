@@ -7,7 +7,8 @@ import {
     TextInput,
     TouchableWithoutFeedback,
     StatusBar,
-    InteractionManager
+    InteractionManager,
+    ActivityIndicator
 } from 'react-native';
 
 import {
@@ -24,6 +25,7 @@ import ReactMixin from 'react-mixin';
 import TimerMixin from 'react-timer-mixin';
 import BarebonesTextInput from '../BarebonesTextInput';
 import StateButton from './Components/StateButton';
+import LoadingModal from './Components/LoadingModal';
 
 const lowercase = new RegExp("(?=.*[a-z])");
 const uppercase = new RegExp("(?=.*[A-Z])");
@@ -78,17 +80,21 @@ export default class RegisterScreen extends Component {
         super(props);
         this.back = this.back.bind(this);
         this.register = this.register.bind(this);
+        this.registerRequest = this.registerRequest.bind(this);
+        this.displayRegisterError = this.displayRegisterError.bind(this);
+        this.closeModal = this.closeModal.bind(this);
         this.submitPhone = this.submitPhone.bind(this);
         this.submitPassword = this.submitPassword.bind(this);
         this.onChangePhone = this.onChangePhone.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
-        this.registerRequest = this.registerRequest.bind(this);
 
         this.state = {
             phone: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            modal: null,
+            modalLabel: null
         };
     }
 
@@ -101,7 +107,11 @@ export default class RegisterScreen extends Component {
     register() {
         dismissKeyboard();
         this.requestAnimationFrame(() => {
-            // TODO Display loading modal
+            this.setState({
+                modal: (
+                    <ActivityIndicator style={style.loadingIndicator} size="large"/>
+                ), modalLabel: 'CANCEL'
+            });
             InteractionManager.runAfterInteractions(this.registerRequest);
         });
     }
@@ -115,8 +125,8 @@ export default class RegisterScreen extends Component {
         if (phone.indexOf('@') < 0 && phone.length > 0) {
             phone = phone.replace(/\D+/g, '');
             if (await this.isUsedPhone(phone, firebase)) {
-                // TODO Make a custom modal and show account recovery
-                alert("Phone number is already in use");
+                // TODO Show account recovery option
+                this.displayRegisterError("Phone number is already in use");
             } else {
                 if (numeric.test(password) && (lowercase.test(password) || uppercase.test(password))) {
                     if (password.length >= 8) {
@@ -136,22 +146,36 @@ export default class RegisterScreen extends Component {
                             SessionModel.get().setUser(user);
                             this.props.navigator.push({title: 'Dashboard', index: 4});
                         } else {
-                            // TODO Make a custom modal and as-you-type validation
-                            alert("Passwords do not match")
+                            // TODO as-you-type validation
+                            this.displayRegisterError("Passwords must match")
                         }
                     } else {
-                        // TODO Make a custom modal and as-you-type validation
-                        alert("Password must be at least 8 characters");
+                        // TODO as-you-type validation
+                        this.displayRegisterError("Password must be at least 8 characters");
                     }
                 } else {
-                    // TODO Make a custom modal and as-you-type validation
-                    alert("Password must contain a letter and a number");
+                    // TODO as-you-type validation
+                    this.displayRegisterError("Password must contain at least one letter and one number");
                 }
             }
         } else {
-            // TODO Make a custom modal and as-you-type validation
-            alert("Please enter a valid phone number");
+            // TODO as-you-type validation
+            this.displayRegisterError("Please enter a valid phone number");
         }
+    }
+
+    displayRegisterError(message) {
+        this.setState({
+            modal: (
+                <Text style={style.modalText}>{message}</Text>
+            ), modalLabel: 'OK'
+        })
+    }
+
+    closeModal() {
+        this.requestAnimationFrame(() => {
+            this.setState({modal: null, modalLabel: null});
+        });
     }
 
     submitPhone() {
@@ -178,6 +202,8 @@ export default class RegisterScreen extends Component {
         return (
             <TouchableWithoutFeedback onPress={dismissKeyboard}>
                 <View style={style.launchScreenToplevel}>
+                    <LoadingModal close={this.closeModal}
+                                  buttonLabel={this.state.modalLabel}>{this.state.modal}</LoadingModal>
                     <StatusBar backgroundColor={palette.indigoDark2}/>
                     <HeaderToolbar onBack={this.back}/>
                     <View style={style.itemContainerInput}>
@@ -187,7 +213,7 @@ export default class RegisterScreen extends Component {
                                                 onChangeText={this.onChangePhone}
                                                 onSubmitEditing={this.submitPhone}
                                                 style={style.textInputStyle}
-                                                underlineColor={palette.p2pB}/>
+                                                underlineColor={palette.customBright}/>
                         </View>
                         <View style={style.inputContainer}>
                             <BarebonesTextInput ref='passwordField' placeholder='Password'
@@ -196,7 +222,7 @@ export default class RegisterScreen extends Component {
                                                 onChangeText={this.onChangePassword}
                                                 onSubmitEditing={this.submitPassword}
                                                 style={style.textInputStyle}
-                                                underlineColor={palette.p2pB}/>
+                                                underlineColor={palette.cyanLight1}/>
                         </View>
                         <View style={style.inputContainer}>
                             <BarebonesTextInput ref='confirmPasswordField' placeholder='Confirm password'
@@ -206,7 +232,7 @@ export default class RegisterScreen extends Component {
                                                 onSubmitEditing={this.register}
                                                 returnKeyType={'done'}
                                                 style={style.textInputStyle}
-                                                underlineColor={palette.p2pB}/>
+                                                underlineColor={palette.customBright}/>
                         </View>
                     </View>
                     <View style={style.registerButtonContainer}>

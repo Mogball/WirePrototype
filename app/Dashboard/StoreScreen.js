@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { View, ListView, StyleSheet, Text } from 'react-native';
 import styles from './StoreScreenStyle';
-import Row from './Store/Row';
-import Header from './Store/SearchActionBar';
+import Row from './StoreScreenModules/Row';
+import Header from './StoreScreenModules/SearchActionBar';
 
 export default class StoreScreen extends Component {
 
