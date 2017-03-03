@@ -1,65 +1,55 @@
-//Vire org
 import React, {Component} from 'react';
-// https://www.npmjs.com/package/react-native-smart-sudoku-grid
-
 
 import {
     ScrollView,
-    StyleSheet,
     View,
-    Image,
     Text,
-    TouchableHighlight,
-    TouchableNativeFeedback,
-    Alert,
-    ListView,
+    InteractionManager
 } from 'react-native';
 
-import {
-    List,
-    ListItem
-} from 'react-native-elements';
+import {accList, dataList} from './HomeScreenModules/GridItems';
 
-import palette from '../Style/Palette';
-import { accList, dataList } from './HomeScreenActionPanel/testValue';
-import VireGridView from './HomeScreenActionPanel/VireGridView';
-import AccountHeader from './HomeScreenActionPanel/AccountHeader';
-import SudokuGrid from 'react-native-smart-sudoku-grid'
-import CornerLabel from 'react-native-smart-corner-label'
-import styles from './HomeScreenStyle';
-import StateButton from '../StateButton';
-
-
-
-let columnCount = 3;
+import styles from './HomeScreenModules/HomeScreenStyle';
+import VireGridView from './HomeScreenModules/VireGridView';
+import AccountHeader from './HomeScreenModules/AccountHeader';
 
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: true,
             accountBalance: 1000000,
             pointBalance: 54232,
-            firstLastName: "Zoe Brown"
+            firstLastName: "Zoe Brown",
+            placeholder: true
         };
     }
 
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.setState({placeholder: false});
+        })
+    }
 
     render() {
-        if (!this.state.loaded) {
-            return this.renderLoadingView();
+        if (this.state.placeholder) {
+            return this.renderPlaceholder();
         }
 
         return (
-          <ScrollView style={{marginTop: 44 + 20, backgroundColor: '#fff',}}>
-              <AccountHeader/>
-              <VireGridView data = {accList} title = "Account"/>
-              <VireGridView data = {dataList} title = "Services"/>
-          </ScrollView>
+            <ScrollView style={{marginTop: 64, backgroundColor: '#fff'}}>
+                <AccountHeader/>
+                <VireGridView data={accList} title="Account"/>
+                <VireGridView data={dataList} title="Services"/>
+            </ScrollView>
         );
     }
 
-    renderLoadingView() {
-        return (<View><Text>Loading content...</Text></View>);
+    renderPlaceholder() {
+        return (
+            <View style={styles.toplevel}>
+                <Text>Loading content...</Text>
+            </View>
+        );
     }
+
 }

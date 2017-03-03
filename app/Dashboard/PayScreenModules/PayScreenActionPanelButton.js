@@ -19,7 +19,7 @@ export default class PayScreenActionPanelButton extends Component {
                 <View style={styles.btnContainer}>
                     <TouchableNativeFeedback
                         onPress={this.props.onPress}
-                        background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, 0.3', true)}>
+                        background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, 0.3)', true)}>
                         <View style={styles.btnContainer}>
                             <Icon
                                 name={this.props.iconName}

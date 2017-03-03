@@ -42,7 +42,7 @@ class WirePrototype extends Component {
                 configureScene={(route) => {
                     if (route.title === 'LoadingScreen' || route.title === 'LaunchScreen') {
                         return {
-                            ...Navigator.SceneConfigs.FloatFromRight,
+                            ...Navigator.SceneConfigs.FadeAndroid,
                             gestures: {}
                         }
                     }
@@ -58,32 +58,15 @@ class WirePrototype extends Component {
                         );
                     } else if (route.title == 'LaunchScreen') {
                         return (
-                            <LaunchScreen navigator={navigator}
-                                          onLogin={() => {
-                                          }}
-                                          onRegister={() => {
-                                          }}/>
+                            <LaunchScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'LoginScreen') {
                         return (
-                            <LoginScreen navigator={navigator}
-                                         onLogin={() => {
-                                             navigator.push(routes[4]);
-                                         }}
-                                         onRegister={() => {
-                                             navigator.push(routes[3])
-                                         }}
-                                         onRecover={() => {
-                                         }}
-                                         firebase={firebase}/>
+                            <LoginScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'RegisterScreen') {
                         return (
-                            <RegisterScreen navigator={navigator} route={route}
-                                            onBack={() => {
-                                                navigator.replacePrevious(routes[2]);
-                                                navigator.pop();
-                                            }}/>
+                            <RegisterScreen navigator={navigator}/>
                         );
                     } else if (route.title == 'Dashboard') {
                         return (
