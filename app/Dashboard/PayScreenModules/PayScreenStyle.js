@@ -3,7 +3,7 @@ import {
     Dimensions
 } from 'react-native';
 
-import palette from '../Style/Palette';
+import palette from '../../Style/Palette';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -18,6 +18,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
+        alignSelf: 'stretch'
     },
 
     send: {

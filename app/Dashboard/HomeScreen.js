@@ -1,4 +1,3 @@
-//Vire org
 import React, {Component} from 'react';
 
 import {
@@ -8,8 +7,9 @@ import {
     InteractionManager
 } from 'react-native';
 
-import {accList, dataList} from './HomeScreenModules/testValue';
+import {accList, dataList} from './HomeScreenModules/GridItems';
 
+import styles from './HomeScreenModules/HomeScreenStyle';
 import VireGridView from './HomeScreenModules/VireGridView';
 import AccountHeader from './HomeScreenModules/AccountHeader';
 
@@ -20,7 +20,6 @@ export default class HomeScreen extends Component {
             accountBalance: 1000000,
             pointBalance: 54232,
             firstLastName: "Zoe Brown",
-
             placeholder: true
         };
     }
@@ -47,7 +46,7 @@ export default class HomeScreen extends Component {
 
     renderPlaceholder() {
         return (
-            <View>
+            <View style={styles.toplevel}>
                 <Text>Loading content...</Text>
             </View>
         );

@@ -25,6 +25,8 @@ const palette = {
     grey1: 'rgba(0, 0, 0, 0.3)',
     grey2: 'rgba(0, 0, 0, 0.4)',
     grey3: 'rgba(0, 0, 0, 0.5)',
+    grey4: 'rgba(0, 0, 0, 0.2)',
+    lightGrey1: '#e2e2e2',
 
     orangeLight: '#ffab40',
     orange: '#fb8c00',

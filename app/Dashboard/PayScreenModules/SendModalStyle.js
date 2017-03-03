@@ -20,7 +20,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 1,
+        borderRadius: 10
     },
 
     cancelContainer: {},
@@ -47,8 +47,8 @@ export default StyleSheet.create({
     },
 
     confirmButtonToplevel: {
-        height: 60,
-        borderTopWidth: 1,
+        height: 50,
+        borderTopWidth: StyleSheet.hairlineWidth,
         borderTopColor: '#ccc',
         width: 300,
         alignItems: 'center',

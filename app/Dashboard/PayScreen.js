@@ -6,7 +6,7 @@ import {
     InteractionManager
 } from 'react-native';
 
-import styles from './PayScreenStyle';
+import styles from './PayScreenModules/PayScreenStyle';
 
 import PayScreenActionPanel from './PayScreenModules/PayScreenActionPanel';
 import ScanSuccessModal from './PayScreenModules/ScanSuccessModal';
@@ -30,7 +30,7 @@ export default class PayScreen extends Component {
             modal: false,
             read: false,
             data: null,
-            display: 'QR', // ['QR', 'SEND', 'RECEIVE']
+            display: 'QR', // ['QR', 'SEND', 'RECEIVE', 'NONE']
             placeholder: true,
             QR: null
         };
@@ -63,16 +63,14 @@ export default class PayScreen extends Component {
     }
 
     setDisplay(display, QR) {
-        if (this.state.display !== display) {
-            this.requestAnimationFrame(() => {
+        this.requestAnimationFrame(() => {
+            if (this.state.display !== display) {
                 this.setState({display: display})
-            });
-        }
-        if (QR) {
-            this.requestAnimationFrame(() => {
+            }
+            if (QR) {
                 this.setState({QR: QR});
-            });
-        }
+            }
+        });
     }
 
     closeModal() {
@@ -104,14 +102,14 @@ export default class PayScreen extends Component {
                     <View style={styles.placeholder}/>
                 );
             } else {
-                displayItem = (
+              /*  displayItem = (
                     <Camera
                         barCodeTypes={['qr']}
                         onBarCodeRead={this.readCode}
                         style={styles.preview}
                         aspect={Camera.constants.Aspect.fill}>
                     </Camera>
-                );
+                );*/
             }
         } else if (this.state.display == 'SEND') {
             displayItem = (

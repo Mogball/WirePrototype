@@ -19,7 +19,7 @@ export default class BarebonesTextInput extends Component {
             returnKeyType: 'next',
             secureTextEntry: false,
             onSubmitEditing: _onSubmitEditing,
-            underlineColor: palette.seafloor,
+            underlineColor: palette.customGreen,
             defaultStyle: {height: 40, width: 150, color: palette.cyprus},
             style: {}
         };

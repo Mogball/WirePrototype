@@ -38,7 +38,6 @@ export default class LoadingScreen extends Component {
         return (
             <View style={styles.loadScreenToplevel} animated={true}>
                 <StatusBar backgroundColor={palette.indigoDark2}/>
-                <ActivityIndicator size={40}/>
             </View>
         );
     }

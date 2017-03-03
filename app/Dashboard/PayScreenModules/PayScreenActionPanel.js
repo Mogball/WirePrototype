@@ -41,7 +41,9 @@ export default class PayScreenActionPanel extends Component {
 
     gotoScan() {
         this.requestAnimationFrame(() => {
-            this.props.setDisplay('QR', null);
+            InteractionManager.runAfterInteractions(() => {
+                this.props.setDisplay('QR', null);
+            });
         });
     }
 
@@ -54,16 +56,19 @@ export default class PayScreenActionPanel extends Component {
 
     modalReceive() {
         this.requestAnimationFrame(() => {
-            this.setState({modal: 'RECEIVE'});
             this.props.modalOpen();
+            this.setState({modal: 'RECEIVE'});
         });
     }
 
     modalClose() {
-        this.requestAnimationFrame(() => {
-            this.setState({modal: 'NONE'});
+        const $this = this;
+        $this.requestAnimationFrame(() => {
+            $this.setState({modal: 'NONE'});
             InteractionManager.runAfterInteractions(() => {
-                this.props.modalClose();
+                $this.requestAnimationFrame(() => {
+                    $this.props.modalClose();
+                })
             });
         });
     }
