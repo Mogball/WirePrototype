@@ -40,9 +40,7 @@ export default class PayScreenActionPanel extends Component {
     }
 
     gotoScan() {
-        this.requestAnimationFrame(() => {
-            this.props.setDisplay('QR', null);
-        });
+        this.props.setDisplay('QR', null);
     }
 
     modalSend() {
@@ -54,8 +52,8 @@ export default class PayScreenActionPanel extends Component {
 
     modalReceive() {
         this.requestAnimationFrame(() => {
-            this.setState({modal: 'RECEIVE'});
             this.props.modalOpen();
+            this.setState({modal: 'RECEIVE'});
         });
     }
 

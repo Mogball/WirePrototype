@@ -79,9 +79,9 @@ export default StyleSheet.create({
         width: 310,
         height: 150,
         backgroundColor: 'white',
-        borderRadius: 2,
         alignItems: 'center',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        borderRadius: 10
     },
 
     loadingIndicator: {
@@ -195,9 +195,9 @@ export default StyleSheet.create({
     },
 
     backArrowContainer: {
-        height: 30,
-        width: 30,
-        borderRadius: 15,
+        height: 40,
+        width: 40,
+        borderRadius: 20,
         marginHorizontal: 18    ,
         alignItems: 'center',
         justifyContent: 'center'

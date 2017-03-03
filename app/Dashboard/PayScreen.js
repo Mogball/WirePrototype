@@ -63,16 +63,14 @@ export default class PayScreen extends Component {
     }
 
     setDisplay(display, QR) {
-        if (this.state.display !== display) {
-            this.requestAnimationFrame(() => {
+        this.requestAnimationFrame(() => {
+            if (this.state.display !== display) {
                 this.setState({display: display})
-            });
-        }
-        if (QR) {
-            this.requestAnimationFrame(() => {
+            }
+            if (QR) {
                 this.setState({QR: QR});
-            });
-        }
+            }
+        });
     }
 
     closeModal() {

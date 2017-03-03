@@ -253,12 +253,14 @@ class HeaderToolbar extends Component {
     render() {
         return (
             <View style={style.headerToolbar}>
-                <TouchableNativeFeedback onPress={this.props.onBack}
-                                         background={TouchableNativeFeedback.Ripple(palette.grey1, true)}>
-                    <View style={style.backArrowContainer}>
-                        <Icon type="ionicon" name="md-arrow-back" iconStyle={style.backIconStyle} size={32}/>
-                    </View>
-                </TouchableNativeFeedback>
+                <View style={style.backArrowContainer}>
+                    <TouchableNativeFeedback onPress={this.props.onBack}
+                                             background={TouchableNativeFeedback.Ripple(palette.grey1, true)}>
+                        <View style={style.backArrowContainer}>
+                            <Icon type="ionicon" name="md-arrow-back" iconStyle={style.backIconStyle} size={32}/>
+                        </View>
+                    </TouchableNativeFeedback>
+                </View>
                 <Text style={style.headerTitle}>Register</Text>
             </View>
         );

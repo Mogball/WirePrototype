@@ -87,7 +87,7 @@ export default class Dashboard extends Component {
             <Navigator
                 ref="nav"
                 initialRoute={routes[startRoute]}
-                renderScene={(route, navigator) => {
+                renderScene={(route) => {
                     if (route.title == 'DashboardMainScreen') {
                         return (
                             <View style={{flex: 1}}>
