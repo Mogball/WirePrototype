@@ -134,6 +134,11 @@ export default class LoginScreen extends Component {
     }
 
     recover() {
+        // TODO Remove this stub
+        this.requestAnimationFrame(() => {
+            SessionModel.get().setUser(new UserModel("abcd1234ghjk", "jeffniu22@gmail.com", "19058068846", "Jeff", "Niu", "Canada", "Ontario", "Newmarket"));
+            this.props.navigator.push({title: "Dashboard", index: 4});
+        });
     }
 
     submitEmailPhone() {
