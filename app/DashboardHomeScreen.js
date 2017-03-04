@@ -41,7 +41,7 @@ export default class DashboardHomeScreen extends Component {
         // Define list elements
         let personName = (
             <View style={{margin: 20}}>
-                <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
+                <Text style={stylesLocal.name}>{this.state.fullName}</Text>
             </View>
         );
 

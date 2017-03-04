@@ -18,10 +18,9 @@ export default class AccountHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: true,
-            accountBalance: 1000000,
-            pointBalance: 54232,
-            firstLastName: "Zoe Brown"
+            accountBalance: props.user.funds,
+            pointBalance: props.user.points,
+            fullName: props.user.first_name + " " + props.user.last_name
         };
     }
 
@@ -31,7 +30,7 @@ export default class AccountHeader extends Component {
             <View style={styles.container}>
                 <Image source={image_google} style={styles.photo}/>
                 <Text style={styles.text}>
-                    {this.state.firstLastName}
+                    {this.state.fullName}
                 </Text>
             </View>
 

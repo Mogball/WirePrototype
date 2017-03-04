@@ -26,7 +26,7 @@ export default class MajorAction extends Component {
         return (
           <View>
             <Image source={image_google} style={{width: 30, height: 30, marginHorizontal: 10, marginBottom: 10,}}/>
-            <Text style={stylesLocal.name}>{this.state.firstLastName}</Text>
+            <Text style={stylesLocal.name}>{this.state.fullName}</Text>
           </View>
         );
     }
