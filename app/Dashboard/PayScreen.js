@@ -30,7 +30,7 @@ export default class PayScreen extends Component {
             modal: false,
             read: false,
             data: null,
-            display: 'QR', // ['QR', 'SEND', 'RECEIVE', 'NONE']
+            display: 'SEND', // ['QR', 'SEND', 'RECEIVE', 'NONE']
             placeholder: true,
             QR: null
         };
@@ -102,14 +102,14 @@ export default class PayScreen extends Component {
                     <View style={styles.placeholder}/>
                 );
             } else {
-              /*  displayItem = (
+                displayItem = (
                     <Camera
                         barCodeTypes={['qr']}
                         onBarCodeRead={this.readCode}
                         style={styles.preview}
                         aspect={Camera.constants.Aspect.fill}>
                     </Camera>
-                );*/
+                );
             }
         } else if (this.state.display == 'SEND') {
             displayItem = (
