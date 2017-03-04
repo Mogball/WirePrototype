@@ -30,7 +30,7 @@ export default class PayScreen extends Component {
             modal: false,
             read: false,
             data: null,
-            display: 'QR', // ['QR', 'SEND', 'RECEIVE', 'NONE']
+            display: 'SEND', // ['QR', 'SEND', 'RECEIVE', 'NONE']
             placeholder: true,
             QR: null
         };
