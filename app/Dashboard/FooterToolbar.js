@@ -30,8 +30,8 @@ export default class FooterToolbar extends Component {
     render() {
         return (
             <View style={style.toplevel}>
-                <IconButton index={1} toolbar={this} name="home" type="material"/>
-                <IconButton index={0} toolbar={this} name="dollar" type="foundation"/>
+                <IconButton index={0} toolbar={this} name="home" type="material"/>
+                <IconButton index={1} toolbar={this} name="dollar" type="foundation"/>
                 <IconButton index={2} toolbar={this} name="shopping-cart" type="material"/>
             </View>
         );

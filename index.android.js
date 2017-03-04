@@ -37,7 +37,6 @@ class WirePrototype extends Component {
     render() {
         return (
             <Navigator
-
                 initialRoute={routes[0]}
                 configureScene={(route) => {
                     if (route.title === 'LoadingScreen' || route.title === 'LaunchScreen') {

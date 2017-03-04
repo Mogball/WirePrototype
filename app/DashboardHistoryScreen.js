@@ -14,7 +14,8 @@ import {
 import palette from './Style/Palette';
 
 import {
-    Card, ListItem, Icon
+    Card,
+    Icon
 } from 'react-native-elements';
 
 import AntiKeyboard from './AntiKeyboard';
@@ -55,10 +56,10 @@ export default class DashboardHistoryScreen extends Component {
     }
 
     _renderRow(rowData) {
-        var date = formatDate(new Date(rowData[1]));
-        var delta = formatMoney(rowData[0], true);
-        var balance = formatMoney(rowData[2]);
-        var sign = delta.substr(0, 1);
+        let date = formatDate(new Date(rowData[1]));
+        let delta = formatMoney(rowData[0], true);
+        let balance = formatMoney(rowData[2]);
+        let sign = delta.substr(0, 1);
         delta = delta.substring(1);
         return (
             <View style={{

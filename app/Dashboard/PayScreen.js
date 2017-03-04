@@ -102,14 +102,14 @@ export default class PayScreen extends Component {
                     <View style={styles.placeholder}/>
                 );
             } else {
-              /*  displayItem = (
+                displayItem = (
                     <Camera
                         barCodeTypes={['qr']}
                         onBarCodeRead={this.readCode}
                         style={styles.preview}
                         aspect={Camera.constants.Aspect.fill}>
                     </Camera>
-                );*/
+                );
             }
         } else if (this.state.display == 'SEND') {
             displayItem = (
