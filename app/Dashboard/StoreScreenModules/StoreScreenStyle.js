@@ -9,8 +9,6 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         alignSelf: 'stretch',
-        alignItems: 'center',
-        justifyContent: 'flex-start'
     },
     separator: {
         flex: 1,

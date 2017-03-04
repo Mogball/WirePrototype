@@ -23,6 +23,7 @@ export default class PayScreen extends Component {
         this.setDisplay = this.setDisplay.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.renderPlaceholder = this.renderPlaceholder.bind(this);
+        this.getCamera = this.getCamera.bind(this);
 
         this.modalClose = this.modalClose.bind(this);
         this.modalOpen = this.modalOpen.bind(this);
@@ -90,11 +91,19 @@ export default class PayScreen extends Component {
         this.setState({modal: false});
     }
 
+    getCamera() {
+        return <Camera
+            barCodeTypes={['qr']}
+            onBarCodeRead={this.readCode}
+            style={styles.preview}
+            aspect={Camera.constants.Aspect.fill}>
+        </Camera>
+    }
+
     render() {
         if (this.state.placeholder) {
             return this.renderPlaceholder();
         }
-
         let displayItem;
         if (this.state.display == 'QR') {
             if (this.state.modal) {
@@ -103,12 +112,7 @@ export default class PayScreen extends Component {
                 );
             } else {
                 displayItem = (
-                    <Camera
-                        barCodeTypes={['qr']}
-                        onBarCodeRead={this.readCode}
-                        style={styles.preview}
-                        aspect={Camera.constants.Aspect.fill}>
-                    </Camera>
+                    this.getCamera()
                 );
             }
         } else if (this.state.display == 'SEND') {

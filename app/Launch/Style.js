@@ -179,16 +179,16 @@ export default StyleSheet.create({
 
     headerTitle: {
         fontFamily: 'sans-serif-medium',
-        fontWeight: '500',
-        fontSize: 25,
+        fontWeight: '900',
+        fontSize: 22,
         color: palette.pureWhite,
     },
 
     headerToolbar: {
         backgroundColor: palette.p1pC,
         alignSelf: 'stretch',
-        height: 55,
-        elevation: 2,
+        height: 50,
+        elevation: 5,
         alignItems: 'center',
         justifyContent: 'flex-start',
         flexDirection: 'row'
@@ -198,7 +198,7 @@ export default StyleSheet.create({
         height: 40,
         width: 40,
         borderRadius: 20,
-        marginHorizontal: 18    ,
+        marginHorizontal: 18,
         alignItems: 'center',
         justifyContent: 'center'
     },
