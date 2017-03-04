@@ -23,8 +23,8 @@ const style = StyleSheet.create({
         fontFamily: 'sans-serif-medium',
         fontWeight: '900',
         fontSize: 22,
-        marginLeft: 14,
-        color: palette.pureWhite,
+        marginLeft: 22,
+        color: palette.pureWhite
     },
 
     headerToolbar: {

@@ -98,8 +98,7 @@ export default class LoginScreen extends Component {
                     }
                 }
                 if (userDB['password'] === password) {
-                    const user = new UserModel(uid, userDB['email_address'], userDB['phone_number'],
-                        userDB['first_name'], userDB['last_name'], userDB['country'], userDB['state'], userDB['city']);
+                    const user = new UserModel(uid, userDB);
                     SessionModel.get().setUser(user);
                     $this.setState({modal: null, modalLabel: null});
                     navigator.push({title: 'Dashboard', index: 4});
@@ -136,7 +135,23 @@ export default class LoginScreen extends Component {
     recover() {
         // TODO Remove this stub
         this.requestAnimationFrame(() => {
-            SessionModel.get().setUser(new UserModel("abcd1234ghjk", "jeffniu22@gmail.com", "19058068846", "Jeff", "Niu", "Canada", "Ontario", "Newmarket"));
+            SessionModel.get().setUser(new UserModel("abcd1234ghjk", {
+                email_address: "jeffniu22@gmail.com",
+                phone_number: 19058068846,
+                first_name: "Jeff",
+                last_name: "Niu",
+                balance: 19240532,
+                points: 341242,
+                password: "asdfzxcv1234",
+                country: "Canada",
+                state: "Ontario",
+                city: "Newmarket",
+                birthdate: {
+                    year: 1998,
+                    month: 1,
+                    day: 25
+                }
+            }));
             this.props.navigator.push({title: "Dashboard", index: 4});
         });
     }
