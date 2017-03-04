@@ -9,6 +9,7 @@ import {
 import styles from './StoreScreenModules/StoreScreenStyle';
 import Row from './StoreScreenModules/Row';
 import Header from './StoreScreenModules/SearchActionBar';
+import LoadView from './LoadView';
 import HeaderBar from './HeaderBar';
 
 export default class StoreScreen extends Component {
@@ -35,4 +36,14 @@ export default class StoreScreen extends Component {
             </View>
         );
     }
+
+    renderPlaceholder() {
+        return (
+            <View style="styles.container">
+                <HeaderBar title="Store"/>
+                <LoadView/>
+            </View>
+        );
+    }
+
 }
