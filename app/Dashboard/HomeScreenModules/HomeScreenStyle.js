@@ -10,6 +10,12 @@ export default StyleSheet.create({
         alignSelf: 'stretch'
     },
 
+    loadView: {
+        flex: 1,
+        alignSelf: 'stretch',
+        backgroundColor: palette.white
+    },
+
     blockTitle: {
         textAlign: 'center'
     },
