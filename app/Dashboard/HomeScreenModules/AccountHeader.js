@@ -33,8 +33,6 @@ export default class AccountHeader extends Component {
                     {this.state.fullName}
                 </Text>
             </View>
-
-
         );
     }
 }
