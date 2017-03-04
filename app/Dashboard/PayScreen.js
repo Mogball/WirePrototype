@@ -148,7 +148,15 @@ export default class PayScreen extends Component {
 
     renderPlaceholder() {
         return (
-            <View style={styles.toplevel}>
+            <View style={styles.loadView}>
+                <View>
+                    <View style={styles.placeholder}/>
+                </View>
+                <PayScreenActionPanel
+                    modalOpen={this.modalOpen}
+                    modalClose={this.modalClose}
+                    getDisplay={this.getDisplay}
+                    setDisplay={this.setDisplay}/>
             </View>
         );
     }

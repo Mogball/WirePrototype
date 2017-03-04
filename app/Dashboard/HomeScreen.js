@@ -36,7 +36,7 @@ export default class HomeScreen extends Component {
         }
 
         return (
-            <ScrollView style={{marginTop: 64, backgroundColor: '#fff'}}>
+            <ScrollView>
                 <AccountHeader/>
                 <VireGridView data={accList} title="Account"/>
                 <VireGridView data={dataList} title="Services"/>
@@ -46,7 +46,7 @@ export default class HomeScreen extends Component {
 
     renderPlaceholder() {
         return (
-            <View style={styles.toplevel}>
+            <View style={styles.loadView}>
                 <Text>Loading content...</Text>
             </View>
         );

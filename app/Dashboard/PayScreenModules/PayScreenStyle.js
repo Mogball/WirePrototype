@@ -39,8 +39,14 @@ export default StyleSheet.create({
 
     placeholder: {
         height: screenWidth,
-        width: screenWidth,
-        backgroundColor: palette.whiteDark
+        alignSelf: 'stretch',
+        backgroundColor: palette.black
+    },
+
+    loadView: {
+        flex: 1,
+        alignSelf: 'stretch',
+        backgroundColor: palette.white
     }
 
 });
