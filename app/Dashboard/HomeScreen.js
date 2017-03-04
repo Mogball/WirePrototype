@@ -22,6 +22,7 @@ export default class HomeScreen extends Component {
             accountBalance: 1000000,
             pointBalance: 54232,
             firstLastName: "Zoe Brown",
+
             placeholder: true
         };
     }

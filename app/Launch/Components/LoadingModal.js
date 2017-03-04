@@ -13,7 +13,7 @@ import style from '../Style';
 export default class LoadingModal extends Component {
     render() {
         /*const item = !this.props.loading && this.props.visible ? (
-            <Text style={style.modalText}>Incorrect email/phone or password</Text>
+            <Text style={style.modalText}>Incorrect emailAddress/phoneNumber or password</Text>
         ) : (
             <ActivityIndicator style={style.loadingIndicator} size="large"/>
         );*/

@@ -117,11 +117,11 @@ export default class RegisterScreen extends Component {
     }
 
     async registerRequest() {
-        let phone = this.state.phone;
+        let phone = this.state.phoneNumber;
         let password = this.state.password;
         let confirm = this.state.confirmPassword;
         const firebase = SessionModel.get().getFirebase();
-        // TODO Employ proper phone number validation
+        // TODO Employ proper phoneNumber number validation
         if (phone.indexOf('@') < 0 && phone.length > 0) {
             phone = phone.replace(/\D+/g, '');
             if (await this.isUsedPhone(phone, firebase)) {
@@ -160,7 +160,7 @@ export default class RegisterScreen extends Component {
             }
         } else {
             // TODO as-you-type validation
-            this.displayRegisterError("Please enter a valid phone number");
+            this.displayRegisterError("Please enter a valid phoneNumber number");
         }
     }
 
@@ -187,7 +187,7 @@ export default class RegisterScreen extends Component {
     }
 
     onChangePhone(text) {
-        this.setState({phone: text});
+        this.setState({phoneNumber: text});
     }
 
     onChangePassword(text) {

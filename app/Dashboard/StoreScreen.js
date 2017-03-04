@@ -3,7 +3,8 @@ import {
     View,
     ListView,
     StyleSheet,
-    Text
+    Text,
+    InteractionManager
 } from 'react-native';
 
 import styles from './StoreScreenModules/StoreScreenStyle';
@@ -20,10 +21,20 @@ export default class StoreScreen extends Component {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows([{"name": "Yolo"}, {"name": "Yolo"}]),
+            placeholder: true
         };
     }
 
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.setState({placeholder: false});
+        })
+    }
+
     render() {
+        if (this.state.placeholder) {
+            return this.renderPlaceholder();
+        }
         return (
             <View style={styles.container}>
                 <HeaderBar title="Store"/>
@@ -39,7 +50,7 @@ export default class StoreScreen extends Component {
 
     renderPlaceholder() {
         return (
-            <View style="styles.container">
+            <View style={styles.placeholder}>
                 <HeaderBar title="Store"/>
                 <LoadView/>
             </View>

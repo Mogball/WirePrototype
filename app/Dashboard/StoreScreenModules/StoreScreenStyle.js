@@ -10,6 +10,11 @@ export default StyleSheet.create({
         flex: 1,
         alignSelf: 'stretch',
     },
+    placeholder: {
+        flex: 1,
+        alignSelf: 'stretch',
+        backgroundColor: palette.white
+    },
     separator: {
         flex: 1,
         height: StyleSheet.hairlineWidth,

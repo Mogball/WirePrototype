@@ -67,7 +67,7 @@ export default class LoginScreen extends Component {
     }
 
     login() {
-        // TODO Disable the email/phone and password fields and the login button during the request
+        // TODO Disable the emailAddress/phoneNumber and password fields and the login button during the request
         dismissKeyboard();
         this.requestAnimationFrame(() => {
             this.setState({
